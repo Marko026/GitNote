@@ -16,46 +16,55 @@
   }
 }
 @layer utilities {
+  .gradient {
+    @apply bg-gradient-to-r from-[#43B7FE] to-[#4F48E6];
+  }
+  .large-logoFont {
+    @apply text-[51px] leading-[41px] font-bold tracking-[-3%] text-white-100 dark:text-black-800;
+  }
+  .small-logoFont {
+    @apply text-[25px] leading-[20px] font-bold tracking-[-3%] text-white-100 dark:text-black-800 text-justify;
+  }
   .h1-bold {
-    @apply text-[32px] leading-[40px] font-bold tracking-[-2%];
+    @apply text-[32px] leading-[40px] font-bold tracking-[-2%] text-white-100 dark:text-black-800;
   }
   .h2-bold {
-    @apply text-[24px] leading-[32px] font-bold tracking-[-2%];
+    @apply text-[24px] leading-[32px] font-bold tracking-[-2%] text-white-100 dark:text-black-800;
   }
-  .h3-medium {
-    @apply text-[20px] leading-[28px] font-medium;
+  .h1-medium {
+    @apply text-[20px] leading-[28px] font-medium text-white-300 dark:text-black-800;
   }
-  .h4-medium {
-    @apply text-[16px] leading-[24px] font-medium;
+  .h2-medium {
+    @apply text-[16px] leading-[24px] font-medium text-white-300 dark:text-black-800;
   }
   .paragraph-1-bold {
-    @apply text-[18px] leading-[28px] font-bold;
+    @apply text-[18px] leading-[28px] font-bold text-white-300;
   }
   .paragraph-2-bold {
-    @apply text.[16px] leading-[24px] font-bold;
+    @apply text.[16px] leading-[24px] font-bold text-white-300;
   }
   .paragraph-3-bold {
-    @apply text-[14px] leading-[20px] font-bold;
+    @apply text-[14px] leading-[20px] font-bold text-white-300;
   }
   .paragraph-1-medium {
-    @apply text-[18px] leading-[28px] font-medium;
+    @apply text-[18px] leading-[28px] font-medium text-white-300;
   }
   .paragraph-3-medium {
-    @apply text-[14px] leading-[20px] font-medium;
+    @apply text-[14px] leading-[20px] font-medium text-white-300;
   }
   .paragraph-4-medium {
-    @apply text-[12px] leading-[16px] font-medium;
+    @apply text-[12px] leading-[16px] font-medium text-white-300;
   }
   .paragraph-1-regular {
-    @apply text-[18px] leading-[28px] font-normal;
+    @apply text-[18px] leading-[28px] font-normal text-white-300;
   }
   .paragraph-2-regular {
-    @apply text-[16px] leading-[24px] font-normal;
+    @apply text-[16px] leading-[24px] font-normal text-white-300;
   }
   .paragraph-3-regular {
-    @apply text-[14px] leading-[20px] font-normal;
+    @apply text-[14px] leading-[20px] font-normal text-white-300;
   }
   .paragraph-4-regular {
-    @apply text-[12px] leading-[16px] font-normal;
+    @apply text-[12px] leading-[16px] font-normal text-white-300;
   }
 }
