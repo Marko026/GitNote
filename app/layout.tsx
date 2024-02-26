@@ -20,7 +20,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-[#10121E] `}>
         <SessionProvider session={session}>{children}</SessionProvider>
       </body>
     </html>

@@ -34,77 +34,84 @@ const LogInForm = () => {
     console.log(values);
   }
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 max-w-lg mx-auto">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Full Name</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className="w-full bg-primary-500 ">
-          Login
-        </Button>
-        <Link href="" className="text-center block">
-          I don't have an account
-        </Link>
-        <div className="flex items-center justify-between">
-          <Separator className="w-2/5" />
-          or
-          <Separator className="w-2/5" />
-        </div>
-        <Button type="button" className="w-full bg-black-700">
-          Continue with Google
-        </Button>
-        <Button type="button" className="w-full bg-black-700">
-          Continue with Github
-        </Button>
-      </form>
-    </Form>
+    <div className="max-w-lg mx-auto">
+      <h1 className="h1-bold">Login</h1>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="paragraph-3-medium">Full Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="paragraph-3-medium">Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="paragraph-3-medium">Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="w-full bg-primary-500 ">
+            Login
+          </Button>
+          <Link
+            href=""
+            className="text-center block paragraph-3-medium hover:underline">
+            I don't have an account
+          </Link>
+          <div className="flex items-center justify-between">
+            <Separator className="w-2/5 bg-primary-900" />
+            <p className="paragraph-4-regular">or</p>
+            <Separator className="w-2/5 bg-primary-900" />
+          </div>
+          <Button
+            type="button"
+            className="w-full bg-black-700 paragraph-3-medium">
+            Continue with Google
+          </Button>
+          <Button
+            type="button"
+            className="w-full bg-black-700 paragraph-3-medium">
+            Continue with Github
+          </Button>
+        </form>
+      </Form>
+    </div>
   );
 };
 
