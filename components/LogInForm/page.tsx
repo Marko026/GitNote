@@ -17,8 +17,13 @@ import {
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const LogInForm = () => {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
