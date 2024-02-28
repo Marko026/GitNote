@@ -1,9 +1,5 @@
 import LogInForm from "@/components/LogInForm/page";
 
-export default function Home() {
-  return (
-    <main>
-      <LogInForm />
-    </main>
-  );
+export default function page() {
+  return <main>{<LogInForm />}</main>;
 }

@@ -19,24 +19,31 @@ import Link from "next/link";
 import { Separator } from "../ui/separator";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { createUser } from "@/lib/actions/user.action";
 
 const LogInForm = () => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      name: "",
       email: "",
       password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const user = await createUser({
+      name: values.name,
+      email: values.email,
+      password: values.password,
+    });
+
+    if (user) {
+      router.push("/home");
+    }
   }
   return (
     <div className="max-w-lg mx-auto">
@@ -45,7 +52,7 @@ const LogInForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
           <FormField
             control={form.control}
-            name="username"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="paragraph-3-medium">Full Name</FormLabel>
@@ -106,10 +113,12 @@ const LogInForm = () => {
           </div>
           <Button
             type="button"
+            onClick={() => signIn("google")}
             className="w-full bg-black-700 paragraph-3-medium">
             Continue with Google
           </Button>
           <Button
+            onClick={() => signIn("github")}
             type="button"
             className="w-full bg-black-700 paragraph-3-medium">
             Continue with Github
