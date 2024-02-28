@@ -40,10 +40,10 @@ const LogInForm = () => {
       email: values.email,
       password: values.password,
     });
-
     if (user) {
       router.push("/home");
     }
+    return user;
   }
   return (
     <div className="max-w-lg mx-auto">
