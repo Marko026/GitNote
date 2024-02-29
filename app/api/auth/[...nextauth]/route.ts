@@ -29,7 +29,6 @@ export const authOptions = {
           const user = await User.findOne({
             email: credentials?.email,
           });
-          console.log("user", user);
           if (
             user &&
             user.email === credentials?.email &&
