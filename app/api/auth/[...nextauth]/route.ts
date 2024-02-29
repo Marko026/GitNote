@@ -29,7 +29,11 @@ export const authOptions = {
           const user = await User.findOne({
             email: credentials?.email,
           });
-          if (user && user.email === credentials?.email) {
+          if (
+            user &&
+            user.email === credentials?.email &&
+            (await bcrypt.compare(credentials?.password, user.password))
+          ) {
             return user;
           } else {
             const hashedPassword = await bcrypt.hash(credentials?.password, 10);
@@ -83,6 +87,9 @@ export const authOptions = {
         return false;
       }
     },
+  },
+  pages: {
+    signIn: "/signIn",
   },
 };
 export const handler = NextAuth(authOptions);

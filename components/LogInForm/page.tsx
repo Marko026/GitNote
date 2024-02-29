@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { formSchema } from "@/lib/validation";
@@ -8,22 +8,21 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import { Separator } from "../ui/separator";
+import { Separator } from "@/components/ui/separator";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { createUser } from "@/lib/actions/user.action";
+import { createUser, findUser } from "@/lib/actions/user.action";
 
 const LogInForm = () => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const [logIn, setLogIn] = useState(false);
+  const { data: session, status } = useSession();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,19 +34,22 @@ const LogInForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const user = await createUser({
-      name: values.name,
-      email: values.email,
-      password: values.password,
-    });
+    const user = await findUser({ email: values.email });
     if (user) {
       router.push("/home");
+    } else {
+      if (logIn) {
+        alert("User not found");
+      } else {
+        createUser(values);
+        router.push("/home");
+      }
     }
-    return user;
   }
+
   return (
     <div className="max-w-lg mx-auto">
-      <h1 className="h1-bold">Login</h1>
+      <h1 className="h1-bold">{logIn ? "Login" : "Create Account"}</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
           <FormField
@@ -59,9 +61,6 @@ const LogInForm = () => {
                 <FormControl>
                   <Input placeholder="shadcn" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -75,37 +74,34 @@ const LogInForm = () => {
                 <FormControl>
                   <Input placeholder="shadcn" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="paragraph-3-medium">Password</FormLabel>
-                <FormControl>
-                  <Input placeholder="shadcn" {...field} />
-                </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+
+          {!logIn && (
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="paragraph-3-medium">Password</FormLabel>
+                  <FormControl>
+                    <Input placeholder="shadcn" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
           <Button type="submit" className="w-full bg-primary-500 ">
-            Login
+            {logIn ? "Login" : "Create Account"}
           </Button>
-          <Link
-            href=""
-            className="text-center block paragraph-3-medium hover:underline">
-            I don't have an account
-          </Link>
+          <p
+            onClick={() => setLogIn(!logIn)}
+            className="text-center block paragraph-3-medium hover:underline cursor-pointer">
+            {logIn ? "Create an Account" : "I have an account"}
+          </p>
           <div className="flex items-center justify-between">
             <Separator className="w-2/5 bg-primary-900" />
             <p className="paragraph-4-regular">or</p>
