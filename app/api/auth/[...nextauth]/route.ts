@@ -29,6 +29,7 @@ export const authOptions = {
           const user = await User.findOne({
             email: credentials?.email,
           });
+          console.log("user", user);
           if (
             user &&
             user.email === credentials?.email &&
@@ -89,7 +90,7 @@ export const authOptions = {
     },
   },
   pages: {
-    signIn: "/signIn",
+    signIn: "/auth/signIn",
   },
 };
 export const handler = NextAuth(authOptions);

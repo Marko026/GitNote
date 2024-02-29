@@ -21,7 +21,7 @@ import { createUser, findUser } from "@/lib/actions/user.action";
 
 const LogInForm = () => {
   const router = useRouter();
-  const [logIn, setLogIn] = useState(false);
+  const [logIn, setLogIn] = useState(true);
   const { data: session, status } = useSession();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -34,37 +34,52 @@ const LogInForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const user = await findUser({ email: values.email });
-    if (user) {
-      router.push("/home");
-    } else {
-      if (logIn) {
-        alert("User not found");
-      } else {
-        createUser(values);
-        router.push("/home");
+    // ako korsinik ne postoji i pokusava da se uloguje kreisranje acconta route.push.(/signIn)
+    // izbaci gresku ako mail postoji i pokusava da se registruje / login page
+    if (!logIn) {
+      const user = await findUser({ email: values.email });
+      if (user) {
+        form.setError("email", { message: "Email already exists" });
+        setLogIn(true);
+        return;
       }
+      // if (!values.name) form.setError("name", "Please input a name");
+      const newUser = await createUser({
+        name: values.name ?? "",
+        email: values.email,
+        password: values.password,
+      });
+      setLogIn(true);
+    } else {
+      await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+      });
+      console.log("Prijavljen");
     }
   }
-
   return (
     <div className="max-w-lg mx-auto">
       <h1 className="h1-bold">{logIn ? "Login" : "Create Account"}</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="paragraph-3-medium">Full Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="shadcn" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {!logIn && (
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="paragraph-3-medium">
+                    Full Name
+                  </FormLabel>
+                  <FormControl>
+                    <Input placeholder="shadcn" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
           <FormField
             control={form.control}
             name="email"
@@ -79,21 +94,19 @@ const LogInForm = () => {
             )}
           />
 
-          {!logIn && (
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="paragraph-3-medium">Password</FormLabel>
-                  <FormControl>
-                    <Input placeholder="shadcn" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="paragraph-3-medium">Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button type="submit" className="w-full bg-primary-500 ">
             {logIn ? "Login" : "Create Account"}
           </Button>
