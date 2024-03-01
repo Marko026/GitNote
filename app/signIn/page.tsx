@@ -53,12 +53,12 @@ const LogInForm = () => {
         alt="logo"
         width={212}
         height={50}
-        className="mt-20 mx-auto"
+        className="mt-14 mb-16 mx-auto max-md:w-[156px]"
       />
-      <div className="max-w-lg mx-auto mt-52 ">
-        <h1 className="h2-bold mb-8">Create Account</h1>
+      <div className="max-w-lg mx-auto">
+        <h1 className="h2-bold mb-5">Create Account</h1>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 ">
             <FormField
               control={form.control}
               name="name"
@@ -70,7 +70,7 @@ const LogInForm = () => {
                   <FormControl>
                     <Input
                       placeholder="Full Name"
-                      className="bg-black-700 rounded border-none h-11"
+                      className="bg-black-700 rounded border-none h-11 text-white-300"
                       {...field}
                     />
                   </FormControl>
@@ -87,7 +87,7 @@ const LogInForm = () => {
                   <FormControl>
                     <Input
                       placeholder="Enter your email address"
-                      className="bg-black-700 rounded border-none h-11"
+                      className="bg-black-700 rounded border-none h-11 text-white-300"
                       {...field}
                     />
                   </FormControl>
@@ -105,7 +105,7 @@ const LogInForm = () => {
                     <Input
                       placeholder="Enter your password"
                       type="password"
-                      className="bg-black-700 rounded border-none h-11"
+                      className="bg-black-700 rounded border-none h-11 text-white-300"
                       {...field}
                     />
                   </FormControl>
@@ -115,7 +115,7 @@ const LogInForm = () => {
             />
             <Button
               type="submit"
-              className="w-full bg-primary-500 paragraph-3-bold !text-black-900 ">
+              className="w-full bg-primary-500 text-[14px]  font-bold text-black-900 hover:text-white-100 ">
               Create Account
             </Button>
             <Link
