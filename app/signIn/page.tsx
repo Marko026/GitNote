@@ -44,6 +44,7 @@ const LogInForm = () => {
       password: values.password,
     });
     router.push("/home");
+    form.reset({ name: "", email: "", password: "" });
   }
   return (
     <div className="w-full">
@@ -55,9 +56,9 @@ const LogInForm = () => {
         className="mt-20 mx-auto"
       />
       <div className="max-w-lg mx-auto mt-52 ">
-        <h1 className="h1-bold">Create Account</h1>
+        <h1 className="h2-bold mb-8">Create Account</h1>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
             <FormField
               control={form.control}
               name="name"
@@ -67,7 +68,11 @@ const LogInForm = () => {
                     Full Name
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input
+                      placeholder="Full Name"
+                      className="bg-black-700 rounded border-none h-11"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -80,7 +85,11 @@ const LogInForm = () => {
                 <FormItem>
                   <FormLabel className="paragraph-3-medium">Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input
+                      placeholder="Enter your email address"
+                      className="bg-black-700 rounded border-none h-11"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -93,13 +102,20 @@ const LogInForm = () => {
                 <FormItem>
                   <FormLabel className="paragraph-3-medium">Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" type="password" {...field} />
+                    <Input
+                      placeholder="Enter your password"
+                      type="password"
+                      className="bg-black-700 rounded border-none h-11"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full bg-primary-500 ">
+            <Button
+              type="submit"
+              className="w-full bg-primary-500 paragraph-3-bold !text-black-900 ">
               Create Account
             </Button>
             <Link
@@ -115,14 +131,26 @@ const LogInForm = () => {
             <Button
               type="button"
               onClick={() => signIn("google", { callbackUrl: "/home" })}
-              className="w-full bg-black-700 paragraph-3-medium">
-              Continue with Google
+              className="w-full bg-black-700 paragraph-3-medium flex items-center  gap-2">
+              <Image
+                src={"/assets/icons/google.svg"}
+                alt="google"
+                width={16}
+                height={16}
+              />
+              <p>Continue with Google</p>
             </Button>
             <Button
               onClick={() => signIn("github", { callbackUrl: "/home" })}
               type="button"
-              className="w-full bg-black-700 paragraph-3-medium">
-              Continue with Github
+              className="w-full bg-black-700 paragraph-3-medium flex item gap-2">
+              <Image
+                src={"/assets/icons/github.svg"}
+                alt="github"
+                width={16}
+                height={16}
+              />
+              <p>Continue with Github</p>
             </Button>
           </form>
         </Form>

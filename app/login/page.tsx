@@ -44,6 +44,7 @@ const LogInForm = () => {
       });
       router.push("/home");
     }
+    form.reset({ email: "", password: "" });
   }
   return (
     <div className="w-full">
@@ -55,9 +56,9 @@ const LogInForm = () => {
         className="mt-20 mx-auto"
       />
       <div className="max-w-lg mx-auto mt-52">
-        <h1 className="h2-bold">Login</h1>
+        <h1 className="h2-bold mb-8">Login</h1>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
               name="email"
@@ -65,7 +66,11 @@ const LogInForm = () => {
                 <FormItem>
                   <FormLabel className="paragraph-3-medium">Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input
+                      placeholder="Enter your email"
+                      className="bg-black-700 rounded border-none h-11"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -79,13 +84,20 @@ const LogInForm = () => {
                 <FormItem>
                   <FormLabel className="paragraph-3-medium">Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" type="password" {...field} />
+                    <Input
+                      placeholder="Enter your password"
+                      type="password"
+                      className="bg-black-700 rounded border-none h-11"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full bg-primary-500 ">
+            <Button
+              type="submit"
+              className="w-full bg-primary-500 paragraph-3-bold !text-black-900 ">
               Login
             </Button>
             <Link
@@ -98,17 +110,31 @@ const LogInForm = () => {
               <p className="paragraph-4-regular">or</p>
               <Separator className="w-2/5 bg-primary-900" />
             </div>
+
             <Button
               type="button"
               onClick={() => signIn("google", { callbackUrl: "/home" })}
-              className="w-full bg-black-700 paragraph-3-medium">
-              Continue with Google
+              className="w-full bg-black-700 paragraph-3-medium flex items-center  gap-2">
+              <Image
+                src={"/assets/icons/google.svg"}
+                alt="google"
+                width={16}
+                height={16}
+              />
+              <p>Continue with Google</p>
             </Button>
+
             <Button
               onClick={() => signIn("github", { callbackUrl: "/home" })}
               type="button"
-              className="w-full bg-black-700 paragraph-3-medium">
-              Continue with Github
+              className="w-full bg-black-700 paragraph-3-medium flex item gap-2">
+              <Image
+                src={"/assets/icons/github.svg"}
+                alt="github"
+                width={16}
+                height={16}
+              />
+              <p>Continue with Github</p>
             </Button>
           </form>
         </Form>
