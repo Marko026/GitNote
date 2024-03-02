@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
@@ -27,7 +28,7 @@ const LeftSideBar = () => {
           <p className="mt-[2px]">Create Post</p>
         </Button>
 
-        <div className="flex items-center border border-transparent hover:border-white-500 bg-black-700 rounded justify-between px-2">
+        <div className="flex items-center border border-transparent focus-within:border-white-500 bg-black-700 rounded justify-between px-2">
           <Image
             src="/assets/icons/search.svg"
             alt="search"
