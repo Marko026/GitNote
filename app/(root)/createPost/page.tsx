@@ -1,4 +1,4 @@
-import Post from "@/components/forms/Post";
+import Post from "@/components/forms/FormPost";
 import LeftSideBar from "@/components/leftSideBar/page";
 import RightSideBar from "@/components/rightSideBar/page";
 

@@ -6,7 +6,7 @@ import { Badge } from "../ui/badge";
 const RightSideBar = () => {
   return (
     <div className="bg-black-800 w-1/3 px-7  pt-10">
-      <Link href="/createPost" className="flex gap-[6px] mb-12">
+      <Link href="/createpost" className="flex gap-[6px] mb-12">
         <Image
           src="/assets/images/avatar01.png"
           width={36}

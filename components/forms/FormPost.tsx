@@ -7,28 +7,16 @@ const formSchema = z.object({
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { Textarea } from "../ui/textarea";
 import { Separator } from "@radix-ui/react-separator";
+import CodeContentEditor from "../shared/CodeContentEditor/page";
+import CodeSnippetEditor from "../shared/CodeSnippetEditor/page";
+import { Editor } from "@tinymce/tinymce-react";
 
 const Post = () => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -45,15 +33,13 @@ const Post = () => {
   }
 
   return (
-    <div className="w-full px-7">
+    <div className="w-full px-7 mb-20">
       <div className="mb-6">
         <h1 className="h1-bold w-full my-10 ">CreatePost</h1>
         <p className="uppercase text-white-500">Basic Information</p>
       </div>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-6">
           <FormField
             control={form.control}
             name="username"
@@ -83,19 +69,13 @@ const Post = () => {
               <SelectValue placeholder="Component" />
             </SelectTrigger>
             <SelectContent className="bg-black-700 group border border-transparent focus-within:border-white-500 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0">
-              <SelectItem
-                value="light"
-                className="hover:!bg-black-600 text-white-500 hover:!text-white-100">
+              <SelectItem value="light" className="hover:!bg-black-600 text-white-500 hover:!text-white-100">
                 Light
               </SelectItem>
-              <SelectItem
-                value="dark"
-                className="hover:!bg-black-600 text-white-500 hover:!text-white-100">
+              <SelectItem value="dark" className="hover:!bg-black-600 text-white-500 hover:!text-white-100">
                 Dark
               </SelectItem>
-              <SelectItem
-                value="system"
-                className="hover:!bg-black-600 text-white-500 hover:!text-white-100">
+              <SelectItem value="system" className="hover:!bg-black-600 text-white-500 hover:!text-white-100">
                 System
               </SelectItem>
             </SelectContent>
@@ -120,12 +100,7 @@ const Post = () => {
                 <div className="flex justify-start items-center">
                   <Badge className="rounded bg-black-600 flex gap-1.5">
                     <p>React</p>
-                    <Image
-                      src="/assets/icons/close.svg"
-                      alt="close"
-                      width={6}
-                      height={6}
-                    />
+                    <Image src="/assets/icons/close.svg" alt="close" width={6} height={6} />
                   </Badge>
                 </div>
                 <FormMessage />
@@ -138,27 +113,15 @@ const Post = () => {
           </div>
 
           <div>
-            <FormLabel className="paragraph-3-medium">
-              What you learned
-            </FormLabel>
+            <FormLabel className="paragraph-3-medium">What you learned</FormLabel>
             <div className="bg-black-700 flex w-full mt-3 min-h-12 gap-2 px-3 items-center rounded ">
-              <Image
-                src="/assets/icons/check-mark.svg"
-                alt="checkmark"
-                width={12}
-                height={12}
-              />
+              <Image src="/assets/icons/check-mark.svg" alt="checkmark" width={12} height={12} />
               <p className="paragraph-3-medium">Session based authentication</p>
             </div>
           </div>
 
           <div className="bg-black-700 !mt-2 flex w-full min-h-12 px-3 items-center rounded ">
-            <Image
-              src="/assets/icons/check-mark.svg"
-              alt="checkmark"
-              width={12}
-              height={12}
-            />
+            <Image src="/assets/icons/check-mark.svg" alt="checkmark" width={12} height={12} />
             <FormField
               control={form.control}
               name="username"
@@ -180,15 +143,83 @@ const Post = () => {
             />
           </div>
           <Button className="flex items-center gap-2 bg-black-600">
-            <Image
-              src="/assets/icons/blue-plus.svg"
-              alt="pluse"
-              width={13}
-              height={13}
-            />
+            <Image src="/assets/icons/blue-plus.svg" alt="pluse" width={13} height={13} />
             <p className="paragraph-4-medium">Add checkmark</p>
           </Button>
           <Separator className="w-full bg-white-500 bg-opacity-10 my-6 h-[0.68px]" />
+
+          <div className="flex flex-col space-y-8 !mt-0">
+            <Editor
+              apiKey="k1u3ltmn8ydlw7do8q51quscj02xqm6pbvu08pcm5jnlklnf"
+              init={{
+                height: 250,
+                skin: "oxide-dark",
+                content_css: "dark",
+                content_style: `
+            body { 
+              font-family: Roboto, sans-serif; 
+              font-size: 14px; 
+              color: #ADB3CC; 
+              background-color: #1d2032; 
+            }
+            body::-webkit-scrollbar {
+              display: none;
+            }
+            pre, code 
+            font-family: "Roboto, sans-serif"
+            background-color: #282c34; /* Dark background for code */
+            color: #abb2bf; /* Light text color for code */
+            border-radius: 4px;
+            padding: 5px;
+          }
+          `,
+                menu: {
+                  code: { title: "Code", items: "codesample" },
+                  preview: { title: "Preview", items: "preview" },
+                },
+                plugins: ["code", "codesample", "preview", "paste"],
+                menubar: "code preview",
+                toolbar: "",
+              }}
+              initialValue="Paste your code here..."
+            />
+
+            <div>
+              <h3 className="uppercase text-white-500 mb-3">Content</h3>
+              <Editor
+                apiKey="k1u3ltmn8ydlw7do8q51quscj02xqm6pbvu08pcm5jnlklnf"
+                init={{
+                  height: 250,
+                  skin: "oxide-dark",
+                  content_css: "dark",
+                  content_style: `
+            body { 
+              font-family: Roboto, sans-serif; 
+              font-size: 14px; 
+              color: #ADB3CC; 
+              background-color: #1d2032; 
+            }
+            body::-webkit-scrollbar {
+              display: none;
+            }
+            pre, code 
+            font-family: "Roboto, sans-serif"
+            background-color: #282c34; /* Dark background for code */
+            color: #abb2bf; /* Light text color for code */
+            border-radius: 4px;
+            padding: 5px;
+          }
+          `,
+                  menubar: "",
+                  plugins: ["code", "codesample", "preview", "paste", "media", "emoticons", "image", "link"],
+                  toolbar:
+                    " bold italic alignleft aligncenter alignright alignjustify bullist numlist  link image media emoticons",
+                }}
+                initialValue="Paste your code here..."
+              />
+            </div>
+          </div>
+
           <Button type="submit">Submit</Button>
         </form>
       </Form>

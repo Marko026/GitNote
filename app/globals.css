@@ -72,3 +72,32 @@
     @apply text-[12px] leading-[16px] font-normal text-white-300;
   }
 }
+
+.tox-menubar {
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+.tox-editor-header {
+  background-color: transparent !important;
+}
+.tox-toolbar-overlord {
+  background-color: transparent !important;
+}
+.tox-editor-container {
+  border: none !important;
+}
+
+.tox-tinymce {
+  border: none !important;
+}
+.tox-mbtn {
+  width: 13% !important;
+  background-color: #1d2032 !important;
+  border: none !important;
+}
+.tox .tox-statusbar {
+  display: none !important;
+}
+.tox-toolbar__primary {
+  background-color: #2e3757 !important;
+}
