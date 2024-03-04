@@ -14,8 +14,6 @@ import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { Textarea } from "../ui/textarea";
 import { Separator } from "@radix-ui/react-separator";
-import CodeContentEditor from "../shared/CodeContentEditor/page";
-import CodeSnippetEditor from "../shared/CodeSnippetEditor/page";
 import { Editor } from "@tinymce/tinymce-react";
 import Link from "next/link";
 
@@ -43,13 +41,13 @@ const Post = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-6">
           <FormField
             control={form.control}
-            name="username"
+            name="title"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="paragraph-3-medium">Title</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="shadcn"
+                    placeholder="Enter your title of your post"
                     className="bg-black-700 
                     min-h-12
                     text-white-100
@@ -62,7 +60,7 @@ const Post = () => {
             )}
           />
 
-          <Select>
+          <Select name="postType">
             <FormLabel className="paragraph-3-medium">Create Type</FormLabel>
             <SelectTrigger
               className="w-full min-h-12 !mt-2 bg-black-700 
@@ -84,13 +82,13 @@ const Post = () => {
 
           <FormField
             control={form.control}
-            name="username"
+            name="tags"
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel className="paragraph-3-medium">Tags</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Search tags"
+                    placeholder="Create tag"
                     className="bg-black-700 
                     text-white-100
                     min-h-12 
@@ -110,7 +108,10 @@ const Post = () => {
           />
           <div className="flex w-full flex-col space-y-3">
             <FormLabel className="paragraph-3-medium">Your message</FormLabel>
-            <Textarea className="bg-black-700 focus-visible:ring-0 text-white-100 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 border-transparent" />
+            <Textarea
+              className="bg-black-700 focus-visible:ring-0 text-white-100 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 border-transparent"
+              placeholder="Enter a short description"
+            />
           </div>
 
           <div>
@@ -224,13 +225,13 @@ const Post = () => {
           <Separator className="w-full bg-white-500 bg-opacity-10 my-6 h-[0.68px]" />
 
           <div>
-            <p className="text-white-500 uppercase">RESOURCES & LINKS</p>
-            <FormLabel className="paragraph-3-medium">Label</FormLabel>
-            <Link href="" className="text-white-300 hover:underline cursor-pointer">
-              <Badge className="rounded bg-black-600 flex gap-1.5">
-                <p>React</p>
-              </Badge>
-            </Link>
+            <p className="text-white-500 uppercase mb-7">RESOURCES & LINKS</p>
+            <div className="bg-black-700 rounded px-3">
+              <FormLabel className="paragraph-3-regular">Label</FormLabel>
+              <Link href="" className="text-white-300 hover:underline cursor-pointer">
+                <p>https://ouidhsiashdihas</p>
+              </Link>
+            </div>
           </div>
 
           <div className="!mt-2 flex justify-between gap-3 w-full min-h-12 items-center rounded ">
@@ -275,10 +276,12 @@ const Post = () => {
           </div>
           <Button className="flex items-center gap-2 bg-black-600">
             <Image src="/assets/icons/blue-plus.svg" alt="pluse" width={13} height={13} />
-            <p className="paragraph-4-medium">Add checkmark</p>
+            <p className="paragraph-4-medium">New Resource</p>
           </Button>
 
-          <Button type="submit">Submit</Button>
+          <Button type="submit" className="bg-primary-500 text-black-900 font-bold">
+            Create Post
+          </Button>
         </form>
       </Form>
     </div>
