@@ -109,6 +109,7 @@ const Post = () => {
           <div className="flex w-full flex-col space-y-3">
             <FormLabel className="paragraph-3-medium">Your message</FormLabel>
             <Textarea
+              name="description"
               className="bg-black-700 focus-visible:ring-0 text-white-100 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 border-transparent"
               placeholder="Enter a short description"
             />
