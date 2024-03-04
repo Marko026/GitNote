@@ -17,6 +17,7 @@ import { Separator } from "@radix-ui/react-separator";
 import CodeContentEditor from "../shared/CodeContentEditor/page";
 import CodeSnippetEditor from "../shared/CodeSnippetEditor/page";
 import { Editor } from "@tinymce/tinymce-react";
+import Link from "next/link";
 
 const Post = () => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -219,6 +220,63 @@ const Post = () => {
               />
             </div>
           </div>
+
+          <Separator className="w-full bg-white-500 bg-opacity-10 my-6 h-[0.68px]" />
+
+          <div>
+            <p className="text-white-500 uppercase">RESOURCES & LINKS</p>
+            <FormLabel className="paragraph-3-medium">Label</FormLabel>
+            <Link href="" className="text-white-300 hover:underline cursor-pointer">
+              <Badge className="rounded bg-black-600 flex gap-1.5">
+                <p>React</p>
+              </Badge>
+            </Link>
+          </div>
+
+          <div className="!mt-2 flex justify-between gap-3 w-full min-h-12 items-center rounded ">
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem className="w-3/5">
+                  <FormControl>
+                    <Input
+                      placeholder="Label"
+                      className="bg-black-700 
+                    text-white-300 
+                    border-none 
+                    focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem className="w-3/5">
+                  <FormControl>
+                    <Input
+                      placeholder="Resource Link"
+                      className="bg-black-700 
+                    text-white-300 
+                    border-none 
+                    focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <Button className="flex items-center gap-2 bg-black-600">
+            <Image src="/assets/icons/blue-plus.svg" alt="pluse" width={13} height={13} />
+            <p className="paragraph-4-medium">Add checkmark</p>
+          </Button>
 
           <Button type="submit">Submit</Button>
         </form>
