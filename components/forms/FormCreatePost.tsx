@@ -49,10 +49,14 @@ const FormCreatePost = () => {
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
-    name: `lessons`,
+  const {
+    fields: lessonFields,
+    append: appendLesson,
+    remove: removeLesson,
+  } = useFieldArray({
+    name: "lessons",
     control: form.control,
-  } as any);
+  });
 
   const {
     fields: resourceFields,
@@ -61,7 +65,7 @@ const FormCreatePost = () => {
   } = useFieldArray({
     name: "resources",
     control: form.control,
-  } as any);
+  });
 
   let postType = form.watch("postType");
 
@@ -97,6 +101,7 @@ const FormCreatePost = () => {
             message: " Tags must be less then 10 characters.",
           });
         }
+
         if (!field.value.includes(tagValue as never)) {
           form.setValue("tags", [...field.value, tagValue]);
           tagInput.value = "";
@@ -206,12 +211,12 @@ const FormCreatePost = () => {
                     border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
                     />
                     {field.value.length > 0 && (
-                      <div className="flex justify-start items-center">
+                      <div className="flex justify-start gap-3  items-center">
                         {field.value.map((tag: any) => (
                           <Badge
                             onClick={() => handleTagRemove(tag, field)}
                             key={tag}
-                            className="rounded bg-black-600 py-1.5 flex items-center gap-1 cursor-pointer">
+                            className="rounded bg-black-600 py-1.5 mt-1 flex items-center gap-1 cursor-pointer">
                             {tag}
                             <Image
                               src="/assets/icons/close.svg"
@@ -254,31 +259,46 @@ const FormCreatePost = () => {
               )}
             />
           </div>
-          {fields.map((item, index) => (
-            <FormField
-              key={item.id}
-              control={form.control}
-              name={`lessons.${index}.lesson` as any}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter your lesson"
-                      className="bg-black-700 
-                    min-h-12
-                    text-white-100
-                    border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
+          <div className="flex flex-col space-y-2">
+            {lessonFields.map((item, index) => (
+              <FormField
+                key={item.id}
+                control={form.control}
+                name={`lessons.${index}.title`}
+                render={({ field }) => (
+                  <FormItem className="flex items-center gap-2">
+                    <FormControl>
+                      <>
+                        <Input
+                          placeholder="Enter your lesson"
+                          className="bg-black-700 
+                          text-white-100
+                          min-h-12 
+                          border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0"
+                          {...field}
+                        />
+                        <Button
+                          type="button"
+                          onClick={() => removeLesson(index)}
+                          className=" flex items-center h-12 !mt-0 gap-2 bg-black-600 ">
+                          <Image
+                            src="/assets/icons/close.svg"
+                            alt="close"
+                            width={9}
+                            height={9}
+                          />
+                        </Button>
+                      </>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
+          </div>
           <Button
             type="button"
-            onClick={() => append({ lesson: "" })}
+            onClick={() => appendLesson({ title: "" })}
             className="flex w-full items-center gap-2 bg-black-600">
             <Image
               src="/assets/icons/blue-plus.svg"
@@ -333,10 +353,7 @@ const FormCreatePost = () => {
                     <Editor
                       apiKey="k1u3ltmn8ydlw7do8q51quscj02xqm6pbvu08pcm5jnlklnf"
                       tagName="content"
-                      onInit={(evt, editor) =>
-                        // @ts-ignore
-                        (editorRef.current = editor)
-                      }
+                      onInit={(evt, editor) => (editorRef.current = editor)}
                       onBlur={field.onBlur}
                       onEditorChange={(content) =>
                         form.setValue("content", content)
@@ -392,7 +409,7 @@ const FormCreatePost = () => {
                 />
                 <FormField
                   control={form.control}
-                  name={`resources.${idx}.resource` as any}
+                  name={`resources.${idx}.resource`}
                   render={({ field }) => (
                     <FormItem className="w-full">
                       <FormControl>

@@ -14,10 +14,21 @@ export const loginSchema = z.object({
 export const createPostSchema = z.object({
   title: z.string().min(3).max(100),
   postType: z.enum(["WorkFlow", "Component", "Knowledge"]),
-  tags: z.array(z.string().min(1).max(10)).min(1).max(4),
+  tags: z.array(z.string().min(1).max(15)).min(1).max(5),
   description: z.string().min(30).max(1000),
-  lessons: z.array(z.string().max(30)).min(1).max(10),
+  lessons: z
+    .array(z.object({ title: z.string().min(1) }))
+    .min(1)
+    .max(10),
   codeSnippet: z.string().min(10).max(5000),
   content: z.string().min(10).max(5000),
-  resources: z.array(z.string()).min(1).max(10),
+  resources: z
+    .array(
+      z.object({
+        label: z.string().min(1),
+        resource: z.string().min(1),
+      })
+    )
+    .min(1)
+    .max(10),
 });

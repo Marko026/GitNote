@@ -1,16 +1,39 @@
-import { Schema, models, model, Types } from "mongoose";
+import { Schema, models, model } from "mongoose";
 
 export interface IPost {
   title: string;
   postType: string;
   tags: string[];
   description?: string;
-  lessons?: string[];
+  lessons?: { title: string }[];
   codeSnippet: string;
   content?: string;
-  labels?: string[];
-  resources?: string[];
+  resources?: { label: string; resource: string }[];
 }
+const resourceSchema = new Schema({
+  label: {
+    type: String,
+    required: false,
+  },
+  resource: {
+    type: String,
+    required: false,
+  },
+});
+
+const tagsSchema = new Schema({
+  tag: {
+    type: String,
+    required: false,
+  },
+});
+
+const lessonsSchema = new Schema({
+  title: {
+    type: String,
+    required: false,
+  },
+});
 
 const postSchema = new Schema({
   title: {
@@ -22,15 +45,15 @@ const postSchema = new Schema({
     required: true,
   },
   tags: {
-    type: [String],
-    required: true,
+    type: [tagsSchema],
+    required: false,
   },
   description: {
     type: String,
     required: false,
   },
   lessons: {
-    type: [String],
+    type: [lessonsSchema],
     required: false,
   },
   codeSnippet: {
@@ -41,12 +64,8 @@ const postSchema = new Schema({
     type: String,
     required: false,
   },
-  labels: {
-    type: [String],
-    required: false,
-  },
   resources: {
-    type: [String],
+    type: [resourceSchema],
     required: false,
   },
 });

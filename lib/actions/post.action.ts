@@ -4,11 +4,20 @@ import { connectToDatabase } from "../mongoose";
 import { IPost, Post } from "@/database/post.model";
 
 export async function createPost(params: IPost) {
-  const { _id, title, postType, tags, description, lessons, codeSnippet, content, labels, resources } = params;
+  const {
+    title,
+    postType,
+    tags,
+    description,
+    lessons,
+    codeSnippet,
+    content,
+    resources,
+  } = params;
+
   try {
     await connectToDatabase();
     const post = await Post.create({
-      _id,
       title,
       postType,
       tags,
@@ -16,9 +25,9 @@ export async function createPost(params: IPost) {
       lessons,
       codeSnippet,
       content,
-      labels,
       resources,
     });
+
     return JSON.parse(JSON.stringify(post));
   } catch (error: any) {
     console.log(error);
