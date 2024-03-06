@@ -6,8 +6,12 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
+import { useSession } from "next-auth/react";
 
 const LeftSideBar = () => {
+  const user = useSession();
+  console.log(user);
+
   return (
     <div className="flex w-1/3 bg-black-800 px-7 min-h-screen">
       <div>

@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -34,12 +34,26 @@ const FormCreatePost = () => {
       postType: "WorkFlow",
       tags: [],
       description: "",
-      lessons: [],
+      lessons: [{ lesson: "Test" }, { lesson: "Drugi test" }],
       codeSnippet: "",
       content: "",
       labels: [],
       resources: [],
     },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    name: "lessons",
+    control: form.control,
+  });
+
+  const {
+    fields: resourceFields,
+    append: appendResource,
+    remove: removeResource,
+  } = useFieldArray({
+    name: "resources",
+    control: form.control,
   });
 
   let postType = form.watch("postType");
@@ -234,42 +248,32 @@ const FormCreatePost = () => {
             />
           </div>
 
-          <FormField
-            control={form.control}
-            name="lessons"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl className="mb-4">
-                  <div className="flex flex-col">
-                    {field.value.length > 0 &&
-                      field.value.map((lesson: string, idx) => (
-                        <div key={idx} className="bg-black-700 flex w-full mb-3 min-h-12 gap-2 px-3 items-center rounded ">
-                          <Image src="/assets/icons/check-mark.svg" alt="checkmark" width={12} height={12} />
-                          <p className="paragraph-3-medium">{lesson}</p>
-                        </div>
-                      ))}
-                    <div className="bg-black-700 rounded min-h-12 flex items-center px-3">
-                      <Image src="/assets/icons/check-mark.svg" alt="checkmark" width={12} height={12} />
-                      <Input
-                        value={currentLesson}
-                        onChange={(e) => setCurrentLesson(e.target.value)}
-                        placeholder="Enter a what you learned"
-                        className="bg-black-700 
-                    text-white-300 
-                    border-none 
-                    focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
-                      />
-                    </div>
-                  </div>
-                </FormControl>
-                <FormMessage />
-                <Button type="button" onClick={addLesson} className="flex w-full items-center gap-2 bg-black-600">
-                  <Image src="/assets/icons/blue-plus.svg" alt="pluse" width={13} height={13} />
-                  <p className="paragraph-4-medium">Add checkmark</p>
-                </Button>
-              </FormItem>
-            )}
-          />
+          {fields.map((item, index) => (
+            <FormField
+              key={item.id}
+              control={form.control}
+              name={`lessons.${index}.lesson`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your lesson"
+                      className="bg-black-700 
+                    min-h-12
+                    text-white-100
+                    border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+          <Button type="button" onClick={() => append({ lesson: "" })} className="flex w-full items-center gap-2 bg-black-600">
+            <Image src="/assets/icons/blue-plus.svg" alt="pluse" width={13} height={13} />
+            <p className="paragraph-4-medium">Add checkmark</p>
+          </Button>
 
           <Separator className="w-full bg-white-500 bg-opacity-10 my-6 h-[0.68px]" />
 

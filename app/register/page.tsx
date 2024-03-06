@@ -14,7 +14,7 @@ import { signInSchema } from "@/lib/validation";
 import Link from "next/link";
 import Image from "next/image";
 
-const LogInForm = () => {
+const RegisterForm = () => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -32,23 +32,22 @@ const LogInForm = () => {
       form.setError("email", { message: "Email already exists" });
       return;
     }
+
     await createUser({
       name: values.name,
       email: values.email,
       password: values.password,
     });
+
+    await signIn("credentials", { redirect: false, email: values.email, password: values.password });
+
     router.push("/home");
+
     form.reset({ name: "", email: "", password: "" });
   }
   return (
     <div className="w-full">
-      <Image
-        src="/assets/icons/logo.svg"
-        alt="logo"
-        width={212}
-        height={50}
-        className="mt-14 mb-16 mx-auto max-md:w-[156px]"
-      />
+      <Image src="/assets/icons/logo.svg" alt="logo" width={212} height={50} className="mt-14 mb-16 mx-auto max-md:w-[156px]" />
       <div className="max-w-lg mx-auto">
         <h1 className="h2-bold mb-5">Create Account</h1>
         <Form {...form}>
@@ -60,11 +59,7 @@ const LogInForm = () => {
                 <FormItem>
                   <FormLabel className="paragraph-3-medium">Full Name</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Full Name"
-                      className="bg-black-700 rounded border-none h-11 text-white-300"
-                      {...field}
-                    />
+                    <Input placeholder="Full Name" className="bg-black-700 rounded border-none h-11 text-white-300" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -77,11 +72,7 @@ const LogInForm = () => {
                 <FormItem>
                   <FormLabel className="paragraph-3-medium">Email</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Enter your email address"
-                      className="bg-black-700 rounded border-none h-11 text-white-300"
-                      {...field}
-                    />
+                    <Input placeholder="Enter your email address" className="bg-black-700 rounded border-none h-11 text-white-300" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -94,20 +85,13 @@ const LogInForm = () => {
                 <FormItem>
                   <FormLabel className="paragraph-3-medium">Password</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Enter your password"
-                      type="password"
-                      className="bg-black-700 rounded border-none h-11 text-white-300"
-                      {...field}
-                    />
+                    <Input placeholder="Enter your password" type="password" className="bg-black-700 rounded border-none h-11 text-white-300" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button
-              type="submit"
-              className="w-full bg-primary-500 text-[14px]  font-bold text-black-900 hover:text-white-100 ">
+            <Button type="submit" className="w-full bg-primary-500 text-[14px]  font-bold text-black-900 hover:text-white-100 ">
               Create Account
             </Button>
             <Link href="/login" className="text-center block paragraph-3-medium hover:underline cursor-pointer">
@@ -118,17 +102,11 @@ const LogInForm = () => {
               <p className="paragraph-4-regular">or</p>
               <Separator className="w-2/5 bg-primary-900" />
             </div>
-            <Button
-              type="button"
-              onClick={() => signIn("google", { callbackUrl: "/home" })}
-              className="w-full bg-black-700 paragraph-3-medium flex items-center  gap-2">
+            <Button type="button" onClick={() => signIn("google", { callbackUrl: "/home" })} className="w-full bg-black-700 paragraph-3-medium flex items-center  gap-2">
               <Image src={"/assets/icons/google.svg"} alt="google" width={16} height={16} />
               <p>Continue with Google</p>
             </Button>
-            <Button
-              onClick={() => signIn("github", { callbackUrl: "/home" })}
-              type="button"
-              className="w-full bg-black-700 paragraph-3-medium flex item gap-2">
+            <Button onClick={() => signIn("github", { callbackUrl: "/home" })} type="button" className="w-full bg-black-700 paragraph-3-medium flex item gap-2">
               <Image src={"/assets/icons/github.svg"} alt="github" width={16} height={16} />
               <p>Continue with Github</p>
             </Button>
@@ -139,4 +117,4 @@ const LogInForm = () => {
   );
 };
 
-export default LogInForm;
+export default RegisterForm;

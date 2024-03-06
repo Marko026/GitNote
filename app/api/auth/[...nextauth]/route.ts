@@ -19,31 +19,21 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        id: { label: "ID", type: "text", placeholder: "id" },
-        name: { label: "Name", type: "text", placeholder: "name" },
-        password: { label: "Password", type: "password" },
         email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         try {
+          if (!credentials) return null;
+
           await connectToDatabase();
-          const user = await User.findOne({ nextAuthId: credentials?.id });
-          if (
-            user &&
-            user.email === credentials?.email &&
-            (await bcrypt.compare(credentials?.password, user.password))
-          ) {
-            return user;
-          } else {
-            const hashedPassword = await bcrypt.hash(credentials?.password, 10);
-            const newUser = await User.create({
-              nextAuthId: credentials?.id,
-              name: credentials?.name,
-              email: credentials?.email,
-              password: hashedPassword,
-            });
-            return newUser;
-          }
+          const user = await User.findOne({ email: credentials.email });
+
+          if (!user) return null;
+
+          if (!(await bcrypt.compare(credentials?.password, user.password))) return null;
+
+          return user;
         } catch (error) {
           console.log(error);
           throw new Error("Error while authorizing");
@@ -52,42 +42,56 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async session(session: any) {
-      if (session.user) {
-        const sessionUser = await User.findById({ nextAuthId: session.user.id });
-        session.user = sessionUser;
-      }
-      return session;
-    },
     async signIn({ profile, account }: any) {
-      if (account?.provider === "credentials") {
-        return true;
-      } else if (account?.provider === "google" || account?.provider === "github") {
+      if (account?.provider === "google" || account?.provider === "github") {
         try {
           await connectToDatabase();
           const userExists = await User.findOne({
-            name: profile.name,
             email: profile.email,
           });
+
           if (!userExists) {
             await User.create({
               name: profile.name,
               email: profile.email,
             });
           }
+
           return true;
         } catch (error) {
           console.error("signIn error: ", error);
           throw new Error("Error while signing in");
         }
-      } else {
-        return false;
       }
+
+      return true;
+    },
+    async session({ session, token }: any) {
+      console.log("SESSION", token);
+      try {
+        await connectToDatabase();
+        const user = await User.findOne({
+          email: token.email,
+        });
+
+        if (user) {
+          session.user = {
+            email: user.email,
+            name: user.name,
+            // Sto god ti treba
+          };
+        }
+      } catch (error) {
+        console.error("signIn error: ", error);
+        throw new Error("Error while signing in");
+      }
+
+      return session;
     },
   },
   pages: {
-    signIn: "/auth/signIn",
-    signOut: "/auth/signOut",
+    signIn: "/auth/login",
+    signOut: "/auth/register",
   },
 };
 export const handler = NextAuth(authOptions);
