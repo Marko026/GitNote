@@ -1,15 +1,14 @@
-import Post from "@/components/forms/FormPost";
+import FormCreatePost from "@/components/forms/FormCreatePost";
 import LeftSideBar from "@/components/leftSideBar/page";
 import RightSideBar from "@/components/rightSideBar/page";
-
 import React from "react";
 
-const CreatePost = () => {
+const CreatePost = async () => {
   return (
     <section className="flex">
       <LeftSideBar />
 
-      <Post />
+      <FormCreatePost />
 
       <RightSideBar />
     </section>

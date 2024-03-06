@@ -12,13 +12,13 @@ export const loginSchema = z.object({
 });
 
 export const createPostSchema = z.object({
-  title: z.string().min(3).max(20),
-  postType: z.enum(["Light", "Dark", "System"]),
-  tags: z.array(z.string().min(1).max(10)).min(1).max(3),
-  description: z.string().min(30).max(100),
+  title: z.string().min(3).max(100),
+  postType: z.enum(["WorkFlow", "Component", "Knowledge"]),
+  tags: z.array(z.string().min(1).max(10)).min(1).max(4),
+  description: z.string().min(30).max(1000),
   lessons: z.array(z.string().max(30)).min(1).max(10),
   codeSnippet: z.string().min(10).max(5000),
   content: z.string().min(10).max(5000),
   labels: z.array(z.string()).min(1).max(10),
-  recourse: z.array(z.string()).min(1).max(10),
+  resources: z.array(z.string()).min(1).max(10),
 });

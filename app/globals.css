@@ -36,7 +36,7 @@
     @apply text-[24px] leading-[32px] font-bold tracking-[-2%] text-white-100 dark:text-black-800;
   }
   .h1-medium {
-    @apply text-[20px] leading-[28px] font-medium text-white-300 dark:text-black-800;
+    @apply text-[20px] leading-[28px] font-medium text-white-100 dark:text-black-800;
   }
   .h2-medium {
     @apply text-[16px] leading-[24px] font-medium text-white-300 dark:text-black-800;

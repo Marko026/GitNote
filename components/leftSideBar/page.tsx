@@ -19,10 +19,7 @@ const LeftSideBar = () => {
 
         <div className="flex items-center border border-transparent focus-within:border-white-500 bg-black-700 rounded justify-between px-2">
           <Image src="/assets/icons/search.svg" alt="search" width={10} height={10} />
-          <Input
-            placeholder="Search..."
-            className="bg-transparent border-none text-white-300 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0"
-          />
+          <Input placeholder="Search..." className="bg-transparent border-none text-white-300 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0" />
           <Image src="/assets/icons/shortcut.svg" width={21} height={16} alt="shortcut" />
         </div>
         <Separator className="w-full bg-white-500 bg-opacity-30 my-6 h-[0.68px]" />
@@ -49,9 +46,7 @@ const LeftSideBar = () => {
             ))}
           </div>
         </div>
-        <Button
-          onClick={() => signOut({ callbackUrl: "/login" })}
-          className="w-full !pl-0 bg-transparent hover:bg-black-700 flex justify-start gap-3 paragraph-3-medium">
+        <Button onClick={() => signOut({ callbackUrl: "/login" })} className="w-full !pl-0 bg-transparent hover:bg-black-700 flex justify-start gap-3 paragraph-3-medium">
           <Image src={"/assets/icons/logout.svg"} alt="logout" width={20} height={20} />
           Logout
         </Button>

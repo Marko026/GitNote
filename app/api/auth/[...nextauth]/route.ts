@@ -19,6 +19,7 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
+        id: { label: "ID", type: "text", placeholder: "id" },
         name: { label: "Name", type: "text", placeholder: "name" },
         password: { label: "Password", type: "password" },
         email: { label: "Email", type: "email" },
@@ -26,9 +27,7 @@ export const authOptions = {
       async authorize(credentials) {
         try {
           await connectToDatabase();
-          const user = await User.findOne({
-            email: credentials?.email,
-          });
+          const user = await User.findOne({ nextAuthId: credentials?.id });
           if (
             user &&
             user.email === credentials?.email &&
@@ -38,6 +37,7 @@ export const authOptions = {
           } else {
             const hashedPassword = await bcrypt.hash(credentials?.password, 10);
             const newUser = await User.create({
+              nextAuthId: credentials?.id,
               name: credentials?.name,
               email: credentials?.email,
               password: hashedPassword,
@@ -54,18 +54,15 @@ export const authOptions = {
   callbacks: {
     async session(session: any) {
       if (session.user) {
-        const sessionUser = await User.findOne({ email: session.user.email });
-        session.user.id = sessionUser._id;
+        const sessionUser = await User.findById({ nextAuthId: session.user.id });
+        session.user = sessionUser;
       }
       return session;
     },
     async signIn({ profile, account }: any) {
       if (account?.provider === "credentials") {
         return true;
-      } else if (
-        account?.provider === "google" ||
-        account?.provider === "github"
-      ) {
+      } else if (account?.provider === "google" || account?.provider === "github") {
         try {
           await connectToDatabase();
           const userExists = await User.findOne({

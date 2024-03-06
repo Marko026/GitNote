@@ -4,17 +4,10 @@ import { useForm } from "react-hook-form";
 
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { createUser, findUser } from "@/lib/actions/user.action";
 import { signInSchema } from "@/lib/validation";
@@ -23,6 +16,7 @@ import Image from "next/image";
 
 const LogInForm = () => {
   const router = useRouter();
+
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -64,9 +58,7 @@ const LogInForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="paragraph-3-medium">
-                    Full Name
-                  </FormLabel>
+                  <FormLabel className="paragraph-3-medium">Full Name</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Full Name"
@@ -118,9 +110,7 @@ const LogInForm = () => {
               className="w-full bg-primary-500 text-[14px]  font-bold text-black-900 hover:text-white-100 ">
               Create Account
             </Button>
-            <Link
-              href="/login"
-              className="text-center block paragraph-3-medium hover:underline cursor-pointer">
+            <Link href="/login" className="text-center block paragraph-3-medium hover:underline cursor-pointer">
               Already have an account
             </Link>
             <div className="flex items-center justify-between">
@@ -132,24 +122,14 @@ const LogInForm = () => {
               type="button"
               onClick={() => signIn("google", { callbackUrl: "/home" })}
               className="w-full bg-black-700 paragraph-3-medium flex items-center  gap-2">
-              <Image
-                src={"/assets/icons/google.svg"}
-                alt="google"
-                width={16}
-                height={16}
-              />
+              <Image src={"/assets/icons/google.svg"} alt="google" width={16} height={16} />
               <p>Continue with Google</p>
             </Button>
             <Button
               onClick={() => signIn("github", { callbackUrl: "/home" })}
               type="button"
               className="w-full bg-black-700 paragraph-3-medium flex item gap-2">
-              <Image
-                src={"/assets/icons/github.svg"}
-                alt="github"
-                width={16}
-                height={16}
-              />
+              <Image src={"/assets/icons/github.svg"} alt="github" width={16} height={16} />
               <p>Continue with Github</p>
             </Button>
           </form>

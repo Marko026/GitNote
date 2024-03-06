@@ -8,7 +8,6 @@ const RightSideBar = () => {
     <div className="bg-black-800 w-1/3 px-7  pt-10">
       <Link href="/createpost" className="flex gap-[6px] mb-12">
         <Image src="/assets/images/avatar01.png" width={36} height={36} alt="avatar" />
-
         <div>
           <p className="paragraph-3-medium !text-white-100">Nikky Eya</p>
           <p className="paragraph-4-regular">nikky@jsmastery.pro</p>
