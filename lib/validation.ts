@@ -19,6 +19,5 @@ export const createPostSchema = z.object({
   lessons: z.array(z.string().max(30)).min(1).max(10),
   codeSnippet: z.string().min(10).max(5000),
   content: z.string().min(10).max(5000),
-  labels: z.array(z.string()).min(1).max(10),
   resources: z.array(z.string()).min(1).max(10),
 });

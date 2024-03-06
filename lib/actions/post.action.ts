@@ -1,7 +1,7 @@
 "use server";
 
 import { connectToDatabase } from "../mongoose";
-import { IPost, Post } from "@/database/post.modal";
+import { IPost, Post } from "@/database/post.model";
 
 export async function createPost(params: IPost) {
   const { _id, title, postType, tags, description, lessons, codeSnippet, content, labels, resources } = params;

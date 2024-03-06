@@ -1,8 +1,6 @@
-import { Schema, models, model } from "mongoose";
-import mongoose from "mongoose";
+import { Schema, models, model, Types } from "mongoose";
 
 export interface IPost {
-  _id: mongoose.Types.ObjectId;
   title: string;
   postType: string;
   tags: string[];
@@ -10,12 +8,11 @@ export interface IPost {
   lessons?: string[];
   codeSnippet: string;
   content?: string;
-  resources?: string[];
   labels?: string[];
+  resources?: string[];
 }
 
 const postSchema = new Schema({
-  _id: { type: mongoose.Types.ObjectId, auto: true },
   title: {
     type: String,
     required: true,

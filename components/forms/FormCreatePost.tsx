@@ -5,8 +5,21 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
@@ -20,10 +33,6 @@ import { useRouter } from "next/navigation";
 import { PostType } from "@/constants";
 
 const FormCreatePost = () => {
-  const [currentLesson, setCurrentLesson] = useState("");
-  const [resourceLabel, setResourceLabel] = useState("");
-  const [resourceLink, setResourceLink] = useState("");
-
   const editorRef = useRef<any>(null);
   const router = useRouter();
 
@@ -34,18 +43,17 @@ const FormCreatePost = () => {
       postType: "WorkFlow",
       tags: [],
       description: "",
-      lessons: [{ lesson: "Test" }, { lesson: "Drugi test" }],
+      lessons: [],
       codeSnippet: "",
       content: "",
-      labels: [],
       resources: [],
     },
   });
 
   const { fields, append, remove } = useFieldArray({
-    name: "lessons",
+    name: `lessons`,
     control: form.control,
-  });
+  } as any);
 
   const {
     fields: resourceFields,
@@ -54,7 +62,18 @@ const FormCreatePost = () => {
   } = useFieldArray({
     name: "resources",
     control: form.control,
-  });
+  } as any);
+
+  const {
+    fields: labelFields,
+    append: appendLabel,
+    remove: removeLabel,
+  } = useFieldArray({
+    name: "labels",
+    control: form.control,
+  } as any);
+
+  console.log(form.getValues("resources"));
 
   let postType = form.watch("postType");
 
@@ -68,7 +87,6 @@ const FormCreatePost = () => {
         lessons: values.lessons,
         codeSnippet: values.codeSnippet,
         content: values.content,
-        labels: values.labels,
         resources: values.resources,
       });
       router.push("/home");
@@ -107,28 +125,6 @@ const FormCreatePost = () => {
     form.setValue("tags", newTags);
   };
 
-  const addLesson = () => {
-    if (currentLesson.length) {
-      if (currentLesson.length > 30) {
-        return form.setError("lessons", {
-          type: "required",
-          message: "Lessons must be less then 30 characters.",
-        });
-      }
-      form.setValue("lessons", [...form.getValues("lessons"), currentLesson]);
-      setCurrentLesson("");
-    }
-  };
-
-  const addResourceLinks = () => {
-    if (resourceLabel.length && resourceLink.length) {
-      form.setValue("labels", [...form.getValues("labels"), resourceLabel]);
-      form.setValue("resources", [...form.getValues("resources"), resourceLink]);
-      setResourceLabel("");
-      setResourceLink("");
-    }
-  };
-
   return (
     <div className="w-full px-7 mb-20">
       <div className="mb-6">
@@ -136,7 +132,9 @@ const FormCreatePost = () => {
         <p className="uppercase text-white-500">Basic Information</p>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col space-y-6">
           <FormField
             control={form.control}
             name="title"
@@ -157,15 +155,19 @@ const FormCreatePost = () => {
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="postType"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Select onValueChange={(value: "WorkFlow" | "Component" | "Knowledge") => form.setValue("postType", value)}>
-                    <FormLabel className="paragraph-3-medium">Create Type</FormLabel>
+                  <Select
+                    onValueChange={(
+                      value: "WorkFlow" | "Component" | "Knowledge"
+                    ) => form.setValue("postType", value)}>
+                    <FormLabel className="paragraph-3-medium">
+                      Create Type
+                    </FormLabel>
                     <SelectTrigger
                       className={`
                         ${field.value === "WorkFlow" && "text-primary-500"}
@@ -177,10 +179,17 @@ const FormCreatePost = () => {
                     </SelectTrigger>
                     <SelectContent className="bg-black-700 group border border-transparent focus-within:border-white-500 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0">
                       {PostType.map((type, idx) => (
-                        <div className="flex">
-                          <SelectItem value={type.value} key={idx} className="hover:!bg-black-600 text-white-500 hover:!text-white-100">
+                        <div className="flex" key={idx}>
+                          <SelectItem
+                            value={type.value}
+                            className="hover:!bg-black-600 text-white-500 hover:!text-white-100">
                             <div className="flex items-center gap-3">
-                              <Image src={type.image} alt={type.label} width={15} height={15} />
+                              <Image
+                                src={type.image}
+                                alt={type.label}
+                                width={15}
+                                height={15}
+                              />
                               <p>{type.label}</p>
                             </div>
                           </SelectItem>
@@ -193,7 +202,6 @@ const FormCreatePost = () => {
               </FormItem>
             )}
           />
-
           <FormField
             name="tags"
             render={({ field }) => (
@@ -212,9 +220,18 @@ const FormCreatePost = () => {
                     {field.value.length > 0 && (
                       <div className="flex justify-start items-center">
                         {field.value.map((tag: any) => (
-                          <Badge onClick={() => handleTagRemove(tag, field)} key={tag} className="rounded bg-black-600 py-1.5 flex items-center gap-1 cursor-pointer">
+                          <Badge
+                            onClick={() => handleTagRemove(tag, field)}
+                            key={tag}
+                            className="rounded bg-black-600 py-1.5 flex items-center gap-1 cursor-pointer">
                             {tag}
-                            <Image src="/assets/icons/close.svg" className="self-start" alt="close" width={6} height={6} />
+                            <Image
+                              src="/assets/icons/close.svg"
+                              className="self-start"
+                              alt="close"
+                              width={6}
+                              height={6}
+                            />
                           </Badge>
                         ))}
                       </div>
@@ -232,7 +249,9 @@ const FormCreatePost = () => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="paragraph-3-medium">Your message</FormLabel>
+                  <FormLabel className="paragraph-3-medium">
+                    Your message
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Enter your description"
@@ -247,12 +266,11 @@ const FormCreatePost = () => {
               )}
             />
           </div>
-
           {fields.map((item, index) => (
             <FormField
               key={item.id}
               control={form.control}
-              name={`lessons.${index}.lesson`}
+              name={`lessons.${index}.lesson` as any}
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
@@ -270,13 +288,19 @@ const FormCreatePost = () => {
               )}
             />
           ))}
-          <Button type="button" onClick={() => append({ lesson: "" })} className="flex w-full items-center gap-2 bg-black-600">
-            <Image src="/assets/icons/blue-plus.svg" alt="pluse" width={13} height={13} />
+          <Button
+            type="button"
+            onClick={() => append({ lesson: "" })}
+            className="flex w-full items-center gap-2 bg-black-600">
+            <Image
+              src="/assets/icons/blue-plus.svg"
+              alt="pluse"
+              width={13}
+              height={13}
+            />
             <p className="paragraph-4-medium">Add checkmark</p>
           </Button>
-
           <Separator className="w-full bg-white-500 bg-opacity-10 my-6 h-[0.68px]" />
-
           <div className="flex flex-col space-y-8 !mt-0">
             {postType !== "Knowledge" && (
               <FormField
@@ -289,7 +313,9 @@ const FormCreatePost = () => {
                       tagName="codeSnippet"
                       onInit={(evt, editor) => (editorRef.current = editor)}
                       onBlur={field.onBlur}
-                      onEditorChange={(codeSnippet) => form.setValue("codeSnippet", codeSnippet)}
+                      onEditorChange={(codeSnippet) =>
+                        form.setValue("codeSnippet", codeSnippet)
+                      }
                       init={{
                         height: 250,
                         skin: "oxide-dark",
@@ -324,15 +350,26 @@ const FormCreatePost = () => {
                         (editorRef.current = editor)
                       }
                       onBlur={field.onBlur}
-                      onEditorChange={(content) => form.setValue("content", content)}
+                      onEditorChange={(content) =>
+                        form.setValue("content", content)
+                      }
                       init={{
                         height: 250,
                         skin: "oxide-dark",
                         content_css: "dark",
                         content_style: ` body {   font-family: Roboto, sans-serif;    font-size: 14px;    color: #ADB3CC;   background-color: #1d2032;  }   body::-webkit-scrollbar {     display: none;   }   pre, code    font-family: "Roboto, sans-serif"   background-color: #282c34;  color: #abb2bf;  border-radius: 4px;   padding: 5px;  } `,
                         menubar: "",
-                        plugins: ["code", "codesample", "preview", "media", "emoticons", "image", "link"],
-                        toolbar: " bold italic alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons",
+                        plugins: [
+                          "code",
+                          "codesample",
+                          "preview",
+                          "media",
+                          "emoticons",
+                          "image",
+                          "link",
+                        ],
+                        toolbar:
+                          " bold italic alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons",
                       }}
                       initialValue="Paste your code here..."
                     />
@@ -341,66 +378,79 @@ const FormCreatePost = () => {
               />
             </div>
           </div>
-
           <Separator className="w-full bg-white-500 bg-opacity-10 my-6 h-[0.68px]" />
-
           <h4 className="text-white-500 uppercase mb-7">RESOURCES & LINKS</h4>
-          {form.getValues("labels").map((label, index) => (
-            <div key={index} className="bg-black-700 rounded px-3 mb-3">
-              <FormLabel className="paragraph-3-regular">{label}</FormLabel>
-              <Link href="" className="text-white-300 hover:underline cursor-pointer">
-                <p>{form.getValues("resources")[index]}</p>
-              </Link>
-            </div>
-          ))}
-          <div className="!mt-2 flex justify-between gap-3 w-full min-h-12 items-center rounded ">
-            <FormField
-              control={form.control}
-              name="labels"
-              render={({ field }) => (
-                <FormItem className="w-3/5">
-                  <FormControl>
-                    <Input
-                      onChange={(e) => setResourceLabel(e.target.value)}
-                      value={resourceLabel}
-                      placeholder="Label"
-                      className="bg-black-700 
-                    text-white-300 
-                    border-none 
-                    focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="resources"
-              render={({ field }) => (
-                <FormItem className="w-3/5">
-                  <FormControl>
-                    <Input
-                      onChange={(e) => setResourceLink(e.target.value)}
-                      value={resourceLink}
-                      placeholder="Resource Link"
-                      className="bg-black-700 
-                    text-white-300 
-                    border-none 
-                    focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <div className="flex flex-col gap-2">
+            {resourceFields.map((item, idx) => (
+              <div key={item.id} className="flex gap-2">
+                <FormField
+                  control={form.control}
+                  name={`resources.${idx}.label` as any}
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormControl>
+                        <Input
+                          placeholder="Label"
+                          className="bg-black-700 
+                          min-h-12
+                          text-white-100
+                          border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`resources.${idx}.resource` as any}
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormControl>
+                        <Input
+                          placeholder="Resource Link"
+                          className="bg-black-700 
+                          min-h-12
+                          text-white-100
+                          border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="button"
+                  onClick={() => removeResource(idx)}
+                  className="flex items-center gap-2 bg-black-600 self-start">
+                  <Image
+                    src="/assets/icons/close.svg"
+                    alt="close"
+                    width={20}
+                    height={20}
+                    className="object-cover"
+                  />
+                </Button>
+              </div>
+            ))}
           </div>
-          <Button type="button" onClick={addResourceLinks} className="flex items-center gap-2 bg-black-600">
-            <Image src="/assets/icons/blue-plus.svg" alt="pluse" width={13} height={13} />
+          <Button
+            type="button"
+            onClick={() => appendResource({ label: "", resource: "" })}
+            className="flex items-center gap-2 bg-black-600 mt-2">
+            <Image
+              src="/assets/icons/blue-plus.svg"
+              alt="plus"
+              width={13}
+              height={13}
+            />
             <p className="paragraph-4-medium">New Resource</p>
           </Button>
-
-          <Button type="submit" className="bg-primary-500 text-black-900 font-bold">
+          <Button
+            type="submit"
+            className="bg-primary-500 text-black-900 font-bold">
             Create Post
           </Button>
         </form>

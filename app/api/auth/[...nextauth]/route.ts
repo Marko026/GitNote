@@ -3,8 +3,14 @@ import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDatabase } from "@/lib/mongoose";
-import { User } from "@/database/user.modal";
+import { User } from "@/database/user.model";
 const bcrypt = require("bcrypt");
+
+declare module "next-auth" {
+  interface Session {
+    id: string;
+  }
+}
 
 export const authOptions = {
   providers: [
@@ -67,7 +73,6 @@ export const authOptions = {
       return true;
     },
     async session({ session, token }: any) {
-      console.log("SESSION", token);
       try {
         await connectToDatabase();
         const user = await User.findOne({
@@ -75,10 +80,10 @@ export const authOptions = {
         });
 
         if (user) {
-          session.user = {
+          session = {
+            id: user._id,
             email: user.email,
             name: user.name,
-            // Sto god ti treba
           };
         }
       } catch (error) {
