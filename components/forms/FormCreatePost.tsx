@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +26,6 @@ import Image from "next/image";
 import { Textarea } from "../ui/textarea";
 import { Separator } from "@radix-ui/react-separator";
 import { Editor } from "@tinymce/tinymce-react";
-import Link from "next/link";
 import { createPostSchema } from "@/lib/validation";
 import { createPost } from "@/lib/actions/post.action";
 import { useRouter } from "next/navigation";
@@ -63,17 +62,6 @@ const FormCreatePost = () => {
     name: "resources",
     control: form.control,
   } as any);
-
-  const {
-    fields: labelFields,
-    append: appendLabel,
-    remove: removeLabel,
-  } = useFieldArray({
-    name: "labels",
-    control: form.control,
-  } as any);
-
-  console.log(form.getValues("resources"));
 
   let postType = form.watch("postType");
 
@@ -424,7 +412,7 @@ const FormCreatePost = () => {
                 <Button
                   type="button"
                   onClick={() => removeResource(idx)}
-                  className="flex items-center gap-2 bg-black-600 self-start">
+                  className=" flex items-center h-12 gap-2 bg-black-600 ">
                   <Image
                     src="/assets/icons/close.svg"
                     alt="close"
