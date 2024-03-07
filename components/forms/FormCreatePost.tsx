@@ -68,6 +68,7 @@ const FormCreatePost = () => {
         content: values.content,
         resources: values.resources,
       });
+
       router.push("/home");
     } catch (error: any) {
       console.log(error);

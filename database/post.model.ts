@@ -1,9 +1,10 @@
-import { Schema, models, model } from "mongoose";
+import { Schema, models, model, Types } from "mongoose";
 
-export interface IPost {
+export interface IPost extends Document {
+  _id?: string;
   title: string;
   postType: string;
-  tags: string[];
+  tags: Types.ObjectId[];
   description?: string;
   lessons?: { title: string }[];
   codeSnippet: string;
@@ -16,13 +17,6 @@ const resourceSchema = new Schema({
     required: false,
   },
   resource: {
-    type: String,
-    required: false,
-  },
-});
-
-const tagsSchema = new Schema({
-  tag: {
     type: String,
     required: false,
   },
@@ -44,10 +38,12 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
-  tags: {
-    type: [tagsSchema],
-    required: false,
-  },
+  tags: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Tags",
+    },
+  ],
   description: {
     type: String,
     required: false,

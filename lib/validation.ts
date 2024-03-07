@@ -14,7 +14,15 @@ export const loginSchema = z.object({
 export const createPostSchema = z.object({
   title: z.string().min(3).max(100),
   postType: z.enum(["WorkFlow", "Component", "Knowledge"]),
-  tags: z.array(z.string().min(1).max(15)).min(1).max(5),
+  tags: z
+    .array(
+      z.object({
+        name: z.string().min(1),
+        id: z.string().min(1),
+      })
+    )
+    .min(1)
+    .max(10),
   description: z.string().min(30).max(1000),
   lessons: z
     .array(z.object({ title: z.string().min(1) }))
