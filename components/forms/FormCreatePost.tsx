@@ -5,21 +5,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
@@ -125,9 +112,7 @@ const FormCreatePost = () => {
         <p className="uppercase text-white-500">Basic Information</p>
       </div>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-6">
           <FormField
             control={form.control}
             name="title"
@@ -154,13 +139,8 @@ const FormCreatePost = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Select
-                    onValueChange={(
-                      value: "WorkFlow" | "Component" | "Knowledge"
-                    ) => form.setValue("postType", value)}>
-                    <FormLabel className="paragraph-3-medium">
-                      Create Type
-                    </FormLabel>
+                  <Select onValueChange={(value: "WorkFlow" | "Component" | "Knowledge") => form.setValue("postType", value)}>
+                    <FormLabel className="paragraph-3-medium">Create Type</FormLabel>
                     <SelectTrigger
                       className={`
                         ${field.value === "WorkFlow" && "text-primary-500"}
@@ -173,16 +153,9 @@ const FormCreatePost = () => {
                     <SelectContent className="bg-black-700 group border border-transparent focus-within:border-white-500 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0">
                       {PostType.map((type, idx) => (
                         <div className="flex" key={idx}>
-                          <SelectItem
-                            value={type.value}
-                            className="hover:!bg-black-600 text-white-500 hover:!text-white-100">
+                          <SelectItem value={type.value} className="hover:!bg-black-600 text-white-500 hover:!text-white-100">
                             <div className="flex items-center gap-3">
-                              <Image
-                                src={type.image}
-                                alt={type.label}
-                                width={15}
-                                height={15}
-                              />
+                              <Image src={type.image} alt={type.label} width={15} height={15} />
                               <p>{type.label}</p>
                             </div>
                           </SelectItem>
@@ -213,18 +186,9 @@ const FormCreatePost = () => {
                     {field.value.length > 0 && (
                       <div className="flex justify-start gap-3  items-center">
                         {field.value.map((tag: any) => (
-                          <Badge
-                            onClick={() => handleTagRemove(tag, field)}
-                            key={tag}
-                            className="rounded bg-black-600 py-1.5 mt-1 flex items-center gap-1 cursor-pointer">
+                          <Badge onClick={() => handleTagRemove(tag, field)} key={tag} className="rounded bg-black-600 py-1.5 mt-1 flex items-center gap-1 cursor-pointer">
                             {tag}
-                            <Image
-                              src="/assets/icons/close.svg"
-                              className="self-start"
-                              alt="close"
-                              width={6}
-                              height={6}
-                            />
+                            <Image src="/assets/icons/close.svg" className="self-start" alt="close" width={6} height={6} />
                           </Badge>
                         ))}
                       </div>
@@ -242,9 +206,7 @@ const FormCreatePost = () => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="paragraph-3-medium">
-                    Your message
-                  </FormLabel>
+                  <FormLabel className="paragraph-3-medium">Your message</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Enter your description"
@@ -277,16 +239,8 @@ const FormCreatePost = () => {
                           border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0"
                           {...field}
                         />
-                        <Button
-                          type="button"
-                          onClick={() => removeLesson(index)}
-                          className=" flex items-center h-12 !mt-0 gap-2 bg-black-600 ">
-                          <Image
-                            src="/assets/icons/close.svg"
-                            alt="close"
-                            width={9}
-                            height={9}
-                          />
+                        <Button type="button" onClick={() => removeLesson(index)} className=" flex items-center h-12 !mt-0 gap-2 bg-black-600 ">
+                          <Image src="/assets/icons/close.svg" alt="close" width={9} height={9} />
                         </Button>
                       </>
                     </FormControl>
@@ -296,16 +250,8 @@ const FormCreatePost = () => {
               />
             ))}
           </div>
-          <Button
-            type="button"
-            onClick={() => appendLesson({ title: "" })}
-            className="flex w-full items-center gap-2 bg-black-600">
-            <Image
-              src="/assets/icons/blue-plus.svg"
-              alt="pluse"
-              width={13}
-              height={13}
-            />
+          <Button type="button" onClick={() => appendLesson({ title: "" })} className="flex w-full items-center gap-2 bg-black-600">
+            <Image src="/assets/icons/blue-plus.svg" alt="pluse" width={13} height={13} />
             <p className="paragraph-4-medium">Add checkmark</p>
           </Button>
           <Separator className="w-full bg-white-500 bg-opacity-10 my-6 h-[0.68px]" />
@@ -321,9 +267,7 @@ const FormCreatePost = () => {
                       tagName="codeSnippet"
                       onInit={(evt, editor) => (editorRef.current = editor)}
                       onBlur={field.onBlur}
-                      onEditorChange={(codeSnippet) =>
-                        form.setValue("codeSnippet", codeSnippet)
-                      }
+                      onEditorChange={(codeSnippet) => form.setValue("codeSnippet", codeSnippet)}
                       init={{
                         height: 250,
                         skin: "oxide-dark",
@@ -355,26 +299,15 @@ const FormCreatePost = () => {
                       tagName="content"
                       onInit={(evt, editor) => (editorRef.current = editor)}
                       onBlur={field.onBlur}
-                      onEditorChange={(content) =>
-                        form.setValue("content", content)
-                      }
+                      onEditorChange={(content) => form.setValue("content", content)}
                       init={{
                         height: 250,
                         skin: "oxide-dark",
                         content_css: "dark",
                         content_style: ` body {   font-family: Roboto, sans-serif;    font-size: 14px;    color: #ADB3CC;   background-color: #1d2032;  }   body::-webkit-scrollbar {     display: none;   }   pre, code    font-family: "Roboto, sans-serif"   background-color: #282c34;  color: #abb2bf;  border-radius: 4px;   padding: 5px;  } `,
                         menubar: "",
-                        plugins: [
-                          "code",
-                          "codesample",
-                          "preview",
-                          "media",
-                          "emoticons",
-                          "image",
-                          "link",
-                        ],
-                        toolbar:
-                          " bold italic alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons",
+                        plugins: ["code", "codesample", "preview", "media", "emoticons", "image", "link"],
+                        toolbar: " bold italic alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons",
                       }}
                       initialValue="Paste your code here..."
                     />
@@ -426,36 +359,17 @@ const FormCreatePost = () => {
                     </FormItem>
                   )}
                 />
-                <Button
-                  type="button"
-                  onClick={() => removeResource(idx)}
-                  className=" flex items-center h-12 gap-2 bg-black-600 ">
-                  <Image
-                    src="/assets/icons/close.svg"
-                    alt="close"
-                    width={20}
-                    height={20}
-                    className="object-cover"
-                  />
+                <Button type="button" onClick={() => removeResource(idx)} className=" flex items-center h-12 gap-2 bg-black-600 ">
+                  <Image src="/assets/icons/close.svg" alt="close" width={20} height={20} className="object-cover" />
                 </Button>
               </div>
             ))}
           </div>
-          <Button
-            type="button"
-            onClick={() => appendResource({ label: "", resource: "" })}
-            className="flex items-center gap-2 bg-black-600 mt-2">
-            <Image
-              src="/assets/icons/blue-plus.svg"
-              alt="plus"
-              width={13}
-              height={13}
-            />
+          <Button type="button" onClick={() => appendResource({ label: "", resource: "" })} className="flex items-center gap-2 bg-black-600 mt-2">
+            <Image src="/assets/icons/blue-plus.svg" alt="plus" width={13} height={13} />
             <p className="paragraph-4-medium">New Resource</p>
           </Button>
-          <Button
-            type="submit"
-            className="bg-primary-500 text-black-900 font-bold">
+          <Button type="submit" className="bg-primary-500 text-black-900 font-bold">
             Create Post
           </Button>
         </form>

@@ -4,16 +4,7 @@ import { connectToDatabase } from "../mongoose";
 import { IPost, Post } from "@/database/post.model";
 
 export async function createPost(params: IPost) {
-  const {
-    title,
-    postType,
-    tags,
-    description,
-    lessons,
-    codeSnippet,
-    content,
-    resources,
-  } = params;
+  const { title, postType, tags, description, lessons, codeSnippet, content, resources } = params;
 
   try {
     await connectToDatabase();
