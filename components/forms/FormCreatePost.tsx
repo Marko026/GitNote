@@ -37,6 +37,15 @@ const FormCreatePost = () => {
   });
 
   const {
+    fields: tagsFields,
+    append: appendTags,
+    remove: removeTags,
+  } = useFieldArray({
+    name: "tags",
+    control: form.control,
+  });
+
+  const {
     fields: lessonFields,
     append: appendLesson,
     remove: removeLesson,
@@ -76,35 +85,45 @@ const FormCreatePost = () => {
     }
   }
 
-  const handleInputEvent = (e: React.KeyboardEvent, field: any) => {
-    if (e.key === "Enter" && field.name === "tags") {
-      e.preventDefault();
-      const tagInput = e.target as HTMLInputElement;
-      const tagValue = tagInput.value.trim();
+  // const handleInputEvent = (e: React.KeyboardEvent, field: any) => {
+  //   if (e.key === "Enter" && field.name === "tags") {
+  //     e.preventDefault();
+  //     const tagInput = e.target as HTMLInputElement;
+  //     const tagValue = tagInput.value.trim();
 
-      if (tagValue !== "") {
-        if (tagValue.length > 10) {
-          return form.setError("tags", {
-            type: "required",
-            message: " Tags must be less then 10 characters.",
-          });
-        }
+  //     if (tagValue !== "") {
+  //       if (tagValue.length > 10) {
+  //         return form.setError("tags", {
+  //           type: "required",
+  //           message: " Tags must be less then 10 characters.",
+  //         });
+  //       }
 
-        if (!field.value.includes(tagValue as never)) {
-          form.setValue("tags", [...field.value, tagValue]);
-          tagInput.value = "";
-          form.clearErrors("tags");
-        }
-      } else {
-        form.trigger();
-      }
-    }
+  //       if (!field.value.includes(tagValue as never)) {
+  //         form.setValue("tags", [...field.value, tagValue]);
+  //         tagInput.value = "";
+  //         form.clearErrors("tags");
+  //       }
+  //     } else {
+  //       form.trigger();
+  //     }
+  //   }
+  // };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    const target = e.target as HTMLInputElement;
+
+    appendTags({ name: target.value.trim() });
   };
 
   const handleTagRemove = (tag: string, field: any) => {
     const newTags = field.value.filter((t: string) => t !== tag);
     form.setValue("tags", newTags);
   };
+
+  console.log(tagsFields);
 
   return (
     <div className="w-full px-7 mb-20">
@@ -169,22 +188,22 @@ const FormCreatePost = () => {
               </FormItem>
             )}
           />
-          <FormField
-            name="tags"
+          {/* <FormField
+            name={`tags.${index}.name` as any}
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel className="paragraph-3-medium">Tags</FormLabel>
                 <FormControl>
-                  <>
-                    <Input
-                      onKeyDown={(e) => handleInputEvent(e, field)}
-                      placeholder="Create tag"
-                      className="bg-black-700 
-                    text-white-100
-                    min-h-12 
-                    border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
-                    />
-                    {field.value.length > 0 && (
+                  <> */}
+          <Input
+            onKeyDown={(e) => handleKeyDown(e)}
+            placeholder="Create tag"
+            className="bg-black-700 
+                        text-white-100
+                        min-h-12 
+                        border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
+          />
+          {/* {field.value.length > 0 && (
                       <div className="flex justify-start gap-3  items-center">
                         {field.value.map((tag: any) => (
                           <Badge onClick={() => handleTagRemove(tag, field)} key={tag} className="rounded bg-black-600 py-1.5 mt-1 flex items-center gap-1 cursor-pointer">
@@ -200,7 +219,15 @@ const FormCreatePost = () => {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
+          {tagsFields.map((field, index) => (
+            <div className="flex items-center justify-start gap-4">
+              <span className="bg-black-700 rounded-sm px-4 py-2 text-white">{field.name}</span>
+              <button type="button" onClick={() => removeTags(index)}>
+                Remove
+              </button>
+            </div>
+          ))}
           <div className="flex w-full flex-col space-y-3">
             <FormField
               control={form.control}

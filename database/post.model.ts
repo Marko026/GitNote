@@ -14,18 +14,18 @@ export interface IPost extends Document {
 const resourceSchema = new Schema({
   label: {
     type: String,
-    required: false,
+    required: true,
   },
   resource: {
     type: String,
-    required: false,
+    required: true,
   },
 });
 
 const lessonsSchema = new Schema({
   title: {
     type: String,
-    required: false,
+    required: true,
   },
 });
 

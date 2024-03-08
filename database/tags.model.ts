@@ -20,3 +20,7 @@ const tagsSchema = new Schema({
 });
 
 export const Tags = models.Tags || model("Tags", tagsSchema);
+
+// Find all tags in the DB
+// Queryaj Posts u DB, i napisi WHERE Tags contains our tag
+// Queryaj Tag u DB, i pronadji da li taj tag ima POST spremljen u sebi

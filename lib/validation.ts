@@ -18,7 +18,6 @@ export const createPostSchema = z.object({
     .array(
       z.object({
         name: z.string().min(1),
-        id: z.string().min(1),
       })
     )
     .min(1)
