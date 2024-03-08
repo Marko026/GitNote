@@ -18,6 +18,11 @@ import { createPost } from "@/lib/actions/post.action";
 import { useRouter } from "next/navigation";
 import { PostType } from "@/constants";
 
+import CreatableSelect from 'react-select/creatable';
+import makeAnimated from 'react-select/animated';
+
+const animatedComponents = makeAnimated();
+
 const FormCreatePost = () => {
   const editorRef = useRef<any>(null);
   const router = useRouter();
@@ -123,7 +128,13 @@ const FormCreatePost = () => {
     form.setValue("tags", newTags);
   };
 
-  console.log(tagsFields);
+  
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' }
+]
+
 
   return (
     <div className="w-full px-7 mb-20">
@@ -151,8 +162,25 @@ const FormCreatePost = () => {
                 </FormControl>
                 <FormMessage />
               </FormItem>
-            )}
+            )}  
           />
+          <CreatableSelect   styles={{
+    control: (baseStyles, state) => ({
+      ...baseStyles,
+      borderRadius: '0.375rem',
+      minHeight: '3rem',
+      color: 'white', 
+      backgroundColor: '#1D2032', 
+      borderColor: state.isFocused ? '#ADB3CC' : 'transparent', 
+      boxShadow: state.isFocused ? '0 0 0 0' : baseStyles.boxShadow, 
+      ':hover': {
+        borderColor: '#ADB3CC', 
+      },
+    }),
+      
+  }}
+
+   className="!bg-transparent" components={animatedComponents} isMulti options={options} />;
           <FormField
             control={form.control}
             name="postType"
