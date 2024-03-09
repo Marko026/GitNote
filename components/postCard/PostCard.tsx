@@ -17,7 +17,7 @@ const PostCard = ({ post }: { post: IPost }) => {
               className={`
             ${postType?.value === "WorkFlow" && "text-primary-500"}
             ${postType?.value === "Component" && "text-purple-500"}
-            ${postType?.value === "Knowledge" && "text-green-500"}
+           ${postType?.value === "Knowledge" && "text-green-500"}  
              text-[14px] mt-[0.5px]`}>
               {post.postType}
             </h3>

@@ -3,12 +3,24 @@ import React, { useRef } from "react";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { Textarea } from "../ui/textarea";
 import { Separator } from "@radix-ui/react-separator";
@@ -18,8 +30,9 @@ import { createPost } from "@/lib/actions/post.action";
 import { useRouter } from "next/navigation";
 import { PostType } from "@/constants";
 
-import CreatableSelect from 'react-select/creatable';
-import makeAnimated from 'react-select/animated';
+import CreatableSelect from "react-select/creatable";
+import makeAnimated from "react-select/animated";
+import { selectStyles } from "@/styles";
 
 const animatedComponents = makeAnimated();
 
@@ -39,15 +52,6 @@ const FormCreatePost = () => {
       content: "",
       resources: [],
     },
-  });
-
-  const {
-    fields: tagsFields,
-    append: appendTags,
-    remove: removeTags,
-  } = useFieldArray({
-    name: "tags",
-    control: form.control,
   });
 
   const {
@@ -90,51 +94,11 @@ const FormCreatePost = () => {
     }
   }
 
-  // const handleInputEvent = (e: React.KeyboardEvent, field: any) => {
-  //   if (e.key === "Enter" && field.name === "tags") {
-  //     e.preventDefault();
-  //     const tagInput = e.target as HTMLInputElement;
-  //     const tagValue = tagInput.value.trim();
-
-  //     if (tagValue !== "") {
-  //       if (tagValue.length > 10) {
-  //         return form.setError("tags", {
-  //           type: "required",
-  //           message: " Tags must be less then 10 characters.",
-  //         });
-  //       }
-
-  //       if (!field.value.includes(tagValue as never)) {
-  //         form.setValue("tags", [...field.value, tagValue]);
-  //         tagInput.value = "";
-  //         form.clearErrors("tags");
-  //       }
-  //     } else {
-  //       form.trigger();
-  //     }
-  //   }
-  // };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key !== "Enter") return;
-    e.preventDefault();
-    const target = e.target as HTMLInputElement;
-
-    appendTags({ name: target.value.trim() });
-  };
-
-  const handleTagRemove = (tag: string, field: any) => {
-    const newTags = field.value.filter((t: string) => t !== tag);
-    form.setValue("tags", newTags);
-  };
-
-  
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
-]
-
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
 
   return (
     <div className="w-full px-7 mb-20">
@@ -143,7 +107,9 @@ const options = [
         <p className="uppercase text-white-500">Basic Information</p>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col space-y-6">
           <FormField
             control={form.control}
             name="title"
@@ -154,6 +120,7 @@ const options = [
                   <Input
                     placeholder="Enter your title of your post"
                     className="bg-black-700 
+                    !placeholder-slate-500
                     min-h-12
                     text-white-100
                     border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
@@ -162,33 +129,21 @@ const options = [
                 </FormControl>
                 <FormMessage />
               </FormItem>
-            )}  
+            )}
           />
-          <CreatableSelect   styles={{
-    control: (baseStyles, state) => ({
-      ...baseStyles,
-      borderRadius: '0.375rem',
-      minHeight: '3rem',
-      color: 'white', 
-      backgroundColor: '#1D2032', 
-      borderColor: state.isFocused ? '#ADB3CC' : 'transparent', 
-      boxShadow: state.isFocused ? '0 0 0 0' : baseStyles.boxShadow, 
-      ':hover': {
-        borderColor: '#ADB3CC', 
-      },
-    }),
-      
-  }}
-
-   className="!bg-transparent" components={animatedComponents} isMulti options={options} />;
           <FormField
             control={form.control}
             name="postType"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Select onValueChange={(value: "WorkFlow" | "Component" | "Knowledge") => form.setValue("postType", value)}>
-                    <FormLabel className="paragraph-3-medium">Create Type</FormLabel>
+                  <Select
+                    onValueChange={(
+                      value: "WorkFlow" | "Component" | "Knowledge"
+                    ) => form.setValue("postType", value)}>
+                    <FormLabel className="paragraph-3-medium">
+                      Create Type
+                    </FormLabel>
                     <SelectTrigger
                       className={`
                         ${field.value === "WorkFlow" && "text-primary-500"}
@@ -201,9 +156,16 @@ const options = [
                     <SelectContent className="bg-black-700 group border border-transparent focus-within:border-white-500 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0">
                       {PostType.map((type, idx) => (
                         <div className="flex" key={idx}>
-                          <SelectItem value={type.value} className="hover:!bg-black-600 text-white-500 hover:!text-white-100">
+                          <SelectItem
+                            value={type.value}
+                            className="hover:!bg-black-600 text-white-500 hover:!text-white-100">
                             <div className="flex items-center gap-3">
-                              <Image src={type.image} alt={type.label} width={15} height={15} />
+                              <Image
+                                src={type.image}
+                                alt={type.label}
+                                width={15}
+                                height={15}
+                              />
                               <p>{type.label}</p>
                             </div>
                           </SelectItem>
@@ -216,53 +178,33 @@ const options = [
               </FormItem>
             )}
           />
-          {/* <FormField
-            name={`tags.${index}.name` as any}
+          <h4 className="paragraph-3-medium mb-2">Tags</h4>
+          <Controller
+            name="tags"
+            control={form.control}
             render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel className="paragraph-3-medium">Tags</FormLabel>
-                <FormControl>
-                  <> */}
-          <Input
-            onKeyDown={(e) => handleKeyDown(e)}
-            placeholder="Create tag"
-            className="bg-black-700 
-                        text-white-100
-                        min-h-12 
-                        border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
-          />
-          {/* {field.value.length > 0 && (
-                      <div className="flex justify-start gap-3  items-center">
-                        {field.value.map((tag: any) => (
-                          <Badge onClick={() => handleTagRemove(tag, field)} key={tag} className="rounded bg-black-600 py-1.5 mt-1 flex items-center gap-1 cursor-pointer">
-                            {tag}
-                            <Image src="/assets/icons/close.svg" className="self-start" alt="close" width={6} height={6} />
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
+              <CreatableSelect
+                {...field}
+                styles={selectStyles}
+                className="!bg-transparent"
+                components={animatedComponents}
+                isMulti
+                options={options}
+                value={field.value.map((tag) => ({ value: tag, label: tag }))}
+                onChange={(value) => field.onChange(value.map((v) => v.value))}
+              />
             )}
-          /> */}
-          {tagsFields.map((field, index) => (
-            <div className="flex items-center justify-start gap-4">
-              <span className="bg-black-700 rounded-sm px-4 py-2 text-white">{field.name}</span>
-              <button type="button" onClick={() => removeTags(index)}>
-                Remove
-              </button>
-            </div>
-          ))}
+          />
+
           <div className="flex w-full flex-col space-y-3">
             <FormField
               control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="paragraph-3-medium">Your message</FormLabel>
+                  <FormLabel className="paragraph-3-medium">
+                    Your message
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Enter your description"
@@ -295,8 +237,16 @@ const options = [
                           border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0"
                           {...field}
                         />
-                        <Button type="button" onClick={() => removeLesson(index)} className=" flex items-center h-12 !mt-0 gap-2 bg-black-600 ">
-                          <Image src="/assets/icons/close.svg" alt="close" width={9} height={9} />
+                        <Button
+                          type="button"
+                          onClick={() => removeLesson(index)}
+                          className=" flex items-center h-12 !mt-0 gap-2 bg-black-600 ">
+                          <Image
+                            src="/assets/icons/close.svg"
+                            alt="close"
+                            width={9}
+                            height={9}
+                          />
                         </Button>
                       </>
                     </FormControl>
@@ -306,8 +256,16 @@ const options = [
               />
             ))}
           </div>
-          <Button type="button" onClick={() => appendLesson({ title: "" })} className="flex w-full items-center gap-2 bg-black-600">
-            <Image src="/assets/icons/blue-plus.svg" alt="pluse" width={13} height={13} />
+          <Button
+            type="button"
+            onClick={() => appendLesson({ title: "" })}
+            className="flex w-full items-center gap-2 bg-black-600">
+            <Image
+              src="/assets/icons/blue-plus.svg"
+              alt="pluse"
+              width={13}
+              height={13}
+            />
             <p className="paragraph-4-medium">Add checkmark</p>
           </Button>
           <Separator className="w-full bg-white-500 bg-opacity-10 my-6 h-[0.68px]" />
@@ -323,12 +281,14 @@ const options = [
                       tagName="codeSnippet"
                       onInit={(evt, editor) => (editorRef.current = editor)}
                       onBlur={field.onBlur}
-                      onEditorChange={(codeSnippet) => form.setValue("codeSnippet", codeSnippet)}
+                      onEditorChange={(codeSnippet) =>
+                        form.setValue("codeSnippet", codeSnippet)
+                      }
                       init={{
                         height: 250,
                         skin: "oxide-dark",
                         content_css: "dark",
-                        content_style: ` body { font-family: Roboto, sans-serif; font-size: 14px;       color: #ADB3CC;  background-color: #1d2032;} body::-webkit-scrollbar {      display: none; }pre, code { font-family: "Roboto Mono", monospace;      background-color: transparent !important;  padding: 5px; } `,
+                        content_style: ` body { font-family: Roboto, sans-serif; font-size: 14px; color: #55597D;  background-color: #1d2032;} body::-webkit-scrollbar {      display: none; }pre, code { font-family: "Roboto Mono", monospace;      background-color: transparent !important;  padding: 5px; } `,
                         menu: {
                           code: { title: "Code", items: "codesample" },
                           preview: { title: "Preview", items: "preview" },
@@ -355,15 +315,27 @@ const options = [
                       tagName="content"
                       onInit={(evt, editor) => (editorRef.current = editor)}
                       onBlur={field.onBlur}
-                      onEditorChange={(content) => form.setValue("content", content)}
+                      onEditorChange={(content) =>
+                        form.setValue("content", content)
+                      }
                       init={{
                         height: 250,
                         skin: "oxide-dark",
+
                         content_css: "dark",
-                        content_style: ` body {   font-family: Roboto, sans-serif;    font-size: 14px;    color: #ADB3CC;   background-color: #1d2032;  }   body::-webkit-scrollbar {     display: none;   }   pre, code    font-family: "Roboto, sans-serif"   background-color: #282c34;  color: #abb2bf;  border-radius: 4px;   padding: 5px;  } `,
+                        content_style: ` body {   font-family: Roboto, sans-serif;    font-size: 14px;    color: #55597D;   background-color: #1d2032;  }   body::-webkit-scrollbar {     display: none;   }   pre, code    font-family: "Roboto, sans-serif"   background-color: #282c34;  color: #abb2bf;  border-radius: 4px; border:transparent   padding: 5px;  } `,
                         menubar: "",
-                        plugins: ["code", "codesample", "preview", "media", "emoticons", "image", "link"],
-                        toolbar: " bold italic alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons",
+                        plugins: [
+                          "code",
+                          "codesample",
+                          "preview",
+                          "media",
+                          "emoticons",
+                          "image",
+                          "link",
+                        ],
+                        toolbar:
+                          " bold italic alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons",
                       }}
                       initialValue="Paste your code here..."
                     />
@@ -415,17 +387,36 @@ const options = [
                     </FormItem>
                   )}
                 />
-                <Button type="button" onClick={() => removeResource(idx)} className=" flex items-center h-12 gap-2 bg-black-600 ">
-                  <Image src="/assets/icons/close.svg" alt="close" width={20} height={20} className="object-cover" />
+                <Button
+                  type="button"
+                  onClick={() => removeResource(idx)}
+                  className=" flex items-center h-12 gap-2 bg-black-600 ">
+                  <Image
+                    src="/assets/icons/close.svg"
+                    alt="close"
+                    width={20}
+                    height={20}
+                    className="object-cover"
+                  />
                 </Button>
               </div>
             ))}
           </div>
-          <Button type="button" onClick={() => appendResource({ label: "", resource: "" })} className="flex items-center gap-2 bg-black-600 mt-2">
-            <Image src="/assets/icons/blue-plus.svg" alt="plus" width={13} height={13} />
+          <Button
+            type="button"
+            onClick={() => appendResource({ label: "", resource: "" })}
+            className="flex items-center gap-2 bg-black-600 mt-2">
+            <Image
+              src="/assets/icons/blue-plus.svg"
+              alt="plus"
+              width={13}
+              height={13}
+            />
             <p className="paragraph-4-medium">New Resource</p>
           </Button>
-          <Button type="submit" className="bg-primary-500 text-black-900 font-bold">
+          <Button
+            type="submit"
+            className="bg-primary-500 text-black-900 font-bold">
             Create Post
           </Button>
         </form>
