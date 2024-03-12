@@ -17,7 +17,9 @@ export const createPostSchema = z.object({
   tags: z
     .array(
       z.object({
-        name: z.string().min(1),
+        value: z.string().min(1).max(32),
+        label: z.string().min(1).max(12),
+        __isNew__: z.boolean().optional(),
       })
     )
     .min(1)
@@ -39,3 +41,5 @@ export const createPostSchema = z.object({
     .min(1)
     .max(10),
 });
+
+export type ICreatePost = z.infer<typeof createPostSchema>;

@@ -2,25 +2,56 @@
 
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
-import { IPost, Post } from "@/database/post.model";
+import { Post } from "@/database/post.model";
+import { Tags } from "@/database/tags.model";
+import { ICreatePost } from "../validation";
+import mongoose from "mongoose";
+const ObjectId = mongoose.Types.ObjectId;
 
-export async function createPost(params: IPost) {
-  const { title, postType, tags, description, lessons, codeSnippet, content, resources } = params;
+export async function createPost(params: ICreatePost) {
+  const {
+    title,
+    postType,
+    tags,
+    description,
+    lessons,
+    codeSnippet,
+    content,
+    resources,
+  } = params;
 
   try {
     await connectToDatabase();
+
+    const databaseTags: any[] = [];
+
+    for (const tag of tags) {
+      if (ObjectId.isValid(tag.value)) {
+        const newTag = await Tags.findById(tag.value);
+
+        if (newTag) {
+          databaseTags.push(newTag._id);
+          continue;
+        }
+      }
+
+      const createdTag = await Tags.create({ name: tag.label });
+
+      databaseTags.push(createdTag._id);
+    }
+
     const post = await Post.create({
       title,
       postType,
-      tags,
+      tags: databaseTags,
       description,
       lessons,
       codeSnippet,
       content,
       resources,
     });
-    revalidatePath("/home");
-    return JSON.parse(JSON.stringify(post));
+
+    revalidatePath("/createPost");
   } catch (error: any) {
     console.log(error);
     throw new Error(error);
@@ -29,8 +60,8 @@ export async function createPost(params: IPost) {
 export async function getAllPosts() {
   try {
     await connectToDatabase();
-    const posts = await Post.find().lean();
-    return posts;
+    const posts = await Post.find();
+    return JSON.parse(JSON.stringify(posts));
   } catch (error: any) {
     console.log(error);
     throw new Error(error);

@@ -7,7 +7,6 @@ export interface UserAvailability {
 }
 
 export interface UserProps {
-  nextAuthId: string;
   name: string;
   email: string;
   password: string;
@@ -21,10 +20,6 @@ export interface UserProps {
 }
 
 const userSchema = new Schema({
-  nextAuthId: {
-    type: String,
-    unique: true,
-  },
   name: {
     type: String,
     required: true,

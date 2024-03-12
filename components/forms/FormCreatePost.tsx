@@ -25,7 +25,7 @@ import Image from "next/image";
 import { Textarea } from "../ui/textarea";
 import { Separator } from "@radix-ui/react-separator";
 import { Editor } from "@tinymce/tinymce-react";
-import { createPostSchema } from "@/lib/validation";
+import { ICreatePost, createPostSchema } from "@/lib/validation";
 import { createPost } from "@/lib/actions/post.action";
 import { useRouter } from "next/navigation";
 import { PostType } from "@/constants";
@@ -33,10 +33,11 @@ import { PostType } from "@/constants";
 import CreatableSelect from "react-select/creatable";
 import makeAnimated from "react-select/animated";
 import { selectStyles } from "@/styles";
+import { ITags } from "@/database/tags.model";
 
 const animatedComponents = makeAnimated();
 
-const FormCreatePost = () => {
+const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
   const editorRef = useRef<any>(null);
   const router = useRouter();
 
@@ -74,32 +75,20 @@ const FormCreatePost = () => {
 
   let postType = form.watch("postType");
 
-  async function onSubmit(values: z.infer<typeof createPostSchema>) {
+  async function onSubmit(values: ICreatePost) {
+    console.log("RUNNING");
     try {
-      await createPost({
-        title: values.title,
-        postType: values.postType,
-        tags: values.tags,
-        description: values.description,
-        lessons: values.lessons,
-        codeSnippet: values.codeSnippet,
-        content: values.content,
-        resources: values.resources,
-      });
+      const result = await createPost(values);
+      console.log("DOVRSIO", result);
 
       router.push("/home");
     } catch (error: any) {
-      console.log(error);
-      throw new Error(error);
+      console.log("ERROR U FUNKC", error);
+      // throw new Error(error);
     }
   }
 
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
-
+  const options = tags.map((tag) => ({ value: tag._id, label: tag.name }));
   return (
     <div className="w-full px-7 mb-20">
       <div className="mb-6">
@@ -179,6 +168,7 @@ const FormCreatePost = () => {
             )}
           />
           <h4 className="paragraph-3-medium mb-2">Tags</h4>
+
           <Controller
             name="tags"
             control={form.control}
@@ -190,8 +180,6 @@ const FormCreatePost = () => {
                 components={animatedComponents}
                 isMulti
                 options={options}
-                value={field.value.map((tag) => ({ value: tag, label: tag }))}
-                onChange={(value) => field.onChange(value.map((v) => v.value))}
               />
             )}
           />

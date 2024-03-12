@@ -4,7 +4,7 @@ export interface IPost extends Document {
   _id?: string;
   title: string;
   postType: string;
-  tags: Types.ObjectId[];
+  tags: Schema.Types.ObjectId[];
   description?: string;
   lessons?: { title: string }[];
   codeSnippet: string;
