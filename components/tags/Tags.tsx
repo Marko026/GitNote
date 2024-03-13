@@ -3,7 +3,7 @@ import React from "react";
 const Tags = ({ tag }: any) => {
   return (
     <>
-      <p className="paragraph-3-medium uppercase">{tag}</p>
+      <p className="paragraph-3-medium uppercase">{tag.name}</p>
     </>
   );
 };

@@ -76,23 +76,20 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
   let postType = form.watch("postType");
 
   async function onSubmit(values: ICreatePost) {
-    console.log("RUNNING");
     try {
-      const result = await createPost(values);
-      console.log("DOVRSIO", result);
+      await createPost(values);
 
       router.push("/home");
     } catch (error: any) {
-      console.log("ERROR U FUNKC", error);
-      // throw new Error(error);
+      console.log(error.message);
     }
   }
 
   const options = tags.map((tag) => ({ value: tag._id, label: tag.name }));
   return (
-    <div className="w-full px-7 mb-20">
+    <div className="w-full px-3 md:px-7 mb-10">
       <div className="mb-6">
-        <h1 className="h1-bold w-full my-10 ">CreatePost</h1>
+        <h1 className="h1-bold w-full my-5 md:my-8 ">CreatePost</h1>
         <p className="uppercase text-white-500">Basic Information</p>
       </div>
       <Form {...form}>
@@ -217,14 +214,22 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                   <FormItem className="flex items-center gap-2">
                     <FormControl>
                       <>
-                        <Input
-                          placeholder="Enter your lesson"
-                          className="bg-black-700 
+                        <div className="flex items-center border border-transparent hover:border-white-500 w-full focus:outline-none bg-black-700 rounded-lg px-3">
+                          <Image
+                            src="/assets/icons/check-mark.svg"
+                            alt="checkmark"
+                            width={16}
+                            height={16}
+                          />
+                          <Input
+                            placeholder="Enter your lesson"
+                            className="bg-black-700 
                           text-white-100
                           min-h-12 
-                          border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0"
-                          {...field}
-                        />
+                          border-transparent  focus-visible:ring-0  focus-visible:ring-offset-0 "
+                            {...field}
+                          />
+                        </div>
                         <Button
                           type="button"
                           onClick={() => removeLesson(index)}
@@ -272,11 +277,13 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                       onEditorChange={(codeSnippet) =>
                         form.setValue("codeSnippet", codeSnippet)
                       }
+                      initialValue="Paste your code here..."
                       init={{
                         height: 250,
                         skin: "oxide-dark",
+                        placeholder: "Paste your code here...",
                         content_css: "dark",
-                        content_style: ` body { font-family: Roboto, sans-serif; font-size: 14px; color: #55597D;  background-color: #1d2032;} body::-webkit-scrollbar {      display: none; }pre, code { font-family: "Roboto Mono", monospace;      background-color: transparent !important;  padding: 5px; } `,
+                        content_style: ` body { font-family: Roboto, sans-serif; font-size: 14px; color: #55597D;  background-color: #1d2032;} body::-webkit-scrollbar {display: none; }pre, code { font-family: "Roboto Mono", monospace; background-color: transparent !important;  padding: 5px; } `,
                         menu: {
                           code: { title: "Code", items: "codesample" },
                           preview: { title: "Preview", items: "preview" },
@@ -285,7 +292,6 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                         menubar: "code preview",
                         toolbar: "",
                       }}
-                      initialValue="Paste your code here..."
                     />
                   </FormItem>
                 )}

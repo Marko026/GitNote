@@ -28,7 +28,6 @@ export async function createPost(params: ICreatePost) {
     for (const tag of tags) {
       if (ObjectId.isValid(tag.value)) {
         const newTag = await Tags.findById(tag.value);
-
         if (newTag) {
           databaseTags.push(newTag._id);
           continue;
@@ -40,7 +39,7 @@ export async function createPost(params: ICreatePost) {
       databaseTags.push(createdTag._id);
     }
 
-    const post = await Post.create({
+    await Post.create({
       title,
       postType,
       tags: databaseTags,
@@ -60,7 +59,7 @@ export async function createPost(params: ICreatePost) {
 export async function getAllPosts() {
   try {
     await connectToDatabase();
-    const posts = await Post.find();
+    const posts = await Post.find().populate("tags");
     return JSON.parse(JSON.stringify(posts));
   } catch (error: any) {
     console.log(error);

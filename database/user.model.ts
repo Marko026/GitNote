@@ -10,13 +10,13 @@ export interface UserProps {
   name: string;
   email: string;
   password: string;
-  location: string;
-  joinedAt: Date;
-  portfolio: string;
-  learningGoals: string[];
-  knowledge: string[];
-  techStack: string[];
-  availability: UserAvailability[];
+  location?: string;
+  joinedAt?: Date;
+  portfolio?: string;
+  learningGoals?: string[];
+  knowledge?: string[];
+  techStack?: string[];
+  availability?: UserAvailability[];
 }
 
 const userSchema = new Schema({

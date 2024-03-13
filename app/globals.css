@@ -72,7 +72,6 @@
     @apply text-[12px] leading-[16px] font-normal text-white-300;
   }
 }
-
 .tox-menubar {
   background-color: transparent !important;
   padding: 0 !important;
@@ -91,7 +90,7 @@
   border: none !important;
 }
 .tox-mbtn {
-  width: 13% !important;
+  min-width: 20% !important;
   background-color: #1d2032 !important;
   border: none !important;
 }
@@ -100,4 +99,7 @@
 }
 .tox-toolbar__primary {
   background-color: #2e3757 !important;
+}
+.mce-content-body {
+  color: #fff !important;
 }

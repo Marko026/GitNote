@@ -9,6 +9,7 @@ const bcrypt = require("bcrypt");
 declare module "next-auth" {
   interface Session {
     id: string;
+    name: string;
   }
 }
 
@@ -37,7 +38,8 @@ export const authOptions = {
 
           if (!user) return null;
 
-          if (!(await bcrypt.compare(credentials?.password, user.password))) return null;
+          if (!(await bcrypt.compare(credentials?.password, user.password)))
+            return null;
 
           return user;
         } catch (error) {
