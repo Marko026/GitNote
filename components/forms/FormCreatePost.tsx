@@ -34,6 +34,7 @@ import CreatableSelect from "react-select/creatable";
 import makeAnimated from "react-select/animated";
 import { selectStyles } from "@/styles";
 import { ITags } from "@/database/tags.model";
+import ReusableFormField from "../shared/ReusableFormFileld";
 
 const animatedComponents = makeAnimated();
 
@@ -96,27 +97,12 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col space-y-6">
-          <FormField
-            control={form.control}
+          <ReusableFormField
             name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="paragraph-3-medium">Title</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Enter your title of your post"
-                    className="bg-black-700 
-                    !placeholder-slate-500
-                    min-h-12
-                    text-white-100
-                    border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Title"
+            placeholder="Enter your title of your post"
           />
+
           <FormField
             control={form.control}
             name="postType"
@@ -206,46 +192,20 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
           </div>
           <div className="flex flex-col space-y-2">
             {lessonFields.map((item, index) => (
-              <FormField
+              <ReusableFormField
                 key={item.id}
-                control={form.control}
                 name={`lessons.${index}.title`}
-                render={({ field }) => (
-                  <FormItem className="flex items-center gap-2">
-                    <FormControl>
-                      <>
-                        <div className="flex items-center border border-transparent hover:border-white-500 w-full focus:outline-none bg-black-700 rounded-lg px-3">
-                          <Image
-                            src="/assets/icons/check-mark.svg"
-                            alt="checkmark"
-                            width={16}
-                            height={16}
-                          />
-                          <Input
-                            placeholder="Enter your lesson"
-                            className="bg-black-700 
-                          text-white-100
-                          min-h-12 
-                          border-transparent  focus-visible:ring-0  focus-visible:ring-offset-0 "
-                            {...field}
-                          />
-                        </div>
-                        <Button
-                          type="button"
-                          onClick={() => removeLesson(index)}
-                          className=" flex items-center h-12 !mt-0 gap-2 bg-black-600 ">
-                          <Image
-                            src="/assets/icons/close.svg"
-                            alt="close"
-                            width={9}
-                            height={9}
-                          />
-                        </Button>
-                      </>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                leftIcon={
+                  <Image
+                    src="/assets/icons/check-mark.svg"
+                    alt="checkmark"
+                    width={16}
+                    height={16}
+                  />
+                }
+                placeholder="Enter your lesson"
+                formControlClassName="flex items-center border border-transparent hover:border-white-500 w-full focus:outline-none bg-black-700 rounded-lg px-3"
+                inputClassName="bg-black-700 text-white-100 min-h-12  border-transparent  focus-visible:ring-0  focus-visible:ring-offset-0"
               />
             ))}
           </div>
@@ -277,13 +237,13 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                       onEditorChange={(codeSnippet) =>
                         form.setValue("codeSnippet", codeSnippet)
                       }
-                      initialValue="Paste your code here..."
+                      initialValue=""
                       init={{
                         height: 250,
                         skin: "oxide-dark",
                         placeholder: "Paste your code here...",
                         content_css: "dark",
-                        content_style: ` body { font-family: Roboto, sans-serif; font-size: 14px; color: #55597D;  background-color: #1d2032;} body::-webkit-scrollbar {display: none; }pre, code { font-family: "Roboto Mono", monospace; background-color: transparent !important;  padding: 5px; } `,
+                        content_style: ` body { font-family: Roboto, sans-serif; font-size: 14px; color: #55597D;  background-color: #1d2032;} body::-webkit-scrollbar {display: none; }pre, code { font-family: "Roboto Mono", monospace; background-color: transparent !important;  padding: 5px; } body::before { color: #55597D !important; } `,
                         menu: {
                           code: { title: "Code", items: "codesample" },
                           preview: { title: "Preview", items: "preview" },
@@ -315,9 +275,9 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                       init={{
                         height: 250,
                         skin: "oxide-dark",
-
+                        placeholder: "Write your content here...",
                         content_css: "dark",
-                        content_style: ` body {   font-family: Roboto, sans-serif;    font-size: 14px;    color: #55597D;   background-color: #1d2032;  }   body::-webkit-scrollbar {     display: none;   }   pre, code    font-family: "Roboto, sans-serif"   background-color: #282c34;  color: #abb2bf;  border-radius: 4px; border:transparent   padding: 5px;  } `,
+                        content_style: ` body {   font-family: Roboto, sans-serif;    font-size: 14px;    color: #55597D;   background-color: #1d2032;  }   body::-webkit-scrollbar {     display: none;   }   pre, code    font-family: "Roboto, sans-serif"   background-color: #282c34;  color: #abb2bf;  border-radius: 4px; border:transparent   padding: 5px;  body::before { color: #55597D !important; }  } `,
                         menubar: "",
                         plugins: [
                           "code",
@@ -331,7 +291,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                         toolbar:
                           " bold italic alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons",
                       }}
-                      initialValue="Paste your code here..."
+                      initialValue=""
                     />
                   </FormItem>
                 )}
