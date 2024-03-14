@@ -15,6 +15,7 @@ type ReusableFormFieldProps = {
   placeholder?: string;
   leftIcon?: ReactElement;
   formControlClassName?: string;
+  formItemClassName?: string;
   inputClassName?: string;
 };
 
@@ -23,6 +24,7 @@ const ReusableFormField = ({
   label,
   placeholder,
   leftIcon,
+  formItemClassName,
   formControlClassName,
   inputClassName,
 }: ReusableFormFieldProps) => {
@@ -34,7 +36,7 @@ const ReusableFormField = ({
         control={form.control}
         name={name}
         render={({ field }) => (
-          <FormItem>
+          <FormItem className={formItemClassName}>
             {!!label && (
               <FormLabel className="paragraph-3-medium">{label}</FormLabel>
             )}

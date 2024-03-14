@@ -1,9 +1,9 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { useForm, useFieldArray, FormState } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -41,6 +41,7 @@ const animatedComponents = makeAnimated();
 const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
   const editorRef = useRef<any>(null);
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof createPostSchema>>({
     resolver: zodResolver(createPostSchema),
@@ -56,11 +57,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
     },
   });
 
-  const {
-    fields: lessonFields,
-    append: appendLesson,
-    remove: removeLesson,
-  } = useFieldArray({
+  const { fields: lessonFields, append: appendLesson } = useFieldArray({
     name: "lessons",
     control: form.control,
   });
@@ -77,16 +74,22 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
   let postType = form.watch("postType");
 
   async function onSubmit(values: ICreatePost) {
+    setLoading(true);
     try {
       await createPost(values);
 
       router.push("/home");
     } catch (error: any) {
       console.log(error.message);
+    } finally {
+      setLoading(false);
     }
   }
 
-  const options = tags.map((tag) => ({ value: tag._id, label: tag.name }));
+  const options = tags.map((tag) => ({
+    value: tag._id,
+    label: tag.name,
+  }));
   return (
     <div className="w-full px-3 md:px-7 mb-10">
       <div className="mb-6">
@@ -171,7 +174,9 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                   isMulti
                   options={options}
                 />
-                <FormMessage />
+                <p className="text-red-500 text-[14px]">
+                  {form.formState.errors.tags?.[0]?.value?.message}
+                </p>
               </>
             )}
           />
@@ -311,45 +316,27 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
           <h4 className="text-white-500 uppercase mb-7">RESOURCES & LINKS</h4>
           <div className="flex flex-col gap-2">
             {resourceFields.map((item, idx) => (
-              <div key={item.id} className="flex gap-2">
-                <FormField
-                  control={form.control}
+              <div className="flex gap-2">
+                <ReusableFormField
+                  formItemClassName="w-full"
                   name={`resources.${idx}.label` as any}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input
-                          placeholder="Label"
-                          className="bg-black-700 
-                          min-h-12
-                          text-white-100
-                          border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  placeholder="Label"
+                  inputClassName="bg-black-700
+                min-h-12
+                text-white-100
+                border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
                 />
-                <FormField
-                  control={form.control}
-                  name={`resources.${idx}.resource`}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input
-                          placeholder="Resource Link"
-                          className="bg-black-700 
-                          min-h-12
-                          text-white-100
-                          border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+
+                <ReusableFormField
+                  formItemClassName="w-full"
+                  name={`resources.${idx}.resource` as any}
+                  placeholder="Resource Link"
+                  inputClassName="bg-black-700 
+                  min-h-12
+                  text-white-100
+                  border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
                 />
+
                 <Button
                   type="button"
                   onClick={() => removeResource(idx)}
@@ -379,7 +366,8 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
           </Button>
           <Button
             type="submit"
-            className="bg-primary-500 text-black-900 font-bold">
+            disabled={loading}
+            className="bg-primary-500 text-black-900 font-bold disabled:opacity-50">
             Create Post
           </Button>
         </form>
