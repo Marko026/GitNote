@@ -46,7 +46,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
     resolver: zodResolver(createPostSchema),
     defaultValues: {
       title: "",
-      postType: "WorkFlow",
+      postType: undefined,
       tags: [],
       description: "",
       lessons: [],
@@ -118,30 +118,36 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                     </FormLabel>
                     <SelectTrigger
                       className={`
-                        ${field.value === "WorkFlow" && "text-primary-500"}
-                        ${field.value === "Component" && "text-purple-500"}
-                        ${field.value === "Knowledge" && "text-green-500"}
-                      w-full min-h-12 !mt-2 bg-black-700 
+                        ${field.value === "WorkFlow" && "!text-primary-500"}
+                        ${field.value === "Component" && "!text-purple-500"}
+                        ${field.value === "Knowledge" && "!text-green-500"}
+                      w-full min-h-12 !mt-2 bg-black-700
+                      placeholder-slate-300 text-white-500
                       border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 `}>
                       <SelectValue placeholder="Component" />
                     </SelectTrigger>
                     <SelectContent className="bg-black-700 group border border-transparent focus-within:border-white-500 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0">
                       {PostType.map((type, idx) => (
-                        <div className="flex" key={idx}>
-                          <SelectItem
-                            value={type.value}
-                            className="hover:!bg-black-600 text-white-500 hover:!text-white-100">
-                            <div className="flex items-center gap-3">
-                              <Image
-                                src={type.image}
-                                alt={type.label}
-                                width={15}
-                                height={15}
-                              />
-                              <p>{type.label}</p>
-                            </div>
-                          </SelectItem>
-                        </div>
+                        <SelectItem
+                          key={idx}
+                          value={type.value}
+                          className={`${
+                            type.value === "WorkFlow" && "!text-primary-500"
+                          } ${
+                            type.value === "Component" && "!text-purple-500"
+                          } ${
+                            type.value === "Knowledge" && "!text-green-500"
+                          } flex hover:!bg-black-600`}>
+                          <div className="flex items-center gap-3">
+                            <Image
+                              src={type.image}
+                              alt={type.label}
+                              width={15}
+                              height={15}
+                            />
+                            <p>{type.label}</p>
+                          </div>
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -152,18 +158,21 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
           />
           <h4 className="paragraph-3-medium mb-2">Tags</h4>
 
-          <Controller
+          <FormField
             name="tags"
             control={form.control}
             render={({ field }) => (
-              <CreatableSelect
-                {...field}
-                styles={selectStyles}
-                className="!bg-transparent"
-                components={animatedComponents}
-                isMulti
-                options={options}
-              />
+              <>
+                <CreatableSelect
+                  {...field}
+                  styles={selectStyles}
+                  className="!bg-transparent capitalize"
+                  components={animatedComponents}
+                  isMulti
+                  options={options}
+                />
+                <FormMessage />
+              </>
             )}
           />
 
@@ -277,7 +286,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                         skin: "oxide-dark",
                         placeholder: "Write your content here...",
                         content_css: "dark",
-                        content_style: ` body {   font-family: Roboto, sans-serif;    font-size: 14px;    color: #55597D;   background-color: #1d2032;  }   body::-webkit-scrollbar {     display: none;   }   pre, code    font-family: "Roboto, sans-serif"   background-color: #282c34;  color: #abb2bf;  border-radius: 4px; border:transparent   padding: 5px;  body::before { color: #55597D !important; }  } `,
+                        content_style: ` body { font-family: Roboto, sans-serif; font-size: 14px; color: #55597D;  background-color: #1d2032;} body::-webkit-scrollbar {display: none; }pre, code { font-family: "Roboto Mono", monospace; background-color: transparent !important;  padding: 5px; } body::before { color: #55597D !important; } `,
                         menubar: "",
                         plugins: [
                           "code",

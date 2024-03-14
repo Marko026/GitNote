@@ -89,6 +89,9 @@
 .tox-tinymce {
   border: none !important;
 }
+.tox-tbtn:hover {
+  background-color: #1d2032 !important;
+}
 .tox-mbtn {
   min-width: 20% !important;
   background-color: #1d2032 !important;

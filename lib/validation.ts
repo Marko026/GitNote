@@ -23,7 +23,7 @@ export const createPostSchema = z.object({
       })
     )
     .min(1)
-    .max(10),
+    .max(5),
   description: z.string().min(30).max(1000),
   lessons: z
     .array(z.object({ title: z.string().min(1) }))

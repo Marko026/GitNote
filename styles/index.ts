@@ -23,7 +23,7 @@ export const selectStyles = {
   }),
   placeholder: (styles: any) => ({
     ...styles,
-    color: "#6c6f8c",
+    color: "#55597D",
     fontSize: "0.85rem",
   }),
   menu: (provided: any) => ({
@@ -36,7 +36,11 @@ export const selectStyles = {
   }),
   option: (provided: any, state: any) => ({
     ...provided,
-    backgroundColor: state.isSelected ? "#2E3757" : state.isFocused ? "#2E3757" : "#1D2032",
+    backgroundColor: state.isSelected
+      ? "#2E3757"
+      : state.isFocused
+      ? "#2E3757"
+      : "#1D2032",
     color: state.isFocused ? "white" : "#ADB3CC",
     fontSize: "0.85rem",
     ":active": {
