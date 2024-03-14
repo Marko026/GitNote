@@ -85,6 +85,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
       setLoading(false);
     }
   }
+  console.log(form.formState.errors);
 
   const options = tags.map((tag) => ({
     value: tag._id,
@@ -174,6 +175,9 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                   isMulti
                   options={options}
                 />
+                <p className="text-red-500 text-[14px]">
+                  {form.formState.errors.tags?.message}
+                </p>
                 <p className="text-red-500 text-[14px]">
                   {form.formState.errors.tags?.[0]?.value?.message}
                 </p>
