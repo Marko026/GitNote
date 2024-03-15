@@ -17,7 +17,7 @@ export const createPostSchema = z.object({
   tags: z
     .array(
       z.object({
-        value: z.string().min(1).max(20, "Tag value must be less than 20"),
+        value: z.string().min(1).max(24),
         label: z.string().min(1).max(30, "Tag label must be less than 12"),
         __isNew__: z.boolean().optional(),
       })

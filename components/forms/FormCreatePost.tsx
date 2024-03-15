@@ -91,6 +91,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
   }
 
   console.log(form.formState.errors);
+  console.log(form.watch("tags"));
 
   const options = tags.map((tag) => ({
     value: tag._id,
@@ -333,7 +334,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
           <h4 className="text-white-500 uppercase mb-7">RESOURCES & LINKS</h4>
           <div className="flex flex-col gap-2">
             {resourceFields.map((item, idx) => (
-              <div className="flex gap-2">
+              <div key={item.id} className="flex gap-2">
                 <ReusableFormField
                   formItemClassName="w-full"
                   name={`resources.${idx}.label` as any}
