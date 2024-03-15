@@ -29,8 +29,8 @@ export const createPostSchema = z.object({
     .array(z.object({ title: z.string().min(1) }))
     .min(1)
     .max(10),
-  codeSnippet: z.string().min(10).max(5000),
-  content: z.string().min(10).max(5000),
+  codeSnippet: z.string().max(5000).optional(),
+  content: z.string().max(5000).optional(),
   resources: z
     .array(
       z.object({

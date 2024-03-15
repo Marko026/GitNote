@@ -34,6 +34,7 @@ import makeAnimated from "react-select/animated";
 import { selectStyles } from "@/styles";
 import { ITags } from "@/database/tags.model";
 import ReusableFormField from "../shared/ReusableFormFileld";
+import { title } from "process";
 
 const animatedComponents = makeAnimated();
 
@@ -56,7 +57,11 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
     },
   });
 
-  const { fields: lessonFields, append: appendLesson } = useFieldArray({
+  const {
+    fields: lessonFields,
+    append: appendLesson,
+    remove: removeLessons,
+  } = useFieldArray({
     name: "lessons",
     control: form.control,
   });
@@ -84,6 +89,8 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
       setLoading(false);
     }
   }
+
+  console.log(form.formState.errors);
 
   const options = tags.map((tag) => ({
     value: tag._id,
@@ -206,21 +213,31 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
           </div>
           <div className="flex flex-col space-y-2">
             {lessonFields.map((item, index) => (
-              <ReusableFormField
-                key={item.id}
-                name={`lessons.${index}.title`}
-                leftIcon={
+              <div key={item.id}>
+                <ReusableFormField
+                  name={`lessons.${index}.title`}
+                  leftIcon={
+                    <Image
+                      src="/assets/icons/check-mark.svg"
+                      alt="checkmark"
+                      width={16}
+                      height={16}
+                    />
+                  }
+                  placeholder="Enter your lesson"
+                  formControlClassName="flex items-center border border-transparent hover:border-white-500 w-full focus:outline-none bg-black-700 rounded-lg px-3"
+                  inputClassName="bg-black-700 text-white-100 min-h-12  border-transparent  focus-visible:ring-0  focus-visible:ring-offset-0"
+                />
+                <Button type="button" onClick={() => removeLessons(index)}>
                   <Image
-                    src="/assets/icons/check-mark.svg"
-                    alt="checkmark"
-                    width={16}
-                    height={16}
+                    src="/assets/icons/close.svg"
+                    alt="close"
+                    width={10}
+                    height={10}
+                    className="object-cover"
                   />
-                }
-                placeholder="Enter your lesson"
-                formControlClassName="flex items-center border border-transparent hover:border-white-500 w-full focus:outline-none bg-black-700 rounded-lg px-3"
-                inputClassName="bg-black-700 text-white-100 min-h-12  border-transparent  focus-visible:ring-0  focus-visible:ring-offset-0"
-              />
+                </Button>
+              </div>
             ))}
           </div>
           <Button

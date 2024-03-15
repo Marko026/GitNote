@@ -7,7 +7,7 @@ export interface IPost extends Document {
   tags: Schema.Types.ObjectId[];
   description?: string;
   lessons?: { title: string }[];
-  codeSnippet: string;
+  codeSnippet?: string;
   content?: string;
   resources?: { label: string; resource: string }[];
 }
@@ -54,7 +54,7 @@ const postSchema = new Schema({
   },
   codeSnippet: {
     type: String,
-    required: true,
+    required: false,
   },
   content: {
     type: String,
