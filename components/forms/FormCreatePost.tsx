@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useFieldArray, FormState } from "react-hook-form";
+import { useForm, useFieldArray, useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,7 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Textarea } from "../ui/textarea";
 import { Separator } from "@radix-ui/react-separator";
@@ -85,7 +84,6 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
       setLoading(false);
     }
   }
-  console.log(form.formState.errors);
 
   const options = tags.map((tag) => ({
     value: tag._id,
@@ -176,10 +174,8 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                   options={options}
                 />
                 <p className="text-red-500 text-[14px]">
-                  {form.formState.errors.tags?.message}
-                </p>
-                <p className="text-red-500 text-[14px]">
-                  {form.formState.errors.tags?.[0]?.value?.message}
+                  {form.formState.errors.tags?.message ||
+                    form.formState.errors.tags?.[0]?.value?.message}
                 </p>
               </>
             )}
