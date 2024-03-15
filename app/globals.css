@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  box-sizing: border-box;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -14,4 +18,97 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
+}
+@layer utilities {
+  .gradient {
+    @apply bg-gradient-to-r from-[#43B7FE] to-[#4F48E6];
+  }
+  .large-logoFont {
+    @apply text-[51px] leading-[41px] font-bold tracking-[-3%] text-white-100 dark:text-black-800;
+  }
+  .small-logoFont {
+    @apply text-[25px] leading-[20px] font-bold tracking-[-3%] text-white-100 dark:text-black-800 text-justify;
+  }
+  .h1-bold {
+    @apply text-[32px] leading-[40px] font-bold tracking-[-2%] text-white-100 dark:text-black-800;
+  }
+  .h2-bold {
+    @apply text-[24px] leading-[32px] font-bold tracking-[-2%] text-white-100 dark:text-black-800;
+  }
+  .h1-medium {
+    @apply text-[20px] leading-[28px] font-medium text-white-100 dark:text-black-800;
+  }
+  .h2-medium {
+    @apply text-[16px] leading-[24px] font-medium text-white-300 dark:text-black-800;
+  }
+  .paragraph-1-bold {
+    @apply text-[18px] leading-[28px] font-bold text-white-300;
+  }
+  .paragraph-2-bold {
+    @apply text.[16px] leading-[24px] font-bold text-white-300;
+  }
+  .paragraph-3-bold {
+    @apply text-[14px] leading-[20px] font-bold text-white-300;
+  }
+  .paragraph-1-medium {
+    @apply text-[18px] leading-[28px] font-medium text-white-300;
+  }
+  .paragraph-3-medium {
+    @apply text-[14px] leading-[20px] font-medium text-white-300;
+  }
+  .paragraph-4-medium {
+    @apply text-[12px] leading-[16px] font-medium text-white-300;
+  }
+  .paragraph-1-regular {
+    @apply text-[18px] leading-[28px] font-normal text-white-300;
+  }
+  .paragraph-2-regular {
+    @apply text-[16px] leading-[24px] font-normal text-white-300;
+  }
+  .paragraph-3-regular {
+    @apply text-[14px] leading-[20px] font-normal text-white-300;
+  }
+  .paragraph-4-regular {
+    @apply text-[12px] leading-[16px] font-normal text-white-300;
+  }
+}
+.tox-menubar {
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+.tox-editor-header {
+  background-color: transparent !important;
+}
+.tox-toolbar-overlord {
+  background-color: transparent !important;
+}
+.tox-editor-container {
+  border: none !important;
+}
+.tox .tox-edit-area__iframe {
+  background-color: transparent !important;
+}
+
+.tox-tinymce {
+  border: none !important;
+}
+.tox-tbtn:hover {
+  background-color: #1d2032 !important;
+}
+.tox-mbtn {
+  min-width: 20% !important;
+  background-color: #1d2032 !important;
+  border: none !important;
+}
+.tox-mbtn:hover {
+  background-color: #2e3757 !important;
+}
+.tox .tox-statusbar {
+  display: none !important;
+}
+.tox-toolbar__primary {
+  background-color: #2e3757 !important;
+}
+.mce-content-body {
+  color: #fff !important;
 }
