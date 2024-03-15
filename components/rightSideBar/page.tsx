@@ -25,8 +25,8 @@ const RightSideBar = async () => {
       <div>
         <h3 className="paragraph-3-bold !text-white-100 mb-4">Tags</h3>
         <div className="flex flex-col space-y-4">
-          {tags.map((item: any) => (
-            <Link key={item.id} href="">
+          {tags.map((item: any, idx: any) => (
+            <Link key={idx} href="">
               <Badge className="rounded paragraph-3-medium bg-black-700">
                 {item.name}
               </Badge>

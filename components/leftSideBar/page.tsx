@@ -61,8 +61,8 @@ const LeftSideBar = ({ posts }: { posts: ICreatePost[] }) => {
         <div>
           <h4 className="text-white-500 mb-5">Posts</h4>
           <div className="flex flex-col space-y-5">
-            {posts?.map((item: any) => (
-              <Link href="" key={item._id} className="flex gap-2">
+            {posts?.map((item: any, idx) => (
+              <Link href="" key={idx} className="flex gap-2">
                 <Image
                   src={
                     PostType.find((type) => type.value === item.postType)
