@@ -257,7 +257,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                         skin: "oxide-dark",
                         placeholder: "Paste your code here...",
                         content_css: "dark",
-                        content_style: ` body { font-family: Roboto, sans-serif; font-size: 14px; color: #55597D;  background-color: #1d2032;} body::-webkit-scrollbar {display: none; }pre, code { font-family: "Roboto Mono", monospace; background-color: transparent !important;  padding: 5px; } body::before { color: #55597D !important; } `,
+                        content_style: ` body { font-family: Roboto, sans-serif; font-size: 14px; color: #ffff;  background-color: #1d2032;} body::-webkit-scrollbar {display: none; }pre, code { font-family: "Roboto Mono", monospace; background-color: transparent !important;  padding: 5px; } body::before { color: #55597D !important; } `,
                         menu: {
                           code: { title: "Code", items: "codesample" },
                           preview: { title: "Preview", items: "preview" },
@@ -291,7 +291,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                         skin: "oxide-dark",
                         placeholder: "Write your content here...",
                         content_css: "dark",
-                        content_style: ` body { font-family: Roboto, sans-serif; font-size: 14px; color: #55597D;  background-color: #1d2032;} body::-webkit-scrollbar {display: none; }pre, code { font-family: "Roboto Mono", monospace; background-color: transparent !important;  padding: 5px; } body::before { color: #55597D !important; } `,
+                        content_style: ` body { font-family: Roboto, sans-serif; font-size: 14px; color: #ffff;  background-color: #1d2032;} body::-webkit-scrollbar {display: none; }pre, code { font-family: "Roboto Mono", monospace; background-color: transparent !important;  padding: 5px; } body::before { color: #55597D !important; } `,
                         menubar: "",
                         plugins: [
                           "code",
