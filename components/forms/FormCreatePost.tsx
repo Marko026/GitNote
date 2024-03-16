@@ -128,7 +128,10 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                     </FormLabel>
                     <SelectTrigger
                       className={`
-                        ${field.value === "WorkFlow" && "!text-primary-500"}
+                                                ${
+                                                  field.value === "WorkFlow" &&
+                                                  "!text-primary-500"
+                                                }
                         ${field.value === "Component" && "!text-purple-500"}
                         ${field.value === "Knowledge" && "!text-green-500"}
                       w-full min-h-12 !mt-2 bg-black-700

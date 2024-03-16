@@ -1,9 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Badge } from "../ui/badge";
 import { getAllTags } from "@/lib/actions/tags.action";
-import { array } from "zod";
+import Tags from "../tags/Tags";
 
 const RightSideBar = async () => {
   const tags = await getAllTags();
@@ -24,13 +23,9 @@ const RightSideBar = async () => {
       </Link>
       <div>
         <h3 className="paragraph-3-bold !text-white-100 mb-4">Tags</h3>
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-col items-start space-y-4">
           {tags.map((item: any, idx: any) => (
-            <Link key={idx} href="">
-              <Badge className="rounded paragraph-3-medium bg-black-700">
-                {item.name}
-              </Badge>
-            </Link>
+            <Tags type="filterTags" key={idx} tag={item} />
           ))}
         </div>
       </div>

@@ -31,6 +31,7 @@ export const createPostSchema = z.object({
     .max(10),
   codeSnippet: z.string().max(5000).optional(),
   content: z.string().max(5000).optional(),
+
   resources: z
     .array(
       z.object({

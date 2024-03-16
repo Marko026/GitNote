@@ -7,13 +7,15 @@ import React from "react";
 export interface ISearchParams {
   searchParams: {
     filterType: string;
+    filterTags: string;
   };
 }
 
 const Home = async ({ searchParams }: ISearchParams) => {
   const posts = await getAllPosts({});
   const filterPosts = await getAllPosts({
-    filterType: searchParams.filterType,
+    filterType: searchParams?.filterType,
+    filterTags: searchParams?.filterTags,
   });
 
   return (

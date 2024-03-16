@@ -15,6 +15,7 @@ const FilterComponentTypes = () => {
     (type: string) => {
       const params = new URLSearchParams(searchParams.toString());
       params.set("filterType", type);
+      params.delete("filterTags");
       return params.toString();
     },
     [searchParams]

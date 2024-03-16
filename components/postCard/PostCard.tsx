@@ -1,8 +1,8 @@
 import { PostType } from "@/constants";
 import { IPost } from "@/database/post.model";
 import Image from "next/image";
-import React from "react";
 import Tags from "../tags/Tags";
+import React from "react";
 import Link from "next/link";
 
 const PostCard = ({ post }: { post: IPost }) => {

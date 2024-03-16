@@ -57,18 +57,21 @@ export async function createPost(params: ICreatePost) {
     throw new Error(error);
   }
 }
-export async function getAllPosts(params: FilterInterface) {
-  const { filterType } = params;
+export async function getAllPosts(params: FilterInterface = {}) {
+  const { filterType, filterTags: tagsId } = params;
 
   try {
     await connectToDatabase();
+    let query = {};
+
     if (filterType) {
-      const post = await Post.find({ postType: filterType }).populate("tags");
-      return JSON.parse(JSON.stringify(post));
-    } else {
-      const posts = await Post.find();
-      return JSON.parse(JSON.stringify(posts));
+      query = { ...query, postType: filterType };
     }
+    if (tagsId) {
+      query = { ...query, tags: tagsId };
+    }
+    const posts = await Post.find(query).populate("tags");
+    return JSON.parse(JSON.stringify(posts));
   } catch (error: any) {
     console.log(error);
     throw new Error(error);
