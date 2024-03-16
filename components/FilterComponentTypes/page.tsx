@@ -14,7 +14,7 @@ const FilterComponentTypes = () => {
   const createQueryString = useCallback(
     (type: string) => {
       const params = new URLSearchParams(searchParams.toString());
-      params.set("type", type);
+      params.set("filterType", type);
       return params.toString();
     },
     [searchParams]

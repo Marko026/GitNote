@@ -4,12 +4,22 @@ import RightSideBar from "@/components/rightSideBar/page";
 import { getAllPosts } from "@/lib/actions/post.action";
 import React from "react";
 
-const Home = async () => {
-  const posts = await getAllPosts();
+export interface ISearchParams {
+  searchParams: {
+    filterType: string;
+  };
+}
+
+const Home = async ({ searchParams }: ISearchParams) => {
+  const posts = await getAllPosts({});
+  const filterPosts = await getAllPosts({
+    filterType: searchParams.filterType,
+  });
+
   return (
     <div className="flex justify-between">
       <LeftSideBar posts={posts} />
-      <PostCards posts={posts} />
+      <PostCards posts={filterPosts} />
       <RightSideBar />
     </div>
   );

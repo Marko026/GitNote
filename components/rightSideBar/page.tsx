@@ -9,7 +9,7 @@ const RightSideBar = async () => {
   const tags = await getAllTags();
 
   return (
-    <div className="bg-black-800 w-1/3 px-7 hidden lg:block pt-10">
+    <div className="bg-black-800 w-1/3 min-h-screen px-7 hidden lg:block pt-10">
       <Link href="/createPost" className="flex gap-[6px] mb-12">
         <Image
           src="/assets/images/avatar01.png"

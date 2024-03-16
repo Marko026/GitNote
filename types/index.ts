@@ -1,5 +1,3 @@
-export interface ParamsInterface {
-  params: string;
-  query: string;
-  searchParams: string;
+export interface FilterInterface {
+  filterType?: string;
 }

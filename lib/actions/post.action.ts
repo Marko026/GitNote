@@ -6,6 +6,7 @@ import { Post } from "@/database/post.model";
 import { Tags } from "@/database/tags.model";
 import { ICreatePost } from "../validation";
 import mongoose from "mongoose";
+import { FilterInterface } from "@/types";
 const ObjectId = mongoose.Types.ObjectId;
 
 export async function createPost(params: ICreatePost) {
@@ -56,11 +57,18 @@ export async function createPost(params: ICreatePost) {
     throw new Error(error);
   }
 }
-export async function getAllPosts() {
+export async function getAllPosts(params: FilterInterface) {
+  const { filterType } = params;
+
   try {
     await connectToDatabase();
-    const posts = await Post.find().populate("tags");
-    return JSON.parse(JSON.stringify(posts));
+    if (filterType) {
+      const post = await Post.find({ postType: filterType }).populate("tags");
+      return JSON.parse(JSON.stringify(post));
+    } else {
+      const posts = await Post.find();
+      return JSON.parse(JSON.stringify(posts));
+    }
   } catch (error: any) {
     console.log(error);
     throw new Error(error);
