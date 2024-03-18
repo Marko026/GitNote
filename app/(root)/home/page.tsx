@@ -7,21 +7,29 @@ import React from "react";
 export interface ISearchParams {
   searchParams: {
     filterType: string;
+    query: string;
     filterTags: string;
+    page: number;
   };
 }
 
 const Home = async ({ searchParams }: ISearchParams) => {
-  const posts = await getAllPosts({});
   const filterPosts = await getAllPosts({
     filterType: searchParams?.filterType,
+    query: searchParams?.query,
     filterTags: searchParams?.filterTags,
+    page: searchParams?.page ? +searchParams.page : 1,
   });
+
+  const query = searchParams?.query;
+  const currentPage = +searchParams?.page || 1;
+
+  const posts = await getAllPosts({ query });
 
   return (
     <div className="flex justify-between">
       <LeftSideBar posts={posts} />
-      <PostCards posts={filterPosts} />
+      <PostCards totalPage={posts} posts={filterPosts} />
       <RightSideBar />
     </div>
   );

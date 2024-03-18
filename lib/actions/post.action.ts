@@ -58,7 +58,7 @@ export async function createPost(params: ICreatePost) {
   }
 }
 export async function getAllPosts(params: FilterInterface = {}) {
-  const { filterType, filterTags: tagsId } = params;
+  const { filterType, filterTags: tagsId, page = 2 } = params;
 
   try {
     await connectToDatabase();

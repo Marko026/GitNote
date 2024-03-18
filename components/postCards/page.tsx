@@ -4,8 +4,15 @@ import PostCard from "../postCard/PostCard";
 import FilterComponentTypes from "../FilterComponentTypes/page";
 import { ICreatePost } from "@/lib/validation";
 import { useSession } from "next-auth/react";
+import Pagination from "../shared/Pagination";
 
-const PostCards = ({ posts }: { posts: ICreatePost[] }) => {
+const PostCards = ({
+  posts,
+  totalPage,
+}: {
+  posts: ICreatePost[];
+  totalPage: any;
+}) => {
   const { data: userDetails } = useSession();
   if (!userDetails) return null;
 
@@ -27,6 +34,8 @@ const PostCards = ({ posts }: { posts: ICreatePost[] }) => {
       </div>
       {posts &&
         posts.map((post: any) => <PostCard key={post._id} post={post} />)}
+
+      <Pagination totalPages={totalPage} />
     </section>
   );
 };
