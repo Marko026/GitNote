@@ -58,7 +58,7 @@ export async function createPost(params: ICreatePost) {
   }
 }
 export async function getAllPosts(params: FilterInterface = {}) {
-  const { filterType, filterTags: tagsId, page = 2 } = params;
+  const { filterType, filterTags: tagsId, page = 1 } = params;
 
   try {
     await connectToDatabase();
@@ -70,8 +70,16 @@ export async function getAllPosts(params: FilterInterface = {}) {
     if (tagsId) {
       query = { ...query, tags: tagsId };
     }
-    const posts = await Post.find(query).populate("tags");
-    return JSON.parse(JSON.stringify(posts));
+
+    const LIMIT = 2;
+
+    const totalPages = (await Post.countDocuments(query)) / LIMIT;
+
+    const posts = await Post.find(query)
+      .populate("tags")
+      .skip((page - 1) * LIMIT)
+      .limit(LIMIT);
+    return { totalPages: totalPages, posts: JSON.parse(JSON.stringify(posts)) };
   } catch (error: any) {
     console.log(error);
     throw new Error(error);
@@ -88,6 +96,18 @@ export async function getPostById(params: { id: string }) {
     return post;
   } catch (error: any) {
     console.log(error);
+    throw new Error(error);
+  }
+}
+
+export async function getRecantPosts() {
+  try {
+    await connectToDatabase();
+
+    const recentPosts = await Post.find().limit(5);
+
+    return JSON.parse(JSON.stringify(recentPosts));
+  } catch (error: any) {
     throw new Error(error);
   }
 }

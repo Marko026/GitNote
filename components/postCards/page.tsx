@@ -11,7 +11,7 @@ const PostCards = ({
   totalPage,
 }: {
   posts: ICreatePost[];
-  totalPage: any;
+  totalPage: number;
 }) => {
   const { data: userDetails } = useSession();
   if (!userDetails) return null;

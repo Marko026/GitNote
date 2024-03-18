@@ -12,19 +12,21 @@ const Pagination = ({ totalPages }: { totalPages: number }) => {
   const createPageUrl = (page: number | string) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", page.toString());
-    return `${pathname}?${params.toString()}}`;
+    return `${pathname}?${params.toString()}`;
   };
 
   return (
     <div className="mx-auto flex items-center gap-3 py-10">
       <Button
+        disabled={+currentPage === 1}
         onClick={() => {
           router.push(createPageUrl(+currentPage - 1));
         }}>
         Prev
       </Button>
-      <p className="text-white-100">CurrentPage</p>
+      <p className="text-white-100">{currentPage}</p>
       <Button
+        disabled={+currentPage === totalPages}
         onClick={() => {
           router.push(createPageUrl(+currentPage + 1));
         }}>
