@@ -3,7 +3,7 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import { Button } from "../ui/button";
 
-const Tags = ({ tag, type }: any) => {
+const Tags = ({ tag, className, type }: any) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -12,6 +12,7 @@ const Tags = ({ tag, type }: any) => {
     (tag: string) => {
       const params = new URLSearchParams(searchParams.toString());
       params.set("filterTags", tag);
+      params.set("page", "1");
       return params.toString();
     },
     [searchParams]
@@ -26,11 +27,13 @@ const Tags = ({ tag, type }: any) => {
       {type === "filterTags" ? (
         <Button
           onClick={() => handleFilterTag(tag._id)}
-          className="rounded paragraph-3-medium capitalize max-h-6 bg-black-700 hover:bg-black-900 !px-2">
+          className={`rounded paragraph-3-medium capitalize max-h-6 bg-black-700 hover:bg-black-900 !px-2`}>
           {tag.name}
         </Button>
       ) : (
-        <p className="paragraph-3-medium uppercase">{tag.name}</p>
+        <p className={`paragraph-3-medium ${className} uppercase`}>
+          {tag.name}
+        </p>
       )}
     </>
   );

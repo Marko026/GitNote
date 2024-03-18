@@ -91,9 +91,9 @@ export async function getPostById(params: { id: string }) {
     await connectToDatabase();
     const { id } = params;
     if (!id) throw new Error("Id is required");
-    const post = await Post.findById({ _id: id }).lean();
+    const post = await Post.findById({ _id: id }).populate("tags");
     if (!post) throw new Error("Post not found");
-    return post;
+    return JSON.parse(JSON.stringify(post));
   } catch (error: any) {
     console.log(error);
     throw new Error(error);
