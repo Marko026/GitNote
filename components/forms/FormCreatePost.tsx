@@ -90,9 +90,6 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
     }
   }
 
-  console.log(form.formState.errors);
-  console.log(form.watch("tags"));
-
   const options = tags.map((tag) => ({
     value: tag._id,
     label: tag.name,

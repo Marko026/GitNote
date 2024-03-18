@@ -1,6 +1,4 @@
 import FormCreatePost from "@/components/forms/FormCreatePost";
-import LeftSideBar from "@/components/leftSideBar/page";
-import RightSideBar from "@/components/rightSideBar/page";
 import React from "react";
 import { getAllTags } from "@/lib/actions/tags.action";
 import { getAllPosts } from "@/lib/actions/post.action";
@@ -10,12 +8,8 @@ const CreatePost = async () => {
   const tags = await getAllTags();
 
   return (
-    <section className="flex">
-      <LeftSideBar posts={posts} />
-
+    <section className="flex w-full">
       <FormCreatePost tags={tags} />
-
-      <RightSideBar />
     </section>
   );
 };

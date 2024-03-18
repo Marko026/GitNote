@@ -1,7 +1,5 @@
-import LeftSideBar from "@/components/leftSideBar/page";
 import PostCards from "@/components/postCards/page";
-import RightSideBar from "@/components/rightSideBar/page";
-import { getAllPosts, getRecantPosts } from "@/lib/actions/post.action";
+import { getAllPosts } from "@/lib/actions/post.action";
 import React from "react";
 
 export interface ISearchParams {
@@ -21,14 +19,8 @@ const Home = async ({ searchParams }: ISearchParams) => {
     page: currentPage,
   });
 
-  const posts = await getRecantPosts();
-
   return (
-    <div className="flex justify-between">
-      <LeftSideBar posts={posts} />
-      <PostCards posts={filterPosts.posts} totalPage={filterPosts.totalPages} />
-      <RightSideBar />
-    </div>
+    <PostCards posts={filterPosts.posts} totalPage={filterPosts.totalPages} />
   );
 };
 
