@@ -23,6 +23,7 @@ export interface PostProps {
   content: string;
   resources: ResourcesProps[];
   tags: TagProps[];
+  createdAt: string;
 }
 export interface PostParams {
   post: PostProps;
@@ -40,13 +41,15 @@ const ReusableDetailsPage = ({
   resources,
 }: PostParams) => {
   return (
-    <section className="w-full p-8 flex flex-col space-y-5">
+    <section className="flex flex-col p-8 space-y-5">
       <div className="flex justify-between items-center">
         <h1 className="h1-bold capitalize">{extractKeywords(title)}</h1>
         <p className="text-white-100">SelectComponent</p>
       </div>
-      <p className="text-white-100">{description}</p>
-      <Metric />
+      <p className="">{description}</p>
+
+      <Metric post={post} />
+
       <div className="flex gap-3">
         {tagsList?.map((tag: TagProps) => (
           <Tags

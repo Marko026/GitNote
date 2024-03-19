@@ -12,7 +12,7 @@ const PostDetails = async ({ params }: { params: ParamsProps }) => {
   const post = await getPostById({ id });
 
   return (
-    <div className="w-full">
+    <div className="w-full overflow-hidden lg:overflow-auto">
       {post.postType === "Component" && (
         <ReusableDetailsPage
           post={post}

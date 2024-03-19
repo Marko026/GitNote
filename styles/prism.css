@@ -13,7 +13,7 @@ pre[class*="language-"] {
   color: #d6e7ff;
   background: #131625;
   max-height: 400px;
-  max-width: 800px;
+  width: 100%;
   overflow-y: auto;
   text-shadow: none;
   font-family: "Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono",

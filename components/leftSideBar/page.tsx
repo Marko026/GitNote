@@ -15,7 +15,7 @@ const LeftSideBar = ({ recentPosts }: { recentPosts: ICreatePost[] }) => {
   const pathname = usePathname();
 
   return (
-    <div className="min-w-72 bg-black-800 hidden md:flex  px-7 min-h-screen">
+    <div className="lg:flex xl:min-w-72  hidden bg-black-800  px-7 min-h-screen">
       <div>
         <Link href="/home">
           <Image

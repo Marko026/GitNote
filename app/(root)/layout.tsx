@@ -6,7 +6,7 @@ import React from "react";
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const recentPosts = await getRecantPosts();
   return (
-    <div className="flex max-w-[1440px] mx-auto justify-between">
+    <div className="flex">
       <LeftSideBar recentPosts={recentPosts} />
       {children}
       <RightSideBar />

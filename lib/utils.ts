@@ -30,3 +30,11 @@ export function extractKeywords(inputString: string) {
   // Return the top one or two keywords
   return sortedWords.slice(0, 2).join(" ");
 }
+export function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
