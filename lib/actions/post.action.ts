@@ -79,7 +79,10 @@ export async function getAllPosts(params: FilterInterface = {}) {
       .populate("tags")
       .skip((page - 1) * LIMIT)
       .limit(LIMIT);
-    return { totalPages: totalPages, posts: JSON.parse(JSON.stringify(posts)) };
+    return {
+      totalPages: Math.ceil(totalPages),
+      posts: JSON.parse(JSON.stringify(posts)),
+    };
   } catch (error: any) {
     console.log(error);
     throw new Error(error);

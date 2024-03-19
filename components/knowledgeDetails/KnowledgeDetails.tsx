@@ -1,24 +1,21 @@
-import Metric from "@/components/Metric/Metric";
-import ParseHtml from "@/components/shared/ParseHtml";
-import Tags from "@/components/tags/Tags";
-import { getPostById } from "@/lib/actions/post.action";
 import { extractKeywords } from "@/lib/utils";
-import Image from "next/image";
 import React from "react";
-
-export interface ParamsProps {
-  id: string;
+import Metric from "../Metric/Metric";
+import Tags from "../tags/Tags";
+import ParseHtml from "../shared/ParseHtml";
+import Image from "next/image";
+export interface PostParams {
+  title: string;
+  description: string;
+  codeSnippet: string;
+  content: string;
+  tags: TagProps[];
 }
 type TagProps = {
   _id: string;
   name: string;
 };
-
-const WorkFlowDetails = async ({ params }: { params: ParamsProps }) => {
-  const { id } = params;
-
-  const post = await getPostById({ id });
-
+const KnowledgeDetails = ({ post }: { post: PostParams }) => {
   return (
     <section className="w-full p-8 flex flex-col space-y-5">
       <div className="flex justify-between items-center">
@@ -66,4 +63,4 @@ const WorkFlowDetails = async ({ params }: { params: ParamsProps }) => {
   );
 };
 
-export default WorkFlowDetails;
+export default KnowledgeDetails;

@@ -35,7 +35,7 @@ const PostCards = ({
       {posts &&
         posts.map((post: any) => <PostCard key={post._id} post={post} />)}
 
-      <Pagination totalPages={totalPage} />
+      {posts.length > 0 && <Pagination totalPages={totalPage} />}
     </section>
   );
 };

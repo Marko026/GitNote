@@ -228,16 +228,21 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                   placeholder="Enter your lesson"
                   formControlClassName="flex items-center border border-transparent hover:border-white-500 w-full focus:outline-none bg-black-700 rounded-lg px-3"
                   inputClassName="bg-black-700 text-white-100 min-h-12  border-transparent  focus-visible:ring-0  focus-visible:ring-offset-0"
+                  rightIcon={
+                    <Button
+                      type="button"
+                      className="bg-transparent hover:bg-black-900"
+                      onClick={() => removeLessons(index)}>
+                      <Image
+                        src="/assets/icons/close.svg"
+                        alt="close"
+                        width={10}
+                        height={10}
+                        className="object-cover"
+                      />
+                    </Button>
+                  }
                 />
-                <Button type="button" onClick={() => removeLessons(index)}>
-                  <Image
-                    src="/assets/icons/close.svg"
-                    alt="close"
-                    width={10}
-                    height={10}
-                    className="object-cover"
-                  />
-                </Button>
               </div>
             ))}
           </div>
@@ -321,7 +326,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                           "link",
                         ],
                         toolbar:
-                          " bold italic alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons",
+                          " bold italic code codesample alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons",
                       }}
                       initialValue=""
                     />

@@ -1,24 +1,23 @@
-import Metric from "@/components/Metric/Metric";
-import ParseHtml from "@/components/shared/ParseHtml";
-import Tags from "@/components/tags/Tags";
-import { getPostById } from "@/lib/actions/post.action";
 import { extractKeywords } from "@/lib/utils";
-import Image from "next/image";
 import React from "react";
+import Metric from "../Metric/Metric";
+import ParseHtml from "../shared/ParseHtml";
+import Image from "next/image";
+import Tags from "../tags/Tags";
 
-export interface ParamsProps {
-  id: string;
+export interface PostParams {
+  title: string;
+  description: string;
+  codeSnippet: string;
+  content: string;
+  tags: TagProps[];
 }
 type TagProps = {
   _id: string;
   name: string;
 };
 
-const KnowledgeDetails = async ({ params }: { params: ParamsProps }) => {
-  const { id } = params;
-
-  const post = await getPostById({ id });
-
+const ComponentDetails = ({ post }: { post: PostParams }) => {
   return (
     <section className="w-full p-8 flex flex-col space-y-5">
       <div className="flex justify-between items-center">
@@ -66,4 +65,4 @@ const KnowledgeDetails = async ({ params }: { params: ParamsProps }) => {
   );
 };
 
-export default KnowledgeDetails;
+export default ComponentDetails;
