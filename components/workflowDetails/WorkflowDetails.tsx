@@ -4,13 +4,20 @@ import Metric from "../Metric/Metric";
 import Tags from "../tags/Tags";
 import ParseHtml from "../shared/ParseHtml";
 import Image from "next/image";
+import Link from "next/link";
 export interface PostParams {
   title: string;
   description: string;
   codeSnippet: string;
   content: string;
+  resources: ResourcesProps[];
   tags: TagProps[];
 }
+type ResourcesProps = {
+  _id: string;
+  label: string;
+  resource: string;
+};
 type TagProps = {
   _id: string;
   name: string;
@@ -33,9 +40,33 @@ const WorkflowDetails = ({ post }: { post: PostParams }) => {
           />
         ))}
       </div>
-      <ParseHtml data={post.codeSnippet} />
       <span className="h-[1px] bg-black-600/20"></span>
       <ParseHtml data={post.content} />
+      <div className="flex flex-col space-y-5">
+        <h4 className="paragraph-2-bold !text-white-100">Resources & Links</h4>
+        <div>
+          {post.resources?.map((resource: ResourcesProps) => (
+            <Link
+              href={`${resource.resource}`}
+              key={resource._id}
+              className="flex gap-3">
+              <Image
+                src="/assets/icons/check-mark.svg"
+                width={20}
+                height={20}
+                alt="check-mark"
+              />
+              <p className="text-white-100 hover:underline">{resource.label}</p>
+              <Image
+                src="/assets/icons/external-link.svg"
+                width={20}
+                height={20}
+                alt="external-link"
+              />
+            </Link>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };

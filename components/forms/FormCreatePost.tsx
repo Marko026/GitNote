@@ -125,10 +125,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                     </FormLabel>
                     <SelectTrigger
                       className={`
-                                                ${
-                                                  field.value === "WorkFlow" &&
-                                                  "!text-primary-500"
-                                                }
+                        ${field.value === "WorkFlow" && "!text-primary-500"}
                         ${field.value === "Component" && "!text-purple-500"}
                         ${field.value === "Knowledge" && "!text-green-500"}
                       w-full min-h-12 !mt-2 bg-black-700
@@ -196,7 +193,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="paragraph-3-medium">
-                    Your message
+                    Description
                   </FormLabel>
                   <FormControl>
                     <Textarea
@@ -212,7 +209,12 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
               )}
             />
           </div>
+
           <div className="flex flex-col space-y-2">
+            <h4 className="paragraph-3-medium mb-2">
+              {postType === "WorkFlow" && "Steps to fallow"}
+              {postType === "Knowledge" && "What you learnd"}
+            </h4>
             {lessonFields.map((item, index) => (
               <div key={item.id}>
                 <ReusableFormField
@@ -246,21 +248,24 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
               </div>
             ))}
           </div>
-          <Button
-            type="button"
-            onClick={() => appendLesson({ title: "" })}
-            className="flex w-full items-center gap-2 bg-black-600">
-            <Image
-              src="/assets/icons/blue-plus.svg"
-              alt="pluse"
-              width={13}
-              height={13}
-            />
-            <p className="paragraph-4-medium">Add checkmark</p>
-          </Button>
+          {postType !== "Component" && (
+            <Button
+              type="button"
+              onClick={() => appendLesson({ title: "" })}
+              className="flex w-full items-center gap-2 bg-black-600">
+              <Image
+                src="/assets/icons/blue-plus.svg"
+                alt="pluse"
+                width={13}
+                height={13}
+              />
+              <p className="paragraph-4-medium">Add checkmark</p>
+            </Button>
+          )}
+
           <Separator className="w-full bg-white-500 bg-opacity-10 my-6 h-[0.68px]" />
           <div className="flex flex-col space-y-8 !mt-0">
-            {postType !== "Knowledge" && (
+            {postType !== "Knowledge" && postType !== "WorkFlow" && (
               <FormField
                 control={form.control}
                 name="codeSnippet"

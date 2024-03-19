@@ -45,7 +45,7 @@
     @apply text-[18px] leading-[28px] font-bold text-white-300;
   }
   .paragraph-2-bold {
-    @apply text.[16px] leading-[24px] font-bold text-white-300;
+    @apply text-[16px] leading-[24px] font-bold text-white-300;
   }
   .paragraph-3-bold {
     @apply text-[14px] leading-[20px] font-bold text-white-300;

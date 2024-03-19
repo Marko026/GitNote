@@ -7,8 +7,13 @@
 
 code[class*="language-"],
 pre[class*="language-"] {
+  scrollbar-color: #3a3c49 #131625;
+  scrollbar-width: thin;
+
   color: #d6e7ff;
   background: #131625;
+  max-height: 400px;
+  overflow-y: auto;
   text-shadow: none;
   font-family: "Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono",
     monospace;
@@ -118,6 +123,7 @@ pre[class*="language-"] {
 .token.variable {
   color: #d6e7ff;
 }
+
 .markdown h3 {
   font-family: "Courier New", Courier, monospace;
   color: #adb3cc;

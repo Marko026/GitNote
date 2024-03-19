@@ -17,6 +17,7 @@
     "@tinymce/tinymce-react": "^4.3.2",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
+    "clipboard": "^2.0.11",
     "clsx": "^2.1.0",
     "eslint-config-prettier": "^9.1.0",
     "html-react-parser": "^5.1.8",

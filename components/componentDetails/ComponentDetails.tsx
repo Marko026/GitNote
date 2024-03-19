@@ -2,7 +2,6 @@ import { extractKeywords } from "@/lib/utils";
 import React from "react";
 import Metric from "../Metric/Metric";
 import ParseHtml from "../shared/ParseHtml";
-import Image from "next/image";
 import Tags from "../tags/Tags";
 
 export interface PostParams {
@@ -35,7 +34,10 @@ const ComponentDetails = ({ post }: { post: PostParams }) => {
           />
         ))}
       </div>
-      <ParseHtml data={post.codeSnippet} />
+      <div className="relative">
+        <p className="text-white-100 z-50">Marko</p>
+        <ParseHtml data={post.codeSnippet} />
+      </div>
       <span className="h-[1px] bg-black-600/20"></span>
       <ParseHtml data={post.content} />
     </section>
