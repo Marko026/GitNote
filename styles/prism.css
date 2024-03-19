@@ -118,3 +118,7 @@ pre[class*="language-"] {
 .token.variable {
   color: #d6e7ff;
 }
+.markdown h3 {
+  font-family: "Courier New", Courier, monospace;
+  color: #adb3cc;
+}

@@ -41,7 +41,6 @@ export const createPostSchema = z.object({
     )
     .min(1)
     .max(10),
-  createdAt: z.coerce.date().optional(),
 });
 
 export type ICreatePost = z.infer<typeof createPostSchema>;

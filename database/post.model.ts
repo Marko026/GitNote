@@ -10,6 +10,7 @@ export interface IPost extends Document {
   codeSnippet?: string;
   content?: string;
   resources?: { label: string; resource: string }[];
+  createdAt?: Date;
 }
 const resourceSchema = new Schema({
   label: {
@@ -63,6 +64,10 @@ const postSchema = new Schema({
   resources: {
     type: [resourceSchema],
     required: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 

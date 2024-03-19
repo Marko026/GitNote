@@ -35,30 +35,7 @@ const WorkflowDetails = ({ post }: { post: PostParams }) => {
       </div>
       <ParseHtml data={post.codeSnippet} />
       <span className="h-[1px] bg-black-600/20"></span>
-      <div className="">
-        <h4 className="paragraph-2-regular mb-3">Install shadcn</h4>
-        <div className="flex items-center justify-between bg-black-800  border border-black-700 p-2 rounded-lg">
-          <p className="paragraph-2-regular">Install shadcn</p>
-          <Image
-            src="/assets/icons/copy.svg"
-            width={14}
-            height={14}
-            alt="copy"
-            className="cursor-pointer"
-          />
-        </div>
-      </div>
-
-      <div className="bg-black-800 relative w-full rounded-lg focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0  border border-black-700">
-        <p className="paragraph-2-regular p-2">{post.content}</p>
-        <Image
-          src="/assets/icons/copy.svg"
-          width={14}
-          className="absolute right-3 top-2 oject-contain cursor-pointer"
-          height={14}
-          alt="copy"
-        />
-      </div>
+      <ParseHtml data={post.content} />
     </section>
   );
 };
