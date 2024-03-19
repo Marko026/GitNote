@@ -6,12 +6,10 @@ import React from "react";
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const recentPosts = await getRecantPosts();
   return (
-    <div className="max-w-[1440px] mx-auto ">
-      <div className="flex justify-between">
-        <LeftSideBar recentPosts={recentPosts} />
-        {children}
-        <RightSideBar />
-      </div>
+    <div className="flex max-w-[1440px] mx-auto justify-between">
+      <LeftSideBar recentPosts={recentPosts} />
+      {children}
+      <RightSideBar />
     </div>
   );
 };

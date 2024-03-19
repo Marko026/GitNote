@@ -1,6 +1,4 @@
-import ComponentDetails from "@/components/componentDetails/ComponentDetails";
-import KnowledgeDetails from "@/components/knowledgeDetails/KnowledgeDetails";
-import WorkflowDetails from "@/components/workflowDetails/WorkflowDetails";
+import ReusableDetailsPage from "@/components/shared/ReusableDetailsPage";
 import { getPostById } from "@/lib/actions/post.action";
 import React from "react";
 
@@ -15,9 +13,33 @@ const PostDetails = async ({ params }: { params: ParamsProps }) => {
 
   return (
     <div className="w-full">
-      {post.postType === "Component" && <ComponentDetails post={post} />}
-      {post.postType === "WorkFlow" && <WorkflowDetails post={post} />}
-      {post.postType === "Knowledge" && <KnowledgeDetails post={post} />}
+      {post.postType === "Component" && (
+        <ReusableDetailsPage
+          post={post}
+          title={post.title}
+          description={post.description}
+          tagsList={post.tags}
+          resources={post.resources}
+        />
+      )}
+      {post.postType === "WorkFlow" && (
+        <ReusableDetailsPage
+          post={post}
+          title={post.title}
+          description={post.description}
+          tagsList={post.tags}
+          resources={post.resources}
+        />
+      )}
+      {post.postType === "Knowledge" && (
+        <ReusableDetailsPage
+          post={post}
+          title={post.title}
+          description={post.description}
+          tagsList={post.tags}
+          resources={post.resources}
+        />
+      )}
     </div>
   );
 };
