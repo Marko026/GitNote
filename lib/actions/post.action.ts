@@ -7,6 +7,8 @@ import { Tags } from "@/database/tags.model";
 import { ICreatePost } from "../validation";
 import mongoose from "mongoose";
 import { FilterInterface } from "@/types";
+import { redirect } from "next/navigation";
+import { log } from "console";
 const ObjectId = mongoose.Types.ObjectId;
 
 export async function createPost(params: ICreatePost) {
@@ -97,6 +99,50 @@ export async function getPostById(params: { id: string }) {
     const post = await Post.findById({ _id: id }).populate("tags");
     if (!post) throw new Error("Post not found");
     return JSON.parse(JSON.stringify(post));
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error);
+  }
+}
+export async function findAndUpdatePost(params: ICreatePost) {
+  const {
+    _id,
+    title,
+    postType,
+    tags,
+    description,
+    lessons,
+    codeSnippet,
+    content,
+    resources,
+  } = params;
+
+  try {
+    await connectToDatabase();
+    if (!_id) throw new Error("Id is required post failed to update");
+    const databaseTags: any[] = [];
+    for (const tag of tags) {
+      if (ObjectId.isValid(tag.value)) {
+        const newTag = await Tags.findById(tag.value);
+        if (newTag) {
+          databaseTags.push(newTag._id);
+          continue;
+        }
+      }
+      const createdTag = await Tags.create({ name: tag.label });
+      databaseTags.push(createdTag._id);
+    }
+    await Post.findByIdAndUpdate(_id, {
+      title,
+      postType,
+      tags: databaseTags,
+      description,
+      lessons,
+      codeSnippet,
+      content,
+      resources,
+    });
+    revalidatePath("/home");
   } catch (error: any) {
     console.log(error);
     throw new Error(error);

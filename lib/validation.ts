@@ -12,6 +12,7 @@ export const loginSchema = z.object({
 });
 
 export const createPostSchema = z.object({
+  _id: z.string().optional(),
   title: z.string().min(3).max(100),
   postType: z.enum(["WorkFlow", "Component", "Knowledge"]),
   tags: z

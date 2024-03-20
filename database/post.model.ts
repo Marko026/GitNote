@@ -30,45 +30,50 @@ const lessonsSchema = new Schema({
   },
 });
 
-const postSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  postType: {
-    type: String,
-    required: true,
-  },
-  tags: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Tags",
+const postSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
     },
-  ],
-  description: {
-    type: String,
-    required: false,
+    postType: {
+      type: String,
+      required: true,
+    },
+    tags: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Tags",
+      },
+    ],
+    description: {
+      type: String,
+      required: false,
+    },
+    lessons: {
+      type: [lessonsSchema],
+      required: false,
+    },
+    codeSnippet: {
+      type: String,
+      required: false,
+    },
+    content: {
+      type: String,
+      required: false,
+    },
+    resources: {
+      type: [resourceSchema],
+      required: false,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  lessons: {
-    type: [lessonsSchema],
-    required: false,
-  },
-  codeSnippet: {
-    type: String,
-    required: false,
-  },
-  content: {
-    type: String,
-    required: false,
-  },
-  resources: {
-    type: [resourceSchema],
-    required: false,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 export const Post = models.Post || model("Post", postSchema);

@@ -1,3 +1,4 @@
+import { modernTechnologies } from "@/constants";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -6,6 +7,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function extractKeywords(inputString: string) {
+  // Modern technologies list
+
   // Remove punctuation and convert to lowercase
   const cleanedString = inputString
     .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
@@ -27,9 +30,15 @@ export function extractKeywords(inputString: string) {
     (a, b) => wordFrequency[b] - wordFrequency[a]
   );
 
-  // Return the top one or two keywords
-  return sortedWords.slice(0, 2).join(" ");
+  // Check if any word matches modern technologies list
+  const relatedWords = sortedWords.filter((word) =>
+    modernTechnologies.includes(word)
+  );
+
+  // Return the top one or two keywords along with related words
+  return [...relatedWords.slice(0, 3), ...sortedWords.slice(0, 3)].join(" ");
 }
+
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-GB", {

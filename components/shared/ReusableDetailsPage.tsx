@@ -5,6 +5,7 @@ import ParseHtml from "../shared/ParseHtml";
 import Tags from "../tags/Tags";
 import Link from "next/link";
 import Image from "next/image";
+import DropDown from "./DropDown";
 
 type TagProps = {
   _id: string;
@@ -22,6 +23,7 @@ type LessonProps = {
 export interface PostProps {
   _id: string;
   title: string;
+  postType: string;
   description: string;
   codeSnippet: string;
   content: string;
@@ -30,6 +32,7 @@ export interface PostProps {
   tags: TagProps[];
   createdAt: string;
 }
+
 export interface PostParams {
   post: PostProps;
   title: string;
@@ -49,9 +52,35 @@ const ReusableDetailsPage = ({
 }: PostParams) => {
   return (
     <section className="flex flex-col p-8 space-y-5">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center ">
         <h1 className="h1-bold capitalize">{extractKeywords(title)}</h1>
-        <p className="text-white-100">SelectComponent</p>
+        <div className="flex items-center gap-2">
+          <div
+            className={`
+            flex  gap-2 
+            ${post.postType === "Component" && "bg-purple-500/10"}
+            ${post.postType === "WorkFlow" && "bg-primary-500/10"}
+            ${post.postType === "Knowledge" && "bg-green-500/10"}
+            px-4 py-1 rounded
+          
+          `}>
+            <Image
+              src={`/assets/icons/${post.postType.toLowerCase()}.svg`}
+              width={14}
+              height={14}
+              alt="component"
+            />
+            <p
+              className={` text-[14px]
+              ${post.postType === "Component" && "text-purple-500"}
+              ${post.postType === "WorkFlow" && "text-primary-500"}
+              ${post.postType === "Knowledge" && "text-green-500"} 
+            `}>
+              {post.postType}
+            </p>
+          </div>
+          <DropDown postId={post._id} />
+        </div>
       </div>
       <p className="">{description}</p>
 
@@ -66,14 +95,24 @@ const ReusableDetailsPage = ({
           />
         ))}
       </div>
-      <div>
-        <h2>Key Takeaways</h2>
-        {lessonsList?.map((lesson: LessonProps) => (
-          <p key={lesson._id} className="paragraph-2">
-            {lesson.title}
-          </p>
-        ))}
-      </div>
+      {post.postType === "Knowledge" && (
+        <div>
+          <h2 className="paragraph-1-bold !text-white-100 mb-3">
+            Key Takeaways
+          </h2>
+          {lessonsList?.map((lesson: LessonProps) => (
+            <div key={lesson._id} className="flex gap-2 mb-3">
+              <Image
+                src="/assets/icons/check-mark.svg"
+                width={20}
+                height={20}
+                alt="check-mark"
+              />
+              <p className="paragraph-2">{lesson.title}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
       <ParseHtml data={post.codeSnippet} />
       <span className="h-[1px] bg-black-600/20"></span>

@@ -21,9 +21,10 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} mx-auto max-w-[1440px] bg-[#10121E] min-h-screen`}>
-        <SessionProvider session={session}>{children}</SessionProvider>
+      <body className={`${inter.className} bg-[#10121E] min-h-screen`}>
+        <SessionProvider session={session}>
+          <main className=" mx-auto max-w-[1440px]">{children}</main>
+        </SessionProvider>
       </body>
     </html>
   );
