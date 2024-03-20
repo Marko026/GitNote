@@ -15,6 +15,10 @@ type ResourcesProps = {
   label: string;
   resource: string;
 };
+type LessonProps = {
+  _id: string;
+  title: string;
+};
 export interface PostProps {
   _id: string;
   title: string;
@@ -22,6 +26,7 @@ export interface PostProps {
   codeSnippet: string;
   content: string;
   resources: ResourcesProps[];
+  lessonsList?: LessonProps[];
   tags: TagProps[];
   createdAt: string;
 }
@@ -29,6 +34,7 @@ export interface PostParams {
   post: PostProps;
   title: string;
   description: string;
+  lessonsList?: LessonProps[];
   tagsList: TagProps[];
   resources: ResourcesProps[];
 }
@@ -38,6 +44,7 @@ const ReusableDetailsPage = ({
   title,
   description,
   tagsList,
+  lessonsList,
   resources,
 }: PostParams) => {
   return (
@@ -59,6 +66,15 @@ const ReusableDetailsPage = ({
           />
         ))}
       </div>
+      <div>
+        <h2>Key Takeaways</h2>
+        {lessonsList?.map((lesson: LessonProps) => (
+          <p key={lesson._id} className="paragraph-2">
+            {lesson.title}
+          </p>
+        ))}
+      </div>
+
       <ParseHtml data={post.codeSnippet} />
       <span className="h-[1px] bg-black-600/20"></span>
       <ParseHtml data={post.content} />

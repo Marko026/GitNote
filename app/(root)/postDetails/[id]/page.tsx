@@ -35,6 +35,7 @@ const PostDetails = async ({ params }: { params: ParamsProps }) => {
         <ReusableDetailsPage
           post={post}
           title={post.title}
+          lessonsList={post.lessons}
           description={post.description}
           tagsList={post.tags}
           resources={post.resources}
