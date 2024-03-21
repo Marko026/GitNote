@@ -12,9 +12,11 @@ import {
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { deletePost } from "@/lib/actions/post.action";
 
 const DropDown = ({ postId }: { postId: string }) => {
   const router = useRouter();
+  const id = postId;
 
   return (
     <DropdownMenu>
@@ -38,7 +40,9 @@ const DropDown = ({ postId }: { postId: string }) => {
           />
           Update Post
         </DropdownMenuItem>
-        <DropdownMenuItem className="hover:bg-black-600 flex gap-2 px-2 py-3 justify-center  ring-offset-transparent  focus-visible:ring-transparent paragraph-3-medium hover:text-white-100">
+        <DropdownMenuItem
+          onClick={() => deletePost({ id })}
+          className="hover:bg-black-600 flex gap-2 px-2 py-3 justify-center  ring-offset-transparent  focus-visible:ring-transparent paragraph-3-medium hover:text-white-100">
           <Image
             src="/assets/icons/delate.svg"
             width={12}

@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import { FilterInterface } from "@/types";
 import { redirect } from "next/navigation";
 import { log } from "console";
+import { User } from "@/database/user.model";
 const ObjectId = mongoose.Types.ObjectId;
 
 export async function createPost(params: ICreatePost) {
@@ -157,6 +158,20 @@ export async function getRecantPosts() {
 
     return JSON.parse(JSON.stringify(recentPosts));
   } catch (error: any) {
+    throw new Error(error);
+  }
+}
+export async function deletePost(params: { id: string }) {
+  try {
+    await connectToDatabase();
+    const { id: postId } = params;
+    if (!postId) throw new Error("Id is required");
+    const userId = await User.findOne({ id: postId });
+    console.log(userId.id);
+
+    if (!userId) throw new Error("User not found");
+  } catch (error: any) {
+    console.log(error);
     throw new Error(error);
   }
 }
