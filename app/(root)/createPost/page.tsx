@@ -7,7 +7,7 @@ const CreatePost = async () => {
 
   return (
     <section className="flex w-full">
-      <FormCreatePost tags={tags} />
+      <FormCreatePost tags={tags} type="Create" />
     </section>
   );
 };

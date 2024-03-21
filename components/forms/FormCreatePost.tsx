@@ -33,34 +33,37 @@ import CreatableSelect from "react-select/creatable";
 import makeAnimated from "react-select/animated";
 import { selectStyles } from "@/styles";
 import ReusableFormField from "../shared/ReusableFormFileld";
+import { set } from "mongoose";
 
 const animatedComponents = makeAnimated();
 
 interface IFormCreatePost {
-  post: ICreatePost;
+  type?: string;
+  post?: ICreatePost;
   tags: {
     _id: string;
     name: string;
   }[];
 }
 
-const FormCreatePost = ({ post, tags }: IFormCreatePost) => {
+const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
   const editorRef = useRef<any>(null);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [isMulti, setIsMulti] = useState(false);
 
   const form = useForm<z.infer<typeof createPostSchema>>({
     resolver: zodResolver(createPostSchema),
 
     defaultValues: {
-      title: post.title,
-      postType: post.postType,
-      tags: post.tags,
-      description: post.description,
-      lessons: post.lessons,
-      codeSnippet: post.codeSnippet,
-      content: post.content,
-      resources: post.resources,
+      title: post?.title,
+      postType: post?.postType,
+      tags: post?.tags,
+      description: post?.description,
+      lessons: post?.lessons,
+      codeSnippet: post?.codeSnippet,
+      content: post?.content,
+      resources: post?.resources,
     },
   });
 
@@ -87,9 +90,15 @@ const FormCreatePost = ({ post, tags }: IFormCreatePost) => {
   async function onSubmit(values: ICreatePost) {
     setLoading(true);
     try {
-      await findAndUpdatePost({ ...values, _id: post._id });
+      if (type === "Update") {
+        await findAndUpdatePost({ _id: post?._id, ...values });
+        router.push(`/postDetails/${post?._id}`);
+      }
 
-      router.push(`/postDetails/${post._id}`);
+      if (type === "Create") {
+        await createPost(values);
+        router.push(`/home`);
+      }
     } catch (error: any) {
       console.log(error.message);
     } finally {
@@ -97,7 +106,7 @@ const FormCreatePost = ({ post, tags }: IFormCreatePost) => {
     }
   }
 
-  const options = post.tags.map((tag: any) => ({
+  const options = post?.tags.map((tag: any) => ({
     value: tag._id,
     label: tag.name,
   }));
@@ -105,7 +114,9 @@ const FormCreatePost = ({ post, tags }: IFormCreatePost) => {
   return (
     <div className="w-full px-3 md:px-7 mb-10">
       <div className="mb-6">
-        <h1 className="h1-bold w-full my-5 md:my-8 ">Update Post</h1>
+        <h1 className="h1-bold w-full my-5 md:my-8 ">
+          {type === "Update" ? " Update Post" : "Create Post"}
+        </h1>
         <p className="uppercase text-white-500">Basic Information</p>
       </div>
       <Form {...form}>
@@ -134,11 +145,9 @@ const FormCreatePost = ({ post, tags }: IFormCreatePost) => {
                     </FormLabel>
                     <SelectTrigger
                       className={`
-                        ${field.value === "WorkFlow" && "!text-primary-500"}
-                        ${field.value === "Component" && "!text-purple-500"}
-                        ${field.value === "Knowledge" && "!text-green-500"}
+                      text-white-500
                       w-full min-h-12 !mt-2 bg-black-700
-                      placeholder-slate-300 text-white-500
+                      placeholder-slate-300 
                       border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 `}>
                       <SelectValue placeholder="Component" />
                     </SelectTrigger>
@@ -147,13 +156,10 @@ const FormCreatePost = ({ post, tags }: IFormCreatePost) => {
                         <SelectItem
                           key={idx}
                           value={type.value}
-                          className={`${
-                            type.value === "WorkFlow" && "!text-primary-500"
-                          } ${
-                            type.value === "Component" && "!text-purple-500"
-                          } ${
-                            type.value === "Knowledge" && "!text-green-500"
-                          } flex hover:!bg-black-600`}>
+                          className={` flex hover:!bg-black-600 
+                          ${type.value === "Component" && "!text-purple-500"}
+                          ${type.value === "WorkFlow" && "!text-primary-500"}
+                          ${type.value === "Knowledge" && "!text-green-500"}`}>
                           <div className="flex items-center gap-3">
                             <Image
                               src={type.image}
@@ -161,7 +167,18 @@ const FormCreatePost = ({ post, tags }: IFormCreatePost) => {
                               width={15}
                               height={15}
                             />
-                            <p>{type.label}</p>
+                            <p
+                              className={`
+                              ${
+                                type.value === "Component" && "!text-purple-500"
+                              }
+                              ${
+                                type.value === "WorkFlow" && "!text-primary-500"
+                              }
+                              ${type.value === "Knowledge" && "!text-green-500"}
+                      `}>
+                              {type.label}
+                            </p>
                           </div>
                         </SelectItem>
                       ))}
@@ -181,16 +198,16 @@ const FormCreatePost = ({ post, tags }: IFormCreatePost) => {
               <>
                 <CreatableSelect
                   {...field}
+                  defaultInputValue=""
                   styles={selectStyles}
-                  defaultInputValue={options.map((tag) => tag.label).join(",")}
                   className="!bg-transparent capitalize"
                   components={animatedComponents}
                   options={tags.map((tag) => ({
                     value: tag._id,
                     label: tag.name,
                   }))}
-                  isMulti
-                  isClearable
+                  isMulti={isMulti}
+                  onFocus={() => setIsMulti(true)}
                 />
 
                 <p className="text-red-500 text-[14px]">
@@ -295,7 +312,7 @@ const FormCreatePost = ({ post, tags }: IFormCreatePost) => {
                       onEditorChange={(codeSnippet) =>
                         form.setValue("codeSnippet", codeSnippet)
                       }
-                      initialValue={post.codeSnippet}
+                      initialValue={post?.codeSnippet}
                       init={{
                         height: 250,
                         skin: "oxide-dark",
@@ -349,7 +366,7 @@ const FormCreatePost = ({ post, tags }: IFormCreatePost) => {
                         toolbar:
                           " bold italic code codesample alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons",
                       }}
-                      initialValue={post.content}
+                      initialValue={post?.content}
                     />
                   </FormItem>
                 )}
@@ -412,7 +429,16 @@ const FormCreatePost = ({ post, tags }: IFormCreatePost) => {
             type="submit"
             disabled={loading}
             className="bg-primary-500 text-black-900 font-bold disabled:opacity-50">
-            {loading ? "Updating Post ..." : "Update Post"}
+            {type === "Create"
+              ? loading
+                ? "Creating Post ..."
+                : "Create Post"
+              : null}
+            {type === "Update"
+              ? loading
+                ? "Updating Post ..."
+                : "Update Post"
+              : null}
           </Button>
         </form>
       </Form>

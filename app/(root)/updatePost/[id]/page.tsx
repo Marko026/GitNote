@@ -10,7 +10,7 @@ const UpdatePost = async ({ params }: { params: { id: string } }) => {
 
   return (
     <section className="flex w-full">
-      {<FormCreatePost post={postToUpdate} tags={allTags} />}
+      {<FormCreatePost post={postToUpdate} tags={allTags} type="Update" />}
     </section>
   );
 };
