@@ -50,20 +50,24 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
   const editorRef = useRef<any>(null);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [isMulti, setIsMulti] = useState(false);
+
+  const options = post?.tags.map((tag: any) => ({
+    value: tag._id,
+    label: tag.name,
+  }));
 
   const form = useForm<z.infer<typeof createPostSchema>>({
     resolver: zodResolver(createPostSchema),
 
     defaultValues: {
-      title: post?.title,
-      postType: post?.postType,
-      tags: post?.tags,
-      description: post?.description,
-      lessons: post?.lessons,
-      codeSnippet: post?.codeSnippet,
-      content: post?.content,
-      resources: post?.resources,
+      title: post?.title ?? "",
+      postType: post?.postType ?? "Component",
+      tags: options ?? [],
+      description: post?.description ?? "",
+      lessons: post?.lessons ?? [],
+      codeSnippet: post?.codeSnippet ?? "",
+      content: post?.content ?? "",
+      resources: post?.resources ?? [],
     },
   });
 
@@ -87,6 +91,7 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
 
   let postType = form.watch("postType");
 
+  console.log(form.formState.errors);
   async function onSubmit(values: ICreatePost) {
     setLoading(true);
     try {
@@ -105,11 +110,6 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
       setLoading(false);
     }
   }
-
-  const options = post?.tags.map((tag: any) => ({
-    value: tag._id,
-    label: tag.name,
-  }));
 
   return (
     <div className="w-full px-3 md:px-7 mb-10">
@@ -198,7 +198,10 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
               <>
                 <CreatableSelect
                   {...field}
-                  defaultInputValue=""
+                  onChange={(e) => {
+                    console.log(e);
+                    field.onChange(e);
+                  }}
                   styles={selectStyles}
                   className="!bg-transparent capitalize"
                   components={animatedComponents}
@@ -206,8 +209,7 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
                     value: tag._id,
                     label: tag.name,
                   }))}
-                  isMulti={isMulti}
-                  onFocus={() => setIsMulti(true)}
+                  isMulti
                 />
 
                 <p className="text-red-500 text-[14px]">

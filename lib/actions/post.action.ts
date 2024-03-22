@@ -7,9 +7,9 @@ import { Tags } from "@/database/tags.model";
 import { ICreatePost } from "../validation";
 import mongoose from "mongoose";
 import { FilterInterface } from "@/types";
-import { redirect } from "next/navigation";
-import { log } from "console";
 import { User } from "@/database/user.model";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 const ObjectId = mongoose.Types.ObjectId;
 
 export async function createPost(params: ICreatePost) {
@@ -26,6 +26,10 @@ export async function createPost(params: ICreatePost) {
 
   try {
     await connectToDatabase();
+    const session = await getServerSession(authOptions);
+    const ownerId = session?.user?.id;
+
+    if (!ownerId) throw new Error("You are not logged in.");
 
     const databaseTags: any[] = [];
 
@@ -44,6 +48,7 @@ export async function createPost(params: ICreatePost) {
     }
 
     await Post.create({
+      ownerId,
       title,
       postType,
       tags: databaseTags,
@@ -65,7 +70,14 @@ export async function getAllPosts(params: FilterInterface = {}) {
 
   try {
     await connectToDatabase();
-    let query = {};
+    const session = await getServerSession(authOptions);
+    const ownerId = session?.user?.id;
+
+    if (!ownerId) throw new Error("You are not logged in.");
+
+    let query: { [key: string]: string } = {
+      ownerId: ownerId,
+    };
 
     if (filterType) {
       query = { ...query, postType: filterType };
@@ -101,7 +113,6 @@ export async function getPostById(params: { id: string }) {
     if (!post) throw new Error("Post not found");
     return JSON.parse(JSON.stringify(post));
   } catch (error: any) {
-    console.log(error);
     throw new Error(error);
   }
 }
@@ -167,7 +178,6 @@ export async function deletePost(params: { id: string }) {
     const { id: postId } = params;
     if (!postId) throw new Error("Id is required");
     const userId = await User.findOne({ id: postId });
-    console.log(userId.id);
 
     if (!userId) throw new Error("User not found");
   } catch (error: any) {

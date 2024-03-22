@@ -1,4 +1,4 @@
-import { Schema, models, model, Types } from "mongoose";
+import { Schema, models, model } from "mongoose";
 
 export interface IPost extends Document {
   _id?: string;
@@ -10,6 +10,7 @@ export interface IPost extends Document {
   codeSnippet?: string;
   content?: string;
   resources?: { label: string; resource: string }[];
+  ownerId: Schema.Types.ObjectId;
   createdAt?: Date;
 }
 const resourceSchema = new Schema({
@@ -32,6 +33,11 @@ const lessonsSchema = new Schema({
 
 const postSchema = new Schema(
   {
+    ownerId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     title: {
       type: String,
       required: true,
@@ -66,6 +72,7 @@ const postSchema = new Schema(
       type: [resourceSchema],
       required: false,
     },
+
     createdAt: {
       type: Date,
       default: Date.now,

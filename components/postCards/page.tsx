@@ -3,23 +3,22 @@ import React from "react";
 import PostCard from "../postCard/PostCard";
 import FilterComponentTypes from "../FilterComponentTypes/page";
 import { ICreatePost } from "@/lib/validation";
-import { useSession } from "next-auth/react";
 import Pagination from "../shared/Pagination";
+import { DefaultSession } from "next-auth";
 
 const PostCards = ({
   posts,
   totalPage,
+  user,
 }: {
   posts: ICreatePost[];
   totalPage: number;
+  user: DefaultSession["user"];
 }) => {
-  const { data: userDetails } = useSession();
-  if (!userDetails) return null;
-
   return (
     <section className="w-full flex flex-col mt-10 space-y-5 px-7">
       <div className="flex flex-col w-full">
-        <h1 className="h1-bold">Hello {userDetails?.name},</h1>
+        <h1 className="h1-bold">Hello {user?.name ?? "User"},</h1>
         <p className="paragraph-1-regular">
           Time to jot down your latest learnings today!
         </p>
@@ -35,7 +34,7 @@ const PostCards = ({
       {posts &&
         posts.map((post: any) => <PostCard key={post._id} post={post} />)}
 
-      {posts.length > 0 && <Pagination totalPages={totalPage} />}
+      {posts?.length > 0 && <Pagination totalPages={totalPage} />}
     </section>
   );
 };
