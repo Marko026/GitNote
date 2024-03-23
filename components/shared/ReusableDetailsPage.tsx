@@ -6,6 +6,7 @@ import Tags from "../tags/Tags";
 import Link from "next/link";
 import Image from "next/image";
 import DropDown from "./DropDown";
+import TaskCheckList from "../TaskCheckList/TaskCheckList";
 
 type TagProps = {
   _id: string;
@@ -28,7 +29,7 @@ export interface PostProps {
   codeSnippet: string;
   content: string;
   resources: ResourcesProps[];
-  lessonsList?: LessonProps[];
+  lessons: LessonProps[];
   tags: TagProps[];
   createdAt: string;
 }
@@ -86,15 +87,31 @@ const ReusableDetailsPage = ({
 
       <Metric post={post} />
 
-      <div className="flex gap-3">
-        {tagsList?.map((tag: TagProps) => (
-          <Tags
-            className="bg-black-700 px-2 mt-2 py-1 rounded capitalize"
-            key={tag._id}
-            tag={tag}
-          />
-        ))}
-      </div>
+      {post.postType === "WorkFlow" && (
+        <div className="flex gap-3">
+          {tagsList?.map((tag: TagProps) => (
+            <Tags
+              className="bg-black-700 px-2 mt-2 py-1 rounded capitalize"
+              key={tag._id}
+              tag={tag}
+            />
+          ))}
+        </div>
+      )}
+
+      {post.postType === "WorkFlow" && <TaskCheckList post={post} />}
+
+      {post.postType !== "WorkFlow" && (
+        <div className="flex gap-3">
+          {tagsList?.map((tag: TagProps) => (
+            <Tags
+              className="bg-black-700 px-2 mt-2 py-1 rounded capitalize"
+              key={tag._id}
+              tag={tag}
+            />
+          ))}
+        </div>
+      )}
       {post.postType === "Knowledge" && (
         <div>
           <h2 className="paragraph-1-bold !text-white-100 mb-3">

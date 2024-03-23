@@ -125,7 +125,12 @@ pre[class*="language-"] {
   color: #d6e7ff;
 }
 
-.markdown h3,
+.markdown h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 p {
   font-family: "Inter", sans-serif;
   color: #adb3cc;

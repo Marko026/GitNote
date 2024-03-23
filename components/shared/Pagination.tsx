@@ -24,7 +24,7 @@ const Pagination = ({ totalPages }: { totalPages: number }) => {
         }}>
         Prev
       </Button>
-      <p className="text-white-100">{currentPage}</p>
+      <p className="text-white-100">{`${currentPage}/${totalPages}`}</p>
       <Button
         disabled={+currentPage === totalPages}
         onClick={() => {

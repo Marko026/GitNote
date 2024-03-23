@@ -22,8 +22,6 @@ const Home = async ({ searchParams }: ISearchParams) => {
   });
 
   const session = await getServerSession(authOptions);
-  console.log("session", session.user);
-
   if (!session?.user) return null;
 
   return (
