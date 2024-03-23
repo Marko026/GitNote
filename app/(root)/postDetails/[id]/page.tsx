@@ -1,5 +1,6 @@
 import ReusableDetailsPage from "@/components/shared/ReusableDetailsPage";
 import { getPostById } from "@/lib/actions/post.action";
+import { revalidatePath } from "next/cache";
 import React from "react";
 
 export interface ParamsProps {
@@ -11,9 +12,11 @@ const PostDetails = async ({ params }: { params: ParamsProps }) => {
 
   const post = await getPostById({ id });
 
+  !post && <div>Post not found</div>;
+
   return (
     <div className="w-full overflow-hidden lg:overflow-auto">
-      {post.postType === "Component" && (
+      {post?.postType === "Component" && (
         <ReusableDetailsPage
           post={post}
           title={post.title}
@@ -22,7 +25,7 @@ const PostDetails = async ({ params }: { params: ParamsProps }) => {
           resources={post.resources}
         />
       )}
-      {post.postType === "WorkFlow" && (
+      {post?.postType === "WorkFlow" && (
         <ReusableDetailsPage
           post={post}
           title={post.title}
@@ -31,7 +34,7 @@ const PostDetails = async ({ params }: { params: ParamsProps }) => {
           resources={post.resources}
         />
       )}
-      {post.postType === "Knowledge" && (
+      {post?.postType === "Knowledge" && (
         <ReusableDetailsPage
           post={post}
           title={post.title}

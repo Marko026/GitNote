@@ -44,6 +44,7 @@ const RegisterForm = () => {
       name: values.name,
       email: values.email,
       password: values.password,
+      ownerId: "",
     });
 
     await signIn("credentials", {

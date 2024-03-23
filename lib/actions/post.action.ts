@@ -1,15 +1,15 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
 import { Post } from "@/database/post.model";
 import { Tags } from "@/database/tags.model";
 import { ICreatePost } from "../validation";
 import mongoose from "mongoose";
 import { FilterInterface } from "@/types";
-import { User } from "@/database/user.model";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/dist/server/api-utils";
 const ObjectId = mongoose.Types.ObjectId;
 
 export async function createPost(params: ICreatePost) {
@@ -76,7 +76,7 @@ export async function getAllPosts(params: FilterInterface = {}) {
     if (!ownerId) throw new Error("You are not logged in.");
 
     let query: { [key: string]: string } = {
-      ownerId: ownerId,
+      ownerId,
     };
 
     if (filterType) {
@@ -108,11 +108,12 @@ export async function getPostById(params: { id: string }) {
   try {
     await connectToDatabase();
     const { id } = params;
-    if (!id) throw new Error("Id is required");
+    if (!id) throw new Error("Id is required you are not logged in.");
     const post = await Post.findById({ _id: id }).populate("tags");
     if (!post) throw new Error("Post not found");
     return JSON.parse(JSON.stringify(post));
   } catch (error: any) {
+    console.log(error);
     throw new Error(error);
   }
 }
@@ -131,6 +132,9 @@ export async function findAndUpdatePost(params: ICreatePost) {
 
   try {
     await connectToDatabase();
+    const session = await getServerSession(authOptions);
+    const ownerId = session?.user?.id;
+    if (!ownerId) throw new Error("You are not logged in.");
     if (!_id) throw new Error("Id is required post failed to update");
     const databaseTags: any[] = [];
     for (const tag of tags) {
@@ -175,13 +179,11 @@ export async function getRecantPosts() {
 export async function deletePost(params: { id: string }) {
   try {
     await connectToDatabase();
-    const { id: postId } = params;
-    if (!postId) throw new Error("Id is required");
-    const userId = await User.findOne({ id: postId });
-
-    if (!userId) throw new Error("User not found");
+    const { id } = params;
+    if (!id) throw new Error("Id is required");
+    await Post.findByIdAndDelete({ _id: id });
+    revalidatePath("/home");
   } catch (error: any) {
-    console.log(error);
     throw new Error(error);
   }
 }

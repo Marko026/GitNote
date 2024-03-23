@@ -7,7 +7,7 @@ export interface UserAvailability {
 }
 
 export interface UserProps {
-  ownerId: string;
+  ownerId?: string;
   name: string;
   email: string;
   password: string;
@@ -23,7 +23,7 @@ export interface UserProps {
 const userSchema = new Schema({
   ownerId: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: false,
   },
   name: {
     type: String,

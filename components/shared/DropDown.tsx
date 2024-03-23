@@ -18,6 +18,11 @@ const DropDown = ({ postId }: { postId: string }) => {
   const router = useRouter();
   const id = postId;
 
+  const handleDeletePost = async () => {
+    await deletePost({ id });
+    router.push("/home");
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="h-7">
@@ -41,7 +46,7 @@ const DropDown = ({ postId }: { postId: string }) => {
           Update Post
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => deletePost({ id })}
+          onClick={handleDeletePost}
           className="hover:bg-black-600 flex gap-2 px-2 py-3 justify-center  ring-offset-transparent  focus-visible:ring-transparent paragraph-3-medium hover:text-white-100">
           <Image
             src="/assets/icons/delate.svg"
