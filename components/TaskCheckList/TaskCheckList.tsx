@@ -1,9 +1,10 @@
 "use client";
 
 import { Checkbox } from "@/components/ui/checkbox";
-type LessonProps = {
+export type LessonProps = {
   _id: string;
   title: string;
+  lessonDone: boolean;
 };
 
 export interface PostProps {
@@ -22,7 +23,9 @@ const TaskCheckList = ({ post }: { post: PostProps }) => {
 
   return (
     <div className="flex flex-col justify-start ">
-      <h2 className="paragraph-1-bold mt-10 mb-3">Task Checklist</h2>
+      <h2 className="paragraph-1-bold mt-10 mb-3 !text-white-100">
+        Task Checklist
+      </h2>
       {lessonsList?.map((lesson) => (
         <div key={lesson._id} className="flex items-center gap-2  mb-3">
           <Checkbox

@@ -29,6 +29,10 @@ const lessonsSchema = new Schema({
     type: String,
     required: true,
   },
+  lessonDone: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const postSchema = new Schema(

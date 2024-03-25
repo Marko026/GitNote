@@ -20,6 +20,7 @@ type ResourcesProps = {
 type LessonProps = {
   _id: string;
   title: string;
+  lessonDone: boolean;
 };
 export interface PostProps {
   _id: string;

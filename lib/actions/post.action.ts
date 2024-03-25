@@ -10,6 +10,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/dist/server/api-utils";
+import { LessonProps } from "@/components/TaskCheckList/TaskCheckList";
 const ObjectId = mongoose.Types.ObjectId;
 
 export async function createPost(params: ICreatePost) {
@@ -86,7 +87,7 @@ export async function getAllPosts(params: FilterInterface = {}) {
       query = { ...query, tags: tagsId };
     }
 
-    const LIMIT = 2;
+    const LIMIT = 3;
 
     const totalPages = (await Post.countDocuments(query)) / LIMIT;
 
