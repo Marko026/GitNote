@@ -92,6 +92,7 @@ export async function getAllPosts(params: FilterInterface = {}) {
     const totalPages = (await Post.countDocuments(query)) / LIMIT;
 
     const posts = await Post.find(query)
+      .sort({ createdAt: -1 })
       .populate("tags")
       .skip((page - 1) * LIMIT)
       .limit(LIMIT);
