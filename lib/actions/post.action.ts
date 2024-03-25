@@ -87,7 +87,7 @@ export async function getAllPosts(params: FilterInterface = {}) {
       query = { ...query, tags: tagsId };
     }
 
-    const LIMIT = 3;
+    const LIMIT = 4;
 
     const totalPages = (await Post.countDocuments(query)) / LIMIT;
 
