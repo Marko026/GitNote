@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,7 +33,6 @@ import CreatableSelect from "react-select/creatable";
 import makeAnimated from "react-select/animated";
 import { selectStyles } from "@/styles";
 import ReusableFormField from "../shared/ReusableFormFileld";
-import { set } from "mongoose";
 
 const animatedComponents = makeAnimated();
 
@@ -55,6 +54,12 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
     value: tag._id,
     label: tag.name,
   }));
+
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current = Editor;
+    }
+  }, [Editor]);
 
   const form = useForm<z.infer<typeof createPostSchema>>({
     resolver: zodResolver(createPostSchema),

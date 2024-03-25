@@ -193,15 +193,14 @@ export async function getRelatedPosts(params: { postId: string }) {
   const { postId } = params;
   try {
     await connectToDatabase();
-    const post = await Post.findById(postId);
     if (ObjectId.isValid(postId)) {
+      const post = await Post.findById(postId);
+
       const relatedPosts = await Post.find({ tags: { $in: post.tags } }).limit(
         5
       );
       revalidatePath(`/pageDetails/${postId}`);
       return JSON.parse(JSON.stringify(relatedPosts));
-    } else {
-      throw new Error("Post not found");
     }
   } catch (error: any) {
     throw new Error(error);

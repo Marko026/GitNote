@@ -45,6 +45,7 @@ const PostCards = ({
         {posts &&
           posts.map((post: any) => (
             <div
+              key={post._id}
               className={`${
                 pathname === "/explore" && "w-full md:w-[45%] flex-auto "
               }`}>
