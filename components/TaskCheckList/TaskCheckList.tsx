@@ -1,5 +1,4 @@
 "use client";
-
 import { Checkbox } from "@/components/ui/checkbox";
 export type LessonProps = {
   _id: string;
@@ -29,6 +28,7 @@ const TaskCheckList = ({ post }: { post: PostProps }) => {
       {lessonsList?.map((lesson) => (
         <div key={lesson._id} className="flex items-center gap-2  mb-3">
           <Checkbox
+            checked={lesson.lessonDone}
             id="terms"
             className="border-2 border-white-500 !text-green-500 text-[14px] h-5 w-5"
           />
