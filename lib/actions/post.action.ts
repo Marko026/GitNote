@@ -203,13 +203,6 @@ export async function getRelatedPosts(params: { postId: string }) {
       revalidatePath(`/pageDetails/${postId}`);
       return JSON.parse(JSON.stringify(relatedPosts));
     }
-    if (!ObjectId.isValid(postId)) {
-      throw new Error(`Invalid postId: ${postId}`);
-    }
-
-    const relatedPosts = await Post.find({ tags: { $in: post.tags } }).limit(5);
-
-    return JSON.parse(JSON.stringify(relatedPosts));
   } catch (error: any) {
     throw new Error(error);
   }
