@@ -47,3 +47,7 @@ export function formatDate(dateString: string): string {
     year: "numeric",
   });
 }
+export const extractIdFromPath = (path: string) => {
+  const pathArray = path.split("/");
+  return pathArray[pathArray.length - 1];
+};

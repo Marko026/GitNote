@@ -170,7 +170,7 @@ export async function getRecantPosts() {
   try {
     await connectToDatabase();
 
-    const recentPosts = await Post.find().limit(5);
+    const recentPosts = await Post.find().limit(5).sort({ createdAt: -1 });
 
     return JSON.parse(JSON.stringify(recentPosts));
   } catch (error: any) {
@@ -184,6 +184,25 @@ export async function deletePost(params: { id: string }) {
     if (!id) throw new Error("Id is required");
     await Post.findByIdAndDelete({ _id: id });
     revalidatePath("/home");
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}
+
+export async function getRelatedPosts(params: { postId: string }) {
+  const { postId } = params;
+  try {
+    await connectToDatabase();
+    const post = await Post.findById(postId);
+    if (ObjectId.isValid(postId)) {
+      const relatedPosts = await Post.find({ tags: { $in: post.tags } }).limit(
+        5
+      );
+      revalidatePath(`/pageDetails/${postId}`);
+      return JSON.parse(JSON.stringify(relatedPosts));
+    } else {
+      throw new Error("Post not found");
+    }
   } catch (error: any) {
     throw new Error(error);
   }

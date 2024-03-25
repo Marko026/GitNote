@@ -1,6 +1,5 @@
 import ReusableDetailsPage from "@/components/shared/ReusableDetailsPage";
 import { getPostById } from "@/lib/actions/post.action";
-import { revalidatePath } from "next/cache";
 import React from "react";
 
 export interface ParamsProps {
