@@ -4,7 +4,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Tags from "../tags/Tags";
 import { usePathname } from "next/navigation";
-import RelatedPosts from "../relatedPosts/RelatedPosts";
 import { extractIdFromPath } from "@/lib/utils";
 import { getRelatedPosts } from "@/lib/actions/post.action";
 

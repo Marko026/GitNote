@@ -132,7 +132,7 @@ export async function findAndUpdatePost(params: ICreatePost) {
   } = params;
 
   try {
-    await connectToDatabase();
+    // await connectToDatabase();
     const session = await getServerSession(authOptions);
     const ownerId = session?.user?.id;
     if (!ownerId) throw new Error("You are not logged in.");
@@ -191,18 +191,19 @@ export async function deletePost(params: { id: string }) {
 
 export async function getRelatedPosts(params: { postId: string }) {
   const { postId } = params;
+  await connectToDatabase();
   try {
-    await connectToDatabase();
     const post = await Post.findById(postId);
-    if (ObjectId.isValid(postId)) {
-      const relatedPosts = await Post.find({ tags: { $in: post.tags } }).limit(
-        5
-      );
-      revalidatePath(`/pageDetails/${postId}`);
-      return JSON.parse(JSON.stringify(relatedPosts));
-    } else {
+    if (!post) {
       throw new Error("Post not found");
     }
+    if (!ObjectId.isValid(postId)) {
+      throw new Error(`Invalid postId: ${postId}`);
+    }
+
+    const relatedPosts = await Post.find({ tags: { $in: post.tags } }).limit(5);
+
+    return JSON.parse(JSON.stringify(relatedPosts));
   } catch (error: any) {
     throw new Error(error);
   }
