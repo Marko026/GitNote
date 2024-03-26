@@ -54,6 +54,10 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
     value: tag._id,
     label: tag.name,
   }));
+  const relatedTagsForCreatingPost = tags.map((tag) => ({
+    value: tag._id,
+    label: tag.name,
+  }));
 
   useEffect(() => {
     if (editorRef.current) {
@@ -67,7 +71,7 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
     defaultValues: {
       title: post?.title ?? "",
       postType: post?.postType ?? "Component",
-      tags: options ?? [],
+      tags: type === "relatedPost" ? relatedTagsForCreatingPost : options,
       description: post?.description ?? "",
       lessons: post?.lessons ?? [],
       codeSnippet: post?.codeSnippet ?? "",
@@ -96,7 +100,6 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
 
   let postType = form.watch("postType");
 
-  console.log(form.formState.errors);
   async function onSubmit(values: ICreatePost) {
     setLoading(true);
     try {
@@ -436,7 +439,7 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
             type="submit"
             disabled={loading}
             className="bg-primary-500 text-black-900 font-bold disabled:opacity-50">
-            {type === "Create"
+            {type === "Create" || type === "relatedPost"
               ? loading
                 ? "Creating Post ..."
                 : "Create Post"

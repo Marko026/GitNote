@@ -107,13 +107,15 @@ export async function getAllPosts(params: FilterInterface = {}) {
 }
 
 export async function getPostById(params: { id: string }) {
+  const { id } = params;
+  if (!id) throw new Error("Id is required you are not logged in.");
   try {
     await connectToDatabase();
-    const { id } = params;
-    if (!id) throw new Error("Id is required you are not logged in.");
-    const post = await Post.findById({ _id: id }).populate("tags");
-    if (!post) throw new Error("Post not found");
-    return JSON.parse(JSON.stringify(post));
+    if (ObjectId.isValid(id)) {
+      const post = await Post.findById(id).populate("tags");
+      if (!post) throw new Error("Post not found");
+      return JSON.parse(JSON.stringify(post));
+    }
   } catch (error: any) {
     console.log(error);
     throw new Error(error);

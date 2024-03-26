@@ -6,6 +6,7 @@ import Tags from "../tags/Tags";
 import { usePathname } from "next/navigation";
 import { extractIdFromPath } from "@/lib/utils";
 import { getRelatedPosts } from "@/lib/actions/post.action";
+import { useRouter } from "next/navigation";
 
 interface Props {
   user: {
@@ -17,6 +18,7 @@ interface Props {
 
 const RightSideBar = ({ user, tags }: Props) => {
   const pathname = usePathname();
+  const router = useRouter();
   const postId = extractIdFromPath(pathname);
   const [showRelatedPost, setShowRelatedPost] = useState([]);
   const isPostDetails = pathname.includes("postDetails");
@@ -65,8 +67,8 @@ const RightSideBar = ({ user, tags }: Props) => {
               </p>
             ))}
           </div>
-          <Link
-            href="/createPost"
+          <div
+            onClick={() => router.push(`/createPost/${postId}`)}
             className="flex w-full justify-center gap-2 mt-5 duration-200 bg-black-600 hover:bg-black-700 py-1.5 rounded">
             <Image
               src="/assets/icons/blue-plus.svg"
@@ -76,7 +78,7 @@ const RightSideBar = ({ user, tags }: Props) => {
               className="cursor-pointer"
             />
             <p className="paragraph-3-medium">New related post</p>
-          </Link>
+          </div>
         </div>
       )}
     </div>
