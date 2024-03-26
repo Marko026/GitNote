@@ -67,7 +67,7 @@ export async function createPost(params: ICreatePost) {
   }
 }
 export async function getAllPosts(params: FilterInterface = {}) {
-  const { filterType, filterTags: tagsId, page = 1 } = params;
+  const { filterType, filterTags: tagsId, page = 1, allPosts } = params;
 
   try {
     await connectToDatabase();
@@ -91,11 +91,17 @@ export async function getAllPosts(params: FilterInterface = {}) {
 
     const totalPages = (await Post.countDocuments(query)) / LIMIT;
 
-    const posts = await Post.find(query)
-      .sort({ createdAt: -1 })
-      .populate("tags")
-      .skip((page - 1) * LIMIT)
-      .limit(LIMIT);
+    let posts;
+
+    if (allPosts) {
+      posts = await Post.find(query).sort({ createdAt: -1 }).populate("tags");
+    } else {
+      posts = await Post.find(query)
+        .sort({ createdAt: -1 })
+        .populate("tags")
+        .skip((page - 1) * LIMIT)
+        .limit(LIMIT);
+    }
     return {
       totalPages: Math.ceil(totalPages),
       posts: JSON.parse(JSON.stringify(posts)),

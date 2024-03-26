@@ -1,25 +1,21 @@
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { SearchBox } from "../SearchBox/SearchBox";
 
-interface DialogProps {
-  setIsOpen: (prev: any) => void;
-}
-
-export function Dialog({ setIsOpen }: DialogProps) {
+type DialogProps = {
+  open: boolean;
+  setIsOpen: (value: boolean) => void;
+};
+export function Dialog({ open, setIsOpen }: DialogProps) {
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
         <Button className="w-full bg-black-700 pl-1 pr-0 flex justify-between">
           <div className="flex w-full items-center border border-transparent hover:border-white-500 hover:cursor-pointer bg-black-700 rounded justify-between px-2">
@@ -41,14 +37,13 @@ export function Dialog({ setIsOpen }: DialogProps) {
           </div>
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="bg-white-100 p-0">
+      <AlertDialogContent className="p-0">
         {/* comboBox */}
         <SearchBox />
         <AlertDialogFooter>
-          <AlertDialogCancel onAbort={() => setIsOpen((prev: any) => !prev)}>
-            Cancel
+          <AlertDialogCancel className="absolute !border-none top-2 h-8 !bg-black-800 hover:!bg-black-700 hover:text-white-100 right-4 p-2 paragraph-4-regular uppercase">
+            esc
           </AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

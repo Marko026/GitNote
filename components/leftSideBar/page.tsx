@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +14,12 @@ import { Dialog } from "../Dialog/Dialog";
 const LeftSideBar = ({ recentPosts }: { recentPosts: ICreatePost[] }) => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (pathname.includes("/postDetails")) {
+      setIsOpen(false);
+    }
+  }, [pathname]);
 
   return (
     <div className="lg:flex xl:min-w-72  hidden bg-black-800  px-7 min-h-screen">
@@ -40,8 +46,8 @@ const LeftSideBar = ({ recentPosts }: { recentPosts: ICreatePost[] }) => {
             <p className="mt-[2px] text-white-100">Create Post</p>
           </Link>
         )}
-        <div onClick={() => setIsOpen((prev) => !prev)}>
-          <Dialog setIsOpen={setIsOpen} />;
+        <div onClick={() => setIsOpen(true)}>
+          <Dialog open={isOpen} setIsOpen={setIsOpen} />;
         </div>
         <Separator className="w-full bg-white-500 bg-opacity-30 my-6 h-[0.68px]" />
         <div>

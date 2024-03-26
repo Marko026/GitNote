@@ -133,3 +133,19 @@ input:-webkit-autofill:active {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #2e3757;
 }
+
+.custom-scrollbar-dialog::-webkit-scrollbar {
+  width: 3px;
+}
+
+.custom-scrollbar-dialog::-webkit-scrollbar-track {
+  background: #222433;
+}
+
+.custom-scrollbar-dialog::-webkit-scrollbar-thumb {
+  background: #2e3757;
+}
+
+.custom-scrollbar-dialog::-webkit-scrollbar-thumb:hover {
+  background: #2e3757;
+}
