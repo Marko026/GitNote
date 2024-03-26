@@ -40,7 +40,9 @@ const LeftSideBar = ({ recentPosts }: { recentPosts: ICreatePost[] }) => {
             <p className="mt-[2px] text-white-100">Create Post</p>
           </Link>
         )}
-        <Dialog />;
+        <div onClick={() => setIsOpen((prev) => !prev)}>
+          <Dialog setIsOpen={setIsOpen} />;
+        </div>
         <Separator className="w-full bg-white-500 bg-opacity-30 my-6 h-[0.68px]" />
         <div>
           <h4 className="text-white-500 mb-5">Posts</h4>

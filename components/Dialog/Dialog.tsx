@@ -13,11 +13,15 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { SearchBox } from "../SearchBox/SearchBox";
 
-export function Dialog() {
+interface DialogProps {
+  setIsOpen: (prev: any) => void;
+}
+
+export function Dialog({ setIsOpen }: DialogProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className="w-full bg-black-700 pl-1 flex justify-between">
+        <Button className="w-full bg-black-700 pl-1 pr-0 flex justify-between">
           <div className="flex w-full items-center border border-transparent hover:border-white-500 hover:cursor-pointer bg-black-700 rounded justify-between px-2">
             <Image
               src="/assets/icons/search.svg"
@@ -38,9 +42,12 @@ export function Dialog() {
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-white-100 p-0">
+        {/* comboBox */}
         <SearchBox />
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel onAbort={() => setIsOpen((prev: any) => !prev)}>
+            Cancel
+          </AlertDialogCancel>
           <AlertDialogAction>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
