@@ -1,21 +1,29 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { Input } from "../ui/input";
 import { usePathname } from "next/navigation";
 import { ICreatePost } from "@/lib/validation";
 import { extractKeywords } from "@/lib/utils";
 import { PostType } from "@/constants";
+import { Dialog } from "../Dialog/Dialog";
 
-const LeftSideBar = ({ posts }: { posts: ICreatePost[] }) => {
+const LeftSideBar = ({ recentPosts }: { recentPosts: ICreatePost[] }) => {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (pathname.includes("/postDetails")) {
+      setIsOpen(false);
+    }
+  }, [pathname]);
+
   return (
-    <div className=" w-1/3 bg-black-800 hidden md:flex  px-7 min-h-screen">
-      <div>
+    <div className="lg:flex xl:min-w-72  hidden bg-black-800  px-7 min-h-screen">
+      <div className="w-full">
         <Link href="/home">
           <Image
             src="/assets/icons/logo.svg"
@@ -38,31 +46,15 @@ const LeftSideBar = ({ posts }: { posts: ICreatePost[] }) => {
             <p className="mt-[2px] text-white-100">Create Post</p>
           </Link>
         )}
-
-        <div className="flex items-center border border-transparent focus-within:border-white-500 bg-black-700 rounded justify-between px-2">
-          <Image
-            src="/assets/icons/search.svg"
-            alt="search"
-            width={10}
-            height={10}
-          />
-          <Input
-            placeholder="Search..."
-            className="bg-transparent border-none text-white-300 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0"
-          />
-          <Image
-            src="/assets/icons/shortcut.svg"
-            width={21}
-            height={16}
-            alt="shortcut"
-          />
+        <div onClick={() => setIsOpen(true)}>
+          <Dialog open={isOpen} setIsOpen={setIsOpen} />;
         </div>
         <Separator className="w-full bg-white-500 bg-opacity-30 my-6 h-[0.68px]" />
         <div>
           <h4 className="text-white-500 mb-5">Posts</h4>
           <div className="flex flex-col space-y-5">
-            {posts?.map((item: any) => (
-              <Link href="" key={item._id} className="flex gap-2">
+            {recentPosts?.map((item: any, idx: any) => (
+              <Link href="" key={idx} className="flex gap-2">
                 <Image
                   src={
                     PostType.find((type) => type.value === item.postType)

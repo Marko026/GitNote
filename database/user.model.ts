@@ -1,4 +1,4 @@
-import { Schema, models, model, Document } from "mongoose";
+import { Schema, models, model } from "mongoose";
 
 export interface UserAvailability {
   startDate: Date;
@@ -7,6 +7,7 @@ export interface UserAvailability {
 }
 
 export interface UserProps {
+  ownerId?: string;
   name: string;
   email: string;
   password: string;
@@ -20,6 +21,10 @@ export interface UserProps {
 }
 
 const userSchema = new Schema({
+  ownerId: {
+    type: Schema.Types.ObjectId,
+    required: false,
+  },
   name: {
     type: String,
     required: true,

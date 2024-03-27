@@ -14,6 +14,7 @@ type ReusableFormFieldProps = {
   label?: string;
   placeholder?: string;
   leftIcon?: ReactElement;
+  rightIcon?: ReactElement;
   formControlClassName?: string;
   formItemClassName?: string;
   inputClassName?: string;
@@ -24,6 +25,7 @@ const ReusableFormField = ({
   label,
   placeholder,
   leftIcon,
+  rightIcon,
   formItemClassName,
   formControlClassName,
   inputClassName,
@@ -51,6 +53,7 @@ const ReusableFormField = ({
                   }
                   {...field}
                 />
+                {rightIcon}
               </div>
             </FormControl>
             <FormMessage />

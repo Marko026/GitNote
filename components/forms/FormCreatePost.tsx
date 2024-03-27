@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,35 +25,58 @@ import { Textarea } from "../ui/textarea";
 import { Separator } from "@radix-ui/react-separator";
 import { Editor } from "@tinymce/tinymce-react";
 import { ICreatePost, createPostSchema } from "@/lib/validation";
-import { createPost } from "@/lib/actions/post.action";
-import { useRouter } from "next/navigation";
+import { createPost, findAndUpdatePost } from "@/lib/actions/post.action";
+import { redirect, useRouter } from "next/navigation";
 import { PostType } from "@/constants";
 
 import CreatableSelect from "react-select/creatable";
 import makeAnimated from "react-select/animated";
 import { selectStyles } from "@/styles";
-import { ITags } from "@/database/tags.model";
 import ReusableFormField from "../shared/ReusableFormFileld";
-import { title } from "process";
 
 const animatedComponents = makeAnimated();
 
-const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
+interface IFormCreatePost {
+  type?: string;
+  post?: ICreatePost;
+  tags: {
+    _id: string;
+    name: string;
+  }[];
+}
+
+const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
   const editorRef = useRef<any>(null);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
+  const options = post?.tags.map((tag: any) => ({
+    value: tag._id,
+    label: tag.name,
+  }));
+  const relatedTagsForCreatingPost = tags.map((tag) => ({
+    value: tag._id,
+    label: tag.name,
+  }));
+
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current = Editor;
+    }
+  }, [Editor]);
+
   const form = useForm<z.infer<typeof createPostSchema>>({
     resolver: zodResolver(createPostSchema),
+
     defaultValues: {
-      title: "",
-      postType: undefined,
-      tags: [],
-      description: "",
-      lessons: [],
-      codeSnippet: "",
-      content: "",
-      resources: [],
+      title: post?.title ?? "",
+      postType: post?.postType ?? "Component",
+      tags: type === "relatedPost" ? relatedTagsForCreatingPost : options,
+      description: post?.description ?? "",
+      lessons: post?.lessons ?? [],
+      codeSnippet: post?.codeSnippet ?? "",
+      content: post?.content ?? "",
+      resources: post?.resources ?? [],
     },
   });
 
@@ -80,9 +103,15 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
   async function onSubmit(values: ICreatePost) {
     setLoading(true);
     try {
-      await createPost(values);
+      if (type === "Update") {
+        await findAndUpdatePost({ _id: post?._id, ...values });
+        router.push(`/postDetails/${post?._id}`);
+      }
 
-      router.push("/home");
+      if (type === "Create") {
+        await createPost(values);
+        router.push(`/home`);
+      }
     } catch (error: any) {
       console.log(error.message);
     } finally {
@@ -90,17 +119,12 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
     }
   }
 
-  console.log(form.formState.errors);
-  console.log(form.watch("tags"));
-
-  const options = tags.map((tag) => ({
-    value: tag._id,
-    label: tag.name,
-  }));
   return (
     <div className="w-full px-3 md:px-7 mb-10">
       <div className="mb-6">
-        <h1 className="h1-bold w-full my-5 md:my-8 ">CreatePost</h1>
+        <h1 className="h1-bold w-full my-5 md:my-8 ">
+          {type === "Update" ? " Update Post" : "Create Post"}
+        </h1>
         <p className="uppercase text-white-500">Basic Information</p>
       </div>
       <Form {...form}>
@@ -120,6 +144,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
               <FormItem>
                 <FormControl>
                   <Select
+                    {...field}
                     onValueChange={(
                       value: "WorkFlow" | "Component" | "Knowledge"
                     ) => form.setValue("postType", value)}>
@@ -128,11 +153,9 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                     </FormLabel>
                     <SelectTrigger
                       className={`
-                        ${field.value === "WorkFlow" && "!text-primary-500"}
-                        ${field.value === "Component" && "!text-purple-500"}
-                        ${field.value === "Knowledge" && "!text-green-500"}
+                      text-white-500
                       w-full min-h-12 !mt-2 bg-black-700
-                      placeholder-slate-300 text-white-500
+                      placeholder-slate-300 
                       border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 `}>
                       <SelectValue placeholder="Component" />
                     </SelectTrigger>
@@ -141,13 +164,10 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                         <SelectItem
                           key={idx}
                           value={type.value}
-                          className={`${
-                            type.value === "WorkFlow" && "!text-primary-500"
-                          } ${
-                            type.value === "Component" && "!text-purple-500"
-                          } ${
-                            type.value === "Knowledge" && "!text-green-500"
-                          } flex hover:!bg-black-600`}>
+                          className={` flex hover:!bg-black-600 
+                          ${type.value === "Component" && "!text-purple-500"}
+                          ${type.value === "WorkFlow" && "!text-primary-500"}
+                          ${type.value === "Knowledge" && "!text-green-500"}`}>
                           <div className="flex items-center gap-3">
                             <Image
                               src={type.image}
@@ -155,7 +175,18 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                               width={15}
                               height={15}
                             />
-                            <p>{type.label}</p>
+                            <p
+                              className={`
+                              ${
+                                type.value === "Component" && "!text-purple-500"
+                              }
+                              ${
+                                type.value === "WorkFlow" && "!text-primary-500"
+                              }
+                              ${type.value === "Knowledge" && "!text-green-500"}
+                      `}>
+                              {type.label}
+                            </p>
                           </div>
                         </SelectItem>
                       ))}
@@ -175,12 +206,20 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
               <>
                 <CreatableSelect
                   {...field}
+                  onChange={(e) => {
+                    console.log(e);
+                    field.onChange(e);
+                  }}
                   styles={selectStyles}
                   className="!bg-transparent capitalize"
                   components={animatedComponents}
+                  options={tags.map((tag) => ({
+                    value: tag._id,
+                    label: tag.name,
+                  }))}
                   isMulti
-                  options={options}
                 />
+
                 <p className="text-red-500 text-[14px]">
                   {form.formState.errors.tags?.message ||
                     form.formState.errors.tags?.[0]?.value?.message}
@@ -189,21 +228,22 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
             )}
           />
 
-          <div className="flex w-full flex-col space-y-3">
+          <div className="flex w-full flex-col space-y-3 ">
             <FormField
               control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="paragraph-3-medium">
-                    Your message
+                    Description
                   </FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Enter your description"
                       className="bg-black-700 
-                    text-white-100
-                    border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
+                    text-white-100 !h-48 custom-scrollbar
+                    border-transparent  hover:border-white-500 focus-visible:ring-0
+                     focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
                       {...field}
                     />
                   </FormControl>
@@ -212,7 +252,12 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
               )}
             />
           </div>
+
           <div className="flex flex-col space-y-2">
+            <h4 className="paragraph-3-medium mb-2">
+              {postType === "WorkFlow" && "Steps to fallow"}
+              {postType === "Knowledge" && "What you learnd"}
+            </h4>
             {lessonFields.map((item, index) => (
               <div key={item.id}>
                 <ReusableFormField
@@ -228,34 +273,42 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                   placeholder="Enter your lesson"
                   formControlClassName="flex items-center border border-transparent hover:border-white-500 w-full focus:outline-none bg-black-700 rounded-lg px-3"
                   inputClassName="bg-black-700 text-white-100 min-h-12  border-transparent  focus-visible:ring-0  focus-visible:ring-offset-0"
+                  rightIcon={
+                    <Button
+                      type="button"
+                      className="bg-transparent hover:bg-black-900"
+                      onClick={() => removeLessons(index)}>
+                      <Image
+                        src="/assets/icons/close.svg"
+                        alt="close"
+                        width={10}
+                        height={10}
+                        className="object-cover"
+                      />
+                    </Button>
+                  }
                 />
-                <Button type="button" onClick={() => removeLessons(index)}>
-                  <Image
-                    src="/assets/icons/close.svg"
-                    alt="close"
-                    width={10}
-                    height={10}
-                    className="object-cover"
-                  />
-                </Button>
               </div>
             ))}
           </div>
-          <Button
-            type="button"
-            onClick={() => appendLesson({ title: "" })}
-            className="flex w-full items-center gap-2 bg-black-600">
-            <Image
-              src="/assets/icons/blue-plus.svg"
-              alt="pluse"
-              width={13}
-              height={13}
-            />
-            <p className="paragraph-4-medium">Add checkmark</p>
-          </Button>
+          {postType !== "Component" && (
+            <Button
+              type="button"
+              onClick={() => appendLesson({ title: "" })}
+              className="flex w-full items-center gap-2 bg-black-600">
+              <Image
+                src="/assets/icons/blue-plus.svg"
+                alt="pluse"
+                width={13}
+                height={13}
+              />
+              <p className="paragraph-4-medium">Add checkmark</p>
+            </Button>
+          )}
+
           <Separator className="w-full bg-white-500 bg-opacity-10 my-6 h-[0.68px]" />
           <div className="flex flex-col space-y-8 !mt-0">
-            {postType !== "Knowledge" && (
+            {postType !== "Knowledge" && postType !== "WorkFlow" && (
               <FormField
                 control={form.control}
                 name="codeSnippet"
@@ -269,7 +322,7 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                       onEditorChange={(codeSnippet) =>
                         form.setValue("codeSnippet", codeSnippet)
                       }
-                      initialValue=""
+                      initialValue={post?.codeSnippet}
                       init={{
                         height: 250,
                         skin: "oxide-dark",
@@ -321,9 +374,9 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
                           "link",
                         ],
                         toolbar:
-                          " bold italic alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons",
+                          " bold italic code codesample alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons",
                       }}
-                      initialValue=""
+                      initialValue={post?.content}
                     />
                   </FormItem>
                 )}
@@ -386,7 +439,16 @@ const FormCreatePost = ({ tags }: { tags: ITags[] }) => {
             type="submit"
             disabled={loading}
             className="bg-primary-500 text-black-900 font-bold disabled:opacity-50">
-            Create Post
+            {type === "Create" || type === "relatedPost"
+              ? loading
+                ? "Creating Post ..."
+                : "Create Post"
+              : null}
+            {type === "Update"
+              ? loading
+                ? "Updating Post ..."
+                : "Update Post"
+              : null}
           </Button>
         </form>
       </Form>

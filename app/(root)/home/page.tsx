@@ -1,17 +1,35 @@
-import LeftSideBar from "@/components/leftSideBar/page";
 import PostCards from "@/components/postCards/page";
-import RightSideBar from "@/components/rightSideBar/page";
 import { getAllPosts } from "@/lib/actions/post.action";
+import { getServerSession } from "next-auth";
 import React from "react";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-const Home = async () => {
-  const posts = await getAllPosts();
+export interface ISearchParams {
+  searchParams: {
+    filterType: string;
+    filterTags: string;
+    page: number;
+  };
+}
+
+const Home = async ({ searchParams }: ISearchParams) => {
+  const currentPage = +searchParams?.page ?? 1;
+
+  const filterPosts = await getAllPosts({
+    filterType: searchParams?.filterType,
+    filterTags: searchParams?.filterTags,
+    page: currentPage,
+  });
+
+  const session = await getServerSession(authOptions);
+  if (!session?.user) return null;
+
   return (
-    <div className="flex justify-between">
-      <LeftSideBar posts={posts} />
-      <PostCards posts={posts} />
-      <RightSideBar />
-    </div>
+    <PostCards
+      posts={filterPosts.posts}
+      totalPage={filterPosts.totalPages}
+      user={session.user}
+    />
   );
 };
 

@@ -82,8 +82,8 @@ export const authOptions = {
         });
 
         if (user) {
-          session = {
-            id: user._id,
+          session.user = {
+            id: user._id.toString(),
             email: user.email,
             name: user.name,
           };
