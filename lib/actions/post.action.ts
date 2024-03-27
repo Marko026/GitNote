@@ -1,16 +1,14 @@
 "use server";
 
 import { connectToDatabase } from "../mongoose";
-import { Post } from "@/database/post.model";
+import { IPost, Post } from "@/database/post.model";
 import { Tags } from "@/database/tags.model";
 import { ICreatePost } from "../validation";
-import mongoose from "mongoose";
+import mongoose, { FilterQuery } from "mongoose";
 import { FilterInterface } from "@/types";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/dist/server/api-utils";
-import { LessonProps } from "@/components/TaskCheckList/TaskCheckList";
 const ObjectId = mongoose.Types.ObjectId;
 
 export async function createPost(params: ICreatePost) {
@@ -67,7 +65,13 @@ export async function createPost(params: ICreatePost) {
   }
 }
 export async function getAllPosts(params: FilterInterface = {}) {
-  const { filterType, filterTags: tagsId, page = 1, allPosts } = params;
+  const {
+    filterType,
+    filterTags: tagsId,
+    page = 1,
+    allPosts,
+    searchString,
+  } = params;
 
   try {
     await connectToDatabase();
@@ -76,7 +80,7 @@ export async function getAllPosts(params: FilterInterface = {}) {
 
     if (!ownerId) throw new Error("You are not logged in.");
 
-    let query: { [key: string]: string } = {
+    let query: FilterQuery<IPost> = {
       ownerId,
     };
 
@@ -85,6 +89,12 @@ export async function getAllPosts(params: FilterInterface = {}) {
     }
     if (tagsId) {
       query = { ...query, tags: tagsId };
+    }
+    if (searchString) {
+      query = {
+        ...query,
+        $or: [{ title: { $regex: searchString, $options: "i" } }],
+      };
     }
 
     const LIMIT = 4;
@@ -102,6 +112,7 @@ export async function getAllPosts(params: FilterInterface = {}) {
         .skip((page - 1) * LIMIT)
         .limit(LIMIT);
     }
+
     return {
       totalPages: Math.ceil(totalPages),
       posts: JSON.parse(JSON.stringify(posts)),
@@ -206,11 +217,13 @@ export async function getRelatedPosts(params: { postId: string }) {
     if (ObjectId.isValid(postId)) {
       const post = await Post.findById(postId);
 
-      const relatedPosts = await Post.find({ tags: { $in: post.tags } }).limit(
-        5
-      );
-      revalidatePath(`/pageDetails/${postId}`);
-      return JSON.parse(JSON.stringify(relatedPosts));
+      if (post) {
+        const relatedPosts = await Post.find({
+          tags: { $in: post.tags },
+        }).limit(5);
+        revalidatePath(`/pageDetails/${postId}`);
+        return JSON.parse(JSON.stringify(relatedPosts));
+      }
     }
   } catch (error: any) {
     throw new Error(error);

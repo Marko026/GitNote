@@ -69,7 +69,7 @@ const RightSideBar = ({ user, tags }: Props) => {
           </div>
           <div
             onClick={() => router.push(`/createPost/${postId}`)}
-            className="flex w-full justify-center gap-2 mt-5 duration-200 bg-black-600 hover:bg-black-700 py-1.5 rounded">
+            className="flex w-full justify-center gap-2 mt-5 cursor-pointer duration-200 bg-black-600 hover:bg-black-700 py-1.5 rounded">
             <Image
               src="/assets/icons/blue-plus.svg"
               width={16}

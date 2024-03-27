@@ -8,39 +8,58 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { getAllPosts } from "@/lib/actions/post.action";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { ICreatePost } from "@/lib/validation";
 import { extractKeywords } from "@/lib/utils";
 import { PostType } from "@/constants";
 import Image from "next/image";
 import Link from "next/link";
+import { useDebounce } from "use-debounce";
 
 type Post = {
   posts: ICreatePost[];
 };
 
 export function SearchBox() {
+  const [text, setText] = useState("");
+  const [slowValue] = useDebounce(text, 700);
   const [allPosts, setAllPosts] = useState<Post>({ posts: [] });
-  const [loadMorePost, setLoadMorePost] = useState(false);
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await getAllPosts({ allPosts: loadMorePost });
+  const [isPending, startTransition] = useTransition();
+
+  const fetchPosts = (allPosts: boolean = true, searchString?: string) =>
+    startTransition(async () => {
+      const res = await getAllPosts({ allPosts, searchString });
       setAllPosts(res);
-    };
-    fetchPosts();
-  }, [loadMorePost]);
+    });
+
+  useEffect(() => {
+    fetchPosts(false);
+  }, []);
+
+  useEffect(() => {
+    fetchPosts(true, slowValue);
+  }, [slowValue]);
 
   return (
-    <Command className="rounded-lg shadow-md">
+    <Command className="rounded-lg shadow-md" shouldFilter={false}>
       <CommandInput
-        onValueChange={() => setLoadMorePost(true)}
+        value={text}
+        onValueChange={setText}
         placeholder="Type a command or search..."
         className="paragraph-3-regular"
       />
       <CommandList className="py-2">
-        <CommandEmpty className="h-52">No results found.</CommandEmpty>
-        <CommandGroup className="py-3 h-52 ">
-          {allPosts.posts &&
+        {!isPending && (
+          <CommandEmpty className="h-54 flex items-center justify-center paragraph-3-medium">
+            No posts found please try again
+          </CommandEmpty>
+        )}
+        <CommandGroup className="py-3 h-54 ">
+          {isPending && (
+            <p className="text-center paragraph-3-medium ">Loading...</p>
+          )}
+          {!isPending &&
+            allPosts.posts &&
             allPosts.posts.map((post: ICreatePost) => {
               const postType = PostType.find(
                 (type) => type.value === post.postType
@@ -50,7 +69,9 @@ export function SearchBox() {
                   key={post._id}
                   href={`/postDetails/${post._id}`}
                   className="cursor-pointer group">
-                  <CommandItem className="flex items-center w-full mb-1 px-5 cursor-pointer">
+                  <CommandItem
+                    value={post.title}
+                    className="flex items-center w-full mb-1 px-5 cursor-pointer">
                     <Image
                       src={
                         postType?.label === post.postType ? postType.image : ""

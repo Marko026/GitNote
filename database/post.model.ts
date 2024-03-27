@@ -1,4 +1,4 @@
-import { Schema, models, model } from "mongoose";
+import { Schema, models, model, Model } from "mongoose";
 
 export interface IPost extends Document {
   _id?: string;
@@ -35,7 +35,7 @@ const lessonsSchema = new Schema({
   },
 });
 
-const postSchema = new Schema(
+const postSchema = new Schema<IPost>(
   {
     ownerId: {
       type: Schema.Types.ObjectId,
@@ -87,4 +87,7 @@ const postSchema = new Schema(
   }
 );
 
-export const Post = models.Post || model("Post", postSchema);
+postSchema.index({ title: "text" });
+
+export const Post =
+  (models.Post as Model<IPost>) || model<IPost>("Post", postSchema);

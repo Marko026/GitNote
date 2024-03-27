@@ -3,4 +3,5 @@ export interface FilterInterface {
   filterTags?: string;
   page?: number;
   allPosts?: boolean;
+  searchString?: string;
 }
