@@ -1,11 +1,5 @@
 import { Schema, models, model } from "mongoose";
 
-export interface UserAvailability {
-  startDate: Date;
-  endDate: Date;
-  availability: boolean;
-}
-
 export interface UserProps {
   ownerId?: string;
   name: string;
@@ -14,10 +8,12 @@ export interface UserProps {
   location?: string;
   joinedAt?: Date;
   portfolio?: string;
-  learningGoals?: string[];
-  knowledge?: string[];
-  techStack?: string[];
-  availability?: UserAvailability[];
+  learningGoals?: { title: string }[];
+  knowledge?: { title: string }[];
+  techStack?: string;
+  startDate?: Date;
+  endDate?: Date;
+  acceptedTerms?: boolean;
 }
 
 const userSchema = new Schema({
@@ -54,16 +50,16 @@ const userSchema = new Schema({
     type: [String],
   },
   techStack: {
-    type: [String],
+    type: String,
   },
-  availability: {
-    type: [
-      {
-        startDate: Date,
-        endDate: Date,
-        availability: Boolean,
-      },
-    ],
+  startDate: {
+    type: Date,
+  },
+  endDate: {
+    type: Date,
+  },
+  acceptedTerms: {
+    type: Boolean,
   },
 });
 

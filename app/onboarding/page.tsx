@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
+import { onBoardingSchema } from "@/lib/validation";
 import {
   Form,
   FormControl,
@@ -25,27 +26,51 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CldUploadButton } from "next-cloudinary";
-
-const formSchema = z.object({
-  name: z.string().min(2).max(50),
-  portfolio: z.string().min(2).max(50),
-});
+import { CldUploadWidget } from "next-cloudinary";
 
 const Onboarding = () => {
   const [date, setDate] = React.useState<Date>();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [image, setImage] = useState("");
+
+  const form = useForm<z.infer<typeof onBoardingSchema>>({
+    resolver: zodResolver(onBoardingSchema),
     defaultValues: {
       name: "",
+      image: "",
       portfolio: "",
+      learningGoals: [],
+      knowledgeLevel: [],
+      techStack: "",
+      acceptedTerms: false,
+      startDate: new Date(),
+      endDate: new Date(),
     },
   });
-  function onSubmit(values: z.infer<typeof formSchema>) {
+
+  const {
+    fields: learningGoalsFields,
+    append: appendLearningGoals,
+    remove: removeLearningGoals,
+  } = useFieldArray({
+    control: form.control,
+    name: "learningGoals",
+  });
+
+  const {
+    fields: knowledgeLevelFields,
+    append: appendKnowledgeLevel,
+    remove: removeKnowledgeLevel,
+  } = useFieldArray({
+    control: form.control,
+    name: "knowledgeLevel",
+  });
+
+  function onSubmit(values: z.infer<typeof onBoardingSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
+
   return (
     <div className="min-h-screen ">
       <div className="flex flex-col pt-20">
@@ -60,47 +85,58 @@ const Onboarding = () => {
           <div className="bg-black-800 w-[600px]  p-8 rounded-md ">
             <div className="flex items-center justify-between">
               {Array.from({ length: 4 }).map((_, index) => (
-                <>
-                  <div className="p-1 bg-black-600 inline-block rounded-xl">
-                    <Image
-                      src="/assets/icons/content.svg"
-                      width={50}
-                      height={50}
-                      alt="content"
-                    />
+                <div key={index + 1}>
+                  <div className="flex items-center ">
+                    <div className="p-1 bg-black-600 inline-block rounded-xl">
+                      <Image
+                        src="/assets/icons/content.svg"
+                        width={50}
+                        height={50}
+                        alt="content"
+                      />
+                    </div>
+                    {index !== 3 && (
+                      <span className="h-[2px] rounded-sm inline-block bg-primary-500 w-28"></span>
+                    )}
                   </div>
-                  {index !== 3 && (
-                    <span className="h-[2px] rounded-sm inline-block bg-primary-500 w-28"></span>
-                  )}
-                </>
+                </div>
               ))}
             </div>
             <h2 className="h2-bold my-6">Basic Information</h2>
             <div className="flex items-center gap-4 mb-6">
-              <div className="p-8 bg-black-700 rounded">
+              <div className={`${image && "!p-0"} p-8 bg-black-700 rounded`}>
                 <Image
-                  src="/assets/icons/img-basis.svg"
-                  width={24}
-                  height={24}
+                  src={!image ? "/assets/icons/img-basis.svg" : image}
+                  width={!image ? 24 : 100}
+                  height={!image ? 24 : 100}
                   alt="img"
                 />
               </div>
-              <CldUploadButton
-                className=" flex gap-2 items-center p-4 rounded-md h-10 !bg-black-600  duration-200 paragraph-3-medium hover:text-white-100 "
-                // onUpload={(error, result, widget) => {
-                //   setResource(result?.info); // Updating local state with asset details
-                //   widget.close(); // Close widget immediately after successful upload
-                // }}
-                signatureEndpoint="/api/sign-cloudinary-params"
-                uploadPreset="next-cloudinary-signed">
+              <div className="bg-black-700 flex py-2 px-5 gap-3 rounded-md">
                 <Image
                   src="/assets/icons/img-cloud.svg"
                   width={20}
                   height={20}
                   alt="cloud"
                 />
-                Upload to Cloudinary
-              </CldUploadButton>
+                <CldUploadWidget
+                  signatureEndpoint="/api/sign-cloudinary-params"
+                  onSuccess={(result) => {
+                    setImage(result.info.secure_url);
+                    form.setValue("image", result.info.secure_url);
+                  }}
+                  uploadPreset="gitnote">
+                  {({ open }) => {
+                    return (
+                      <button
+                        className="paragraph-3-medium"
+                        onClick={() => open()}>
+                        Update Profile Picture
+                      </button>
+                    );
+                  }}
+                </CldUploadWidget>
+              </div>
             </div>
             <Form {...form}>
               <form
@@ -113,11 +149,11 @@ const Onboarding = () => {
 
                 <div className="flex flex-col space-y-2">
                   <h4 className="paragraph-3-medium mb-2"></h4>
-                  {[1, 2].map((item, index) => (
-                    <div key={item.id}>
+                  {learningGoalsFields.map((item, index) => (
+                    <div key={index + 1}>
                       <ReusableFormField
                         page="Onboarding"
-                        name={`lessons.${index}.title`}
+                        name={`learningGoals.${index}.title`}
                         checkbox={
                           <Checkbox
                             color="primary"
@@ -132,8 +168,7 @@ const Onboarding = () => {
                           <Button
                             type="button"
                             className="bg-transparent hover:bg-black-900"
-                            // onClick={() => removeLessons(index)}
-                          >
+                            onClick={() => removeLearningGoals(index)}>
                             <Image
                               src="/assets/icons/close.svg"
                               alt="close"
@@ -149,7 +184,7 @@ const Onboarding = () => {
                 </div>
                 <Button
                   type="button"
-                  // onClick={() => appendLesson({ title: "" })}
+                  onClick={() => appendLearningGoals({ title: "" })}
                   className="flex w-full items-center gap-2 bg-black-600">
                   <Image
                     src="/assets/icons/blue-plus.svg"
@@ -164,10 +199,10 @@ const Onboarding = () => {
 
                 <div className="flex flex-col space-y-2">
                   <h4 className="paragraph-3-medium mb-2"></h4>
-                  {[1, 2].map((item, index) => (
-                    <div key={item.id}>
+                  {knowledgeLevelFields.map((item, index) => (
+                    <div key={index + 1}>
                       <ReusableFormField
-                        name={`lessons.${index}.title`}
+                        name={`knowledgeLevel.${index}.title`}
                         leftIcon={
                           <Image
                             src="/assets/icons/check-mark.svg"
@@ -183,8 +218,7 @@ const Onboarding = () => {
                           <Button
                             type="button"
                             className="bg-transparent hover:bg-black-900"
-                            // onClick={() => removeLessons(index)}
-                          >
+                            onClick={() => removeKnowledgeLevel(index)}>
                             <Image
                               src="/assets/icons/close.svg"
                               alt="close"
@@ -200,7 +234,7 @@ const Onboarding = () => {
                 </div>
                 <Button
                   type="button"
-                  // onClick={() => appendLesson({ title: "" })}
+                  onClick={() => appendKnowledgeLevel({ title: "" })}
                   className="flex w-full items-center gap-2 bg-black-600">
                   <Image
                     src="/assets/icons/blue-plus.svg"
@@ -217,6 +251,7 @@ const Onboarding = () => {
                 <div className="mb-10 flex gap-2 flex-col space-y-3">
                   <div className="flex items-center gap-3">
                     <Checkbox
+                      name="acceptedTerms"
                       id="terms"
                       className={`border-2 border-white-500  data-[state=checked]:border-none `}
                     />
@@ -231,6 +266,7 @@ const Onboarding = () => {
                       <p className="mb-2">Start Date & Time</p>
                       <Popover>
                         <PopoverTrigger
+                          name="startDate"
                           asChild
                           className="bg-black-700 hover:bg-black-600 border-transparent !text-white-300 hover:border-white-500  hover:text-white-100">
                           <Button
@@ -262,6 +298,7 @@ const Onboarding = () => {
                       <p className="mb-2">End Date & Time</p>
                       <Popover>
                         <PopoverTrigger
+                          name="endDate"
                           asChild
                           className="bg-black-700 hover:bg-black-600 border-transparent !text-white-300 hover:border-white-500  hover:text-white-100 ">
                           <Button

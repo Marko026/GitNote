@@ -41,4 +41,21 @@ export const createPostSchema = z.object({
     .max(10),
 });
 
+export const onBoardingSchema = z.object({
+  name: z.string().min(3).max(20),
+  portfolio: z.string().min(3).max(100),
+  image: z.string(),
+  learningGoals: z
+    .array(z.object({ title: z.string().min(1).max(30) }))
+    .max(10),
+  knowledgeLevel: z
+    .array(z.object({ title: z.string().min(1).max(30) }))
+    .max(10),
+  techStack: z.string().min(3).max(20),
+  acceptedTerms: z.boolean(),
+  startDate: z.date(),
+  endDate: z.date(),
+});
+export type IOnBoarding = z.infer<typeof onBoardingSchema>;
+
 export type ICreatePost = z.infer<typeof createPostSchema>;
