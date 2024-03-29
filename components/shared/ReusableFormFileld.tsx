@@ -12,10 +12,8 @@ import { Checkbox } from "../ui/checkbox";
 
 type ReusableFormFieldProps = {
   name: string;
-  page?: string;
   label?: string;
   placeholder?: string;
-  checkbox?: ReactElement;
   leftIcon?: ReactElement;
   rightIcon?: ReactElement;
   formControlClassName?: string;
@@ -24,11 +22,9 @@ type ReusableFormFieldProps = {
 };
 
 const ReusableFormField = ({
-  page,
   name,
   label,
   placeholder,
-  checkbox,
   leftIcon,
   rightIcon,
   formItemClassName,
@@ -49,7 +45,6 @@ const ReusableFormField = ({
             )}
             <FormControl>
               <div className={formControlClassName}>
-                {page === "Onboarding" && checkbox}
                 {leftIcon}
                 <Input
                   placeholder={placeholder}

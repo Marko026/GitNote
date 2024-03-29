@@ -8,7 +8,7 @@ export interface UserProps {
   location?: string;
   joinedAt?: Date;
   portfolio?: string;
-  learningGoals?: { title: string }[];
+  learningGoals?: { title: string; isChecked: boolean }[];
   knowledge?: { title: string }[];
   techStack?: string;
   startDate?: Date;
@@ -44,7 +44,7 @@ const userSchema = new Schema({
     type: String,
   },
   learningGoals: {
-    type: [String],
+    type: [{ title: String, isChecked: Boolean }],
   },
   knowledge: {
     type: [String],

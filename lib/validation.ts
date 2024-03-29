@@ -46,12 +46,17 @@ export const onBoardingSchema = z.object({
   portfolio: z.string().min(3).max(100),
   image: z.string(),
   learningGoals: z
-    .array(z.object({ title: z.string().min(1).max(30) }))
+    .array(
+      z.object({
+        title: z.string().min(1).max(30),
+        isChecked: z.boolean().optional(),
+      })
+    )
     .max(10),
   knowledgeLevel: z
     .array(z.object({ title: z.string().min(1).max(30) }))
     .max(10),
-  techStack: z.string().min(3).max(20),
+  techStack: z.string().min(3).max(100),
   acceptedTerms: z.boolean(),
   startDate: z.date(),
   endDate: z.date(),
