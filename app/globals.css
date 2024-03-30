@@ -149,3 +149,9 @@ input:-webkit-autofill:active {
 .custom-scrollbar-dialog::-webkit-scrollbar-thumb:hover {
   background: #2e3757;
 }
+.blue-progress::-webkit-progress-value {
+  background: #42bbff;
+}
+.blue-progress::-moz-progress-bar {
+  background: #42bbff;
+}

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { boolean, z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -31,7 +31,9 @@ import { CldUploadWidget } from "next-cloudinary";
 const Onboarding = () => {
   const [date, setDate] = React.useState<Date>();
   const [image, setImage] = useState("");
-  const [step, setStep] = useState<number>(3);
+  const [step, setStep] = useState<number>(0);
+  const [progress, setProgress] = useState([0, 0, 0]);
+  const [currentImage, setCurrentImage] = useState("/assets/icons/tick.svg");
 
   const form = useForm<z.infer<typeof onBoardingSchema>>({
     resolver: zodResolver(onBoardingSchema),
@@ -79,20 +81,33 @@ const Onboarding = () => {
     console.log(values);
   }
 
-  console.log(form.formState.errors);
-
   const goToNext = async () => {
     if (step === 0) {
       const success = await form.trigger(["name", "portfolio"]);
-      if (success) setStep(1);
+
+      if (success) {
+        setProgress([100, 0, 0, 0]);
+        setCurrentImage(image);
+        setStep(1);
+      }
     }
     if (step === 1) {
       const success = await form.trigger("learningGoals");
-      if (success) setStep(2);
+
+      if (success) {
+        setProgress([100, 100, 0, 0]);
+        setCurrentImage(image);
+        setStep(2);
+      }
     }
     if (step === 2) {
       const success = await form.trigger(["knowledgeLevel", "techStack"]);
-      if (success) setStep(3);
+      setProgress([100, 100, 100]);
+
+      if (success) {
+        setCurrentImage(image);
+        setStep(3);
+      }
     }
     if (step === 3) {
       const success = await form.trigger([
@@ -102,6 +117,12 @@ const Onboarding = () => {
       ]);
       if (success) form.handleSubmit(onSubmit)();
     }
+  };
+
+  const getImageSrc = (index: number, step: number, currentImage: string) => {
+    if (index === 4) return currentImage;
+    if (index < step) return "/assets/icons/tick.svg";
+    return "/assets/icons/content.svg";
   };
 
   const startDate = form.watch("startDate");
@@ -119,20 +140,27 @@ const Onboarding = () => {
         />
         <div className="flex justify-center items-center">
           <div className="bg-black-800 w-[600px]  p-8 rounded-md ">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-6">
               {Array.from({ length: 4 }).map((_, index) => (
                 <div key={index + 1}>
                   <div className="flex items-center ">
-                    <div className="p-1 bg-black-600 inline-block rounded-xl">
+                    <div
+                      className={`p-1 bg-black-600 rounded-xl ${
+                        step >= index + 1 ? "p-2 w-12 bg-primary-500 " : ""
+                      } `}>
                       <Image
-                        src="/assets/icons/content.svg"
-                        width={50}
-                        height={50}
+                        src={getImageSrc(index, step, currentImage)}
+                        width={44}
+                        height={44}
                         alt="content"
                       />
                     </div>
                     {index !== 3 && (
-                      <span className="h-[2px] rounded-sm inline-block bg-primary-500 w-28"></span>
+                      <div className="h-[2px] rounded-sm bg-black-600 w-28 relative overflow-hidden">
+                        <div
+                          style={{ width: `${progress[index]}%` }}
+                          className="h-full bg-primary-500 transition-all duration-500"></div>
+                      </div>
                     )}
                   </div>
                 </div>
