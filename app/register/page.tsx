@@ -45,6 +45,7 @@ const RegisterForm = () => {
       email: values.email,
       password: values.password,
       ownerId: "",
+      onboardingCompleted: false,
     });
 
     await signIn("credentials", {
@@ -53,7 +54,7 @@ const RegisterForm = () => {
       password: values.password,
     });
 
-    router.push("/home");
+    router.push("/onboarding");
 
     form.reset({ name: "", email: "", password: "" });
   }

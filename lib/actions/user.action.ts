@@ -2,6 +2,7 @@
 
 import { connectToDatabase } from "../mongoose";
 import { User, UserProps } from "@/database/user.model";
+import { IOnBoarding } from "../validation";
 const bcrypt = require("bcrypt");
 
 export async function createUser(params: UserProps) {
@@ -25,6 +26,43 @@ export async function findUser(params: { email: string }) {
     return JSON.parse(JSON.stringify(user));
   } catch (error: any) {
     console.error("findUser error: ", error);
+    throw new Error(error);
+  }
+}
+
+export async function compleatUserOnboarding(params: IOnBoarding) {
+  const {
+    email,
+    learningGoals,
+    knowledge,
+    techStack,
+    startDate,
+    endDate,
+    acceptedTerms,
+  } = params;
+  try {
+    connectToDatabase();
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    user.learningGoals = learningGoals;
+    user.knowledge = knowledge;
+    user.techStack = techStack;
+    user.startDate = startDate;
+    user.endDate = endDate;
+    user.onboardingCompleted = true;
+    user.acceptedTerms = acceptedTerms;
+
+    if (!user.onboardingCompleted && !user.acceptedTerms) {
+      throw new Error(
+        "User onboarding not completed and you have not accepted terms"
+      );
+    }
+    await user.save();
+    return JSON.parse(JSON.stringify(user));
+  } catch (error: any) {
+    console.error("compleatUserOnboarding error: ", error);
     throw new Error(error);
   }
 }

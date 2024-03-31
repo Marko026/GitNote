@@ -1,10 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { boolean, z } from "zod";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useForm, useFieldArray, useWatch } from "react-hook-form";
+import { useForm, useFieldArray, useFormState } from "react-hook-form";
 import { onBoardingSchema } from "@/lib/validation";
 import {
   Form,
@@ -28,6 +28,11 @@ import {
 } from "@/components/ui/popover";
 import { CldUploadWidget } from "next-cloudinary";
 
+import { useSession } from "next-auth/react";
+import { compleatUserOnboarding } from "@/lib/actions/user.action";
+import { register } from "module";
+import { useRouter } from "next/navigation";
+
 const Onboarding = () => {
   const [date, setDate] = React.useState<Date>();
   const [image, setImage] = useState("");
@@ -35,9 +40,14 @@ const Onboarding = () => {
   const [progress, setProgress] = useState([0, 0, 0]);
   const [currentImage, setCurrentImage] = useState("/assets/icons/tick.svg");
 
+  const router = useRouter();
+
+  const { data: session } = useSession();
+
   const form = useForm<z.infer<typeof onBoardingSchema>>({
     resolver: zodResolver(onBoardingSchema),
     defaultValues: {
+      email: session?.user?.email ?? undefined,
       name: "",
       image: "",
       portfolio: "",
@@ -47,7 +57,7 @@ const Onboarding = () => {
           isChecked: false,
         },
       ],
-      knowledgeLevel: [
+      knowledge: [
         {
           title: "",
         },
@@ -56,6 +66,7 @@ const Onboarding = () => {
       acceptedTerms: false,
       startDate: new Date(),
       endDate: new Date(),
+      onBoardingCompleted: false,
     },
   });
 
@@ -74,11 +85,14 @@ const Onboarding = () => {
     remove: removeKnowledgeLevel,
   } = useFieldArray({
     control: form.control,
-    name: "knowledgeLevel",
+    name: "knowledge",
   });
 
-  function onSubmit(values: z.infer<typeof onBoardingSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof onBoardingSchema>) {
+    if (!session?.user?.email) return;
+
+    await compleatUserOnboarding(values);
+    router.push("/home");
   }
 
   const goToNext = async () => {
@@ -101,7 +115,7 @@ const Onboarding = () => {
       }
     }
     if (step === 2) {
-      const success = await form.trigger(["knowledgeLevel", "techStack"]);
+      const success = await form.trigger(["knowledge", "techStack"]);
       setProgress([100, 100, 100]);
 
       if (success) {
@@ -302,7 +316,7 @@ const Onboarding = () => {
                       {knowledgeLevelFields.map((item, index) => (
                         <div key={index + 1}>
                           <ReusableFormField
-                            name={`knowledgeLevel.${index}.title`}
+                            name={`knowledge.${index}.title`}
                             leftIcon={
                               <Image
                                 src="/assets/icons/check-mark.svg"

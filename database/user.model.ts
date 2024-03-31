@@ -14,6 +14,7 @@ export interface UserProps {
   startDate?: Date;
   endDate?: Date;
   acceptedTerms?: boolean;
+  onboardingCompleted: boolean;
 }
 
 const userSchema = new Schema({
@@ -47,7 +48,7 @@ const userSchema = new Schema({
     type: [{ title: String, isChecked: Boolean }],
   },
   knowledge: {
-    type: [String],
+    type: [{ title: String }],
   },
   techStack: {
     type: String,
@@ -59,6 +60,10 @@ const userSchema = new Schema({
     type: Date,
   },
   acceptedTerms: {
+    required: true,
+    type: Boolean,
+  },
+  onboardingCompleted: {
     type: Boolean,
   },
 });
