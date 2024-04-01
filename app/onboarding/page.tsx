@@ -153,7 +153,7 @@ const Onboarding = () => {
           className="mx-auto mb-32"
         />
         <div className="flex justify-center items-center">
-          <div className="bg-black-800 w-[600px]  p-8 rounded-md ">
+          <div className="bg-black-800 max-w-[600px]  p-8 rounded-md ">
             <div className="flex items-center justify-between mb-6">
               {Array.from({ length: 4 }).map((_, index) => (
                 <div key={index + 1}>
@@ -169,8 +169,8 @@ const Onboarding = () => {
                         alt="content"
                       />
                     </div>
-                    {index !== 3 && (
-                      <div className="h-[2px] rounded-sm bg-black-600 w-28 relative overflow-hidden">
+                    {index !== progress.length && (
+                      <div className="h-[2px] rounded-sm bg-black-600 w-10 md:w-28 relative ">
                         <div
                           style={{ width: `${progress[index]}%` }}
                           className="h-full bg-primary-500 transition-all duration-500"></div>
@@ -200,7 +200,7 @@ const Onboarding = () => {
                           alt="img"
                         />
                       </div>
-                      <div className="bg-black-700 flex py-2 px-5 gap-3 rounded-md">
+                      <div className="bg-black-700 flex gap-2 py-3 px-2 rounded-md">
                         <Image
                           src="/assets/icons/img-cloud.svg"
                           width={20}
@@ -218,7 +218,7 @@ const Onboarding = () => {
                             return (
                               <button
                                 type="button"
-                                className="paragraph-3-medium"
+                                className="paragraph-3-medium "
                                 onClick={() => open()}>
                                 Update Profile Picture
                               </button>
