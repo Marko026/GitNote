@@ -150,7 +150,7 @@ const Onboarding = () => {
           width={220}
           height={50}
           alt="logo"
-          className="mx-auto mb-32"
+          className="mx-auto mb-16 md:mb-32 w-44 md:w-52"
         />
         <div className="flex justify-center items-center">
           <div className="bg-black-800 max-w-[600px]  p-8 rounded-md ">
