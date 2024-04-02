@@ -49,7 +49,7 @@ const Onboarding = () => {
     defaultValues: {
       email: session?.user?.email ?? undefined,
       name: "",
-      image: "",
+      image: image,
       portfolio: "",
       learningGoals: [
         {
@@ -63,7 +63,7 @@ const Onboarding = () => {
         },
       ],
       techStack: "",
-      acceptedTerms: false,
+      availability: false,
       startDate: new Date(),
       endDate: new Date(),
       onBoardingCompleted: false,
@@ -125,7 +125,7 @@ const Onboarding = () => {
     }
     if (step === 3) {
       const success = await form.trigger([
-        "acceptedTerms",
+        "availability",
         "startDate",
         "endDate",
       ]);
@@ -169,7 +169,7 @@ const Onboarding = () => {
                         alt="content"
                       />
                     </div>
-                    {index !== progress.length && (
+                    {index <= 2 && (
                       <div className="h-[2px] rounded-sm bg-black-600 w-10 md:w-28 relative ">
                         <div
                           style={{ width: `${progress[index]}%` }}
@@ -374,7 +374,7 @@ const Onboarding = () => {
                     <div className="mb-10 flex gap-2 flex-col space-y-3">
                       <div className="flex items-center gap-3">
                         <FormField
-                          name="acceptedTerms"
+                          name="availability"
                           control={form.control}
                           render={({ field }) => (
                             <FormItem>
@@ -389,7 +389,7 @@ const Onboarding = () => {
                                   <label
                                     htmlFor="terms"
                                     className="text-sm  text-white-100 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                    Accept terms and conditions
+                                    Are you available for a new project?
                                   </label>
                                 </div>
                               </FormControl>

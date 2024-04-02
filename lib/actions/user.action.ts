@@ -35,10 +35,12 @@ export async function compleatUserOnboarding(params: IOnBoarding) {
     email,
     learningGoals,
     knowledge,
+    portfolio,
+    image,
     techStack,
     startDate,
     endDate,
-    acceptedTerms,
+    availability,
   } = params;
   try {
     connectToDatabase();
@@ -47,12 +49,14 @@ export async function compleatUserOnboarding(params: IOnBoarding) {
       throw new Error("User not found");
     }
     user.learningGoals = learningGoals;
+    user.image = image;
     user.knowledge = knowledge;
     user.techStack = techStack;
+    user.portfolio = portfolio;
     user.startDate = startDate;
     user.endDate = endDate;
     user.onboardingCompleted = true;
-    user.acceptedTerms = acceptedTerms;
+    user.availability = availability;
 
     if (!user.onboardingCompleted && !user.acceptedTerms) {
       throw new Error(

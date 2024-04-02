@@ -54,9 +54,9 @@ export const onBoardingSchema = z.object({
       })
     )
     .max(10),
-  knowledge: z.array(z.object({ title: z.string().min(1).max(30) })).max(10),
+  knowledge: z.array(z.object({ title: z.string().min(1).max(100) })).max(10),
   techStack: z.string().min(3).max(100),
-  acceptedTerms: z.boolean(),
+  availability: z.boolean(),
   startDate: z.date(),
   endDate: z.date(),
   onBoardingCompleted: z.boolean(),

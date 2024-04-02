@@ -22,7 +22,7 @@ const LeftSideBar = ({ recentPosts }: { recentPosts: ICreatePost[] }) => {
   }, [pathname]);
 
   return (
-    <div className="lg:flex xl:min-w-72  hidden bg-black-800  px-7 min-h-screen">
+    <div className="lg:flex min-w-72  hidden bg-black-800  px-7 min-h-screen">
       <div className="w-full">
         <Link href="/home">
           <Image

@@ -51,3 +51,35 @@ export const extractIdFromPath = (path: string) => {
   const pathArray = path.split("/");
   return pathArray[pathArray.length - 1];
 };
+
+export function formatDateProfile(dateString: string) {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? "PM" : "AM";
+  const timezone = "CET";
+
+  const formattedDate = `${month} ${day}, ${year} - ${
+    hours % 12 || 12
+  }:${minutes.toString().padStart(2, "0")} ${ampm} ${timezone}`;
+
+  return formattedDate;
+}

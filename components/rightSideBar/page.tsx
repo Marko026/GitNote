@@ -34,7 +34,7 @@ const RightSideBar = ({ user, tags }: Props) => {
 
   return (
     <div className="bg-black-800 min-w-72 min-h-screen px-7 hidden xxl:block pt-10">
-      <Link href="/createPost" className="flex gap-[6px] mb-12">
+      <Link href="/profile" className="flex gap-[6px] mb-12">
         <Image
           src="/assets/images/avatar01.png"
           width={36}

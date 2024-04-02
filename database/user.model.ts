@@ -13,8 +13,9 @@ export interface UserProps {
   techStack?: string;
   startDate?: Date;
   endDate?: Date;
-  acceptedTerms?: boolean;
+  availability?: boolean;
   onboardingCompleted: boolean;
+  image?: string;
 }
 
 const userSchema = new Schema({
@@ -59,12 +60,14 @@ const userSchema = new Schema({
   endDate: {
     type: Date,
   },
-  acceptedTerms: {
-    required: true,
+  availability: {
     type: Boolean,
   },
   onboardingCompleted: {
     type: Boolean,
+  },
+  image: {
+    type: String,
   },
 });
 
