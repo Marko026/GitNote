@@ -136,6 +136,7 @@ const Onboarding = () => {
   const getImageSrc = (index: number, step: number, currentImage: string) => {
     if (index === 4) return currentImage;
     if (index < step) return "/assets/icons/tick.svg";
+    if (index !== step) return "/assets/icons/step-base-icon.svg";
     return "/assets/icons/content.svg";
   };
 

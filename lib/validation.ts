@@ -53,8 +53,12 @@ export const onBoardingSchema = z.object({
         isChecked: z.boolean().optional(),
       })
     )
+    .min(1)
     .max(10),
-  knowledge: z.array(z.object({ title: z.string().min(1).max(100) })).max(10),
+  knowledge: z
+    .array(z.object({ title: z.string().min(1).max(100) }))
+    .min(1)
+    .max(10),
   techStack: z.string().min(3).max(100),
   availability: z.boolean(),
   startDate: z.date(),
