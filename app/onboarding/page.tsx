@@ -30,7 +30,6 @@ import { CldUploadWidget } from "next-cloudinary";
 
 import { useSession } from "next-auth/react";
 import { compleatUserOnboarding } from "@/lib/actions/user.action";
-import { register } from "module";
 import { useRouter } from "next/navigation";
 
 const Onboarding = () => {
@@ -39,6 +38,8 @@ const Onboarding = () => {
   const [step, setStep] = useState<number>(0);
   const [progress, setProgress] = useState([0, 0, 0]);
   const [currentImage, setCurrentImage] = useState("/assets/icons/tick.svg");
+
+  console.log(currentImage);
 
   const router = useRouter();
 
@@ -91,8 +92,12 @@ const Onboarding = () => {
   async function onSubmit(values: z.infer<typeof onBoardingSchema>) {
     if (!session?.user?.email) return;
 
-    await compleatUserOnboarding(values);
-    router.push("/home");
+    try {
+      await compleatUserOnboarding(values);
+      router.push("/home");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const goToNext = async () => {
@@ -243,7 +248,6 @@ const Onboarding = () => {
                     <h2 className="h2-bold my-6">Add your learning goals</h2>
 
                     <div className="flex flex-col space-y-2">
-                      <h4 className="paragraph-3-medium mb-2"></h4>
                       {learningGoalsFields.map((item, index) => (
                         <div
                           key={index + 1}

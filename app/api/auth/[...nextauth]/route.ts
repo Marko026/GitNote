@@ -86,6 +86,7 @@ export const authOptions = {
             id: user._id.toString(),
             email: user.email,
             name: user.name,
+            onboardingCompleted: user.onboardingCompleted,
           };
         }
       } catch (error) {

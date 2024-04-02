@@ -49,7 +49,7 @@ export const onBoardingSchema = z.object({
   learningGoals: z
     .array(
       z.object({
-        title: z.string().min(1).max(30),
+        title: z.string().min(1).max(100),
         isChecked: z.boolean().optional(),
       })
     )

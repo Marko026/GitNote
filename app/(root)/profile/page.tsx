@@ -18,7 +18,6 @@ const Profile = async () => {
   const userEmail = session?.user?.email;
 
   const user = await findUser({ email: userEmail });
-  console.log(user);
 
   return (
     <div className="w-full pt-10 px-8">
