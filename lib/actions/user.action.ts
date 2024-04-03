@@ -3,6 +3,9 @@
 import { connectToDatabase } from "../mongoose";
 import { User, UserProps } from "@/database/user.model";
 import { IOnBoarding } from "../validation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 const bcrypt = require("bcrypt");
 
 export async function createUser(params: UserProps) {
@@ -48,6 +51,7 @@ export async function compleatUserOnboarding(params: IOnBoarding) {
     if (!user) {
       throw new Error("User not found");
     }
+
     user.learningGoals = learningGoals;
     user.image = image;
     user.knowledge = knowledge;
@@ -67,6 +71,65 @@ export async function compleatUserOnboarding(params: IOnBoarding) {
     return JSON.parse(JSON.stringify(user));
   } catch (error: any) {
     console.error("compleatUserOnboarding error: ", error);
+    throw new Error(error);
+  }
+}
+
+export async function findUserById(params: { id: string }) {
+  const { id } = params;
+  try {
+    connectToDatabase();
+    const user = await User.findOne({
+      _id: id,
+    });
+    return JSON.parse(JSON.stringify(user));
+  } catch (error: any) {
+    console.error("findUserById error: ", error);
+    throw new Error(error);
+  }
+}
+
+export async function updateProfile(params: IOnBoarding) {
+  const {
+    name,
+    email,
+    portfolio,
+    learningGoals,
+    knowledge,
+    availability,
+    techStack,
+    startDate,
+    endDate,
+    image,
+  } = params;
+
+  try {
+    await connectToDatabase();
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user) {
+      throw new Error("User not found");
+    }
+    const userId = session.user.id;
+    const user = await User.findOne(
+      { _id: userId },
+      {
+        name: name,
+        email: email,
+        portfolio: portfolio,
+        learningGoals: learningGoals,
+        knowledge: knowledge,
+        availability: availability,
+        techStack: techStack,
+        startDate: startDate,
+        endDate: endDate,
+        image: image,
+      }
+    );
+    await user.save();
+    return JSON.parse(JSON.stringify(user));
+  } catch (error: any) {
+    console.error("updateProfile error: ", error);
     throw new Error(error);
   }
 }

@@ -59,12 +59,13 @@ export const onBoardingSchema = z.object({
     .array(z.object({ title: z.string().min(1).max(100) }))
     .min(1)
     .max(10),
-  techStack: z.string().min(3).max(100),
+  techStack: z.array(z.string().min(1).max(100)),
   availability: z.boolean(),
   startDate: z.date(),
   endDate: z.date(),
   onBoardingCompleted: z.boolean(),
 });
+
 export type IOnBoarding = z.infer<typeof onBoardingSchema>;
 
 export type ICreatePost = z.infer<typeof createPostSchema>;

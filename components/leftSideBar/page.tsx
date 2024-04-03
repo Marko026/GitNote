@@ -16,7 +16,7 @@ const LeftSideBar = ({ recentPosts }: { recentPosts: ICreatePost[] }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    if (pathname.includes("/postDetails")) {
+    if (pathname.includes("/postDetails") || pathname.includes("/explore")) {
       setIsOpen(false);
     }
   }, [pathname]);
@@ -54,7 +54,7 @@ const LeftSideBar = ({ recentPosts }: { recentPosts: ICreatePost[] }) => {
           <h4 className="text-white-500 mb-5">Posts</h4>
           <div className="flex flex-col space-y-5">
             {recentPosts?.map((item: any, idx: any) => (
-              <Link href="" key={idx} className="flex gap-2">
+              <Link href={``} key={idx} className="flex gap-2">
                 <Image
                   src={
                     PostType.find((type) => type.value === item.postType)

@@ -4,7 +4,7 @@ export interface UserProps {
   ownerId?: string;
   name: string;
   email: string;
-  password: string;
+  password?: string;
   location?: string;
   joinedAt?: Date;
   portfolio?: string;
@@ -14,7 +14,7 @@ export interface UserProps {
   startDate?: Date;
   endDate?: Date;
   availability?: boolean;
-  onboardingCompleted: boolean;
+  onboardingCompleted?: boolean;
   image?: string;
 }
 

@@ -39,8 +39,6 @@ const Onboarding = () => {
   const [progress, setProgress] = useState([0, 0, 0]);
   const [currentImage, setCurrentImage] = useState("/assets/icons/tick.svg");
 
-  console.log(currentImage);
-
   const router = useRouter();
 
   const { data: session } = useSession();
@@ -63,7 +61,7 @@ const Onboarding = () => {
           title: "",
         },
       ],
-      techStack: "",
+      techStack: [],
       availability: false,
       startDate: new Date(),
       endDate: new Date(),
