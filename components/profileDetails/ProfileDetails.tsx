@@ -2,7 +2,7 @@
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import React, { use, useState } from "react";
-import { z } from "zod";
+import { map, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -63,7 +63,6 @@ const ProfileDetails = ({ user }: { user: IOnBoarding }) => {
       learningGoals: user.learningGoals ?? [],
       knowledge: user.knowledge ?? [],
       techStack: user.techStack ?? "",
-      availability: false,
       startDate: new Date(user.startDate ?? ""),
       endDate: new Date(user.endDate ?? ""),
     },
@@ -275,6 +274,9 @@ const ProfileDetails = ({ user }: { user: IOnBoarding }) => {
                 <CreatableSelect
                   {...field}
                   styles={selectStyles}
+                  defaultInputValue={
+                    Array.isArray(field.value) ? field.value[0] : field.value
+                  }
                   className="!bg-transparent capitalize"
                   components={animatedComponents}
                   isMulti

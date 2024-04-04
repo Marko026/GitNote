@@ -1,5 +1,8 @@
 import * as z from "zod";
 
+// i need pathname form params to make the schema dynamic
+const pathname = "/onboarding";
+
 export const signInSchema = z.object({
   name: z.string().min(3).max(20),
   email: z.string().email(),
@@ -59,7 +62,10 @@ export const onBoardingSchema = z.object({
     .array(z.object({ title: z.string().min(1).max(100) }))
     .min(1)
     .max(10),
-  techStack: z.array(z.string().min(1).max(100)),
+  techStack:
+    pathname === "/onboarding"
+      ? z.string().min(1).max(100)
+      : z.array(z.string().min(1).max(100)),
   availability: z.boolean(),
   startDate: z.date(),
   endDate: z.date(),

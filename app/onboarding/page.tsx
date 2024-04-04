@@ -61,7 +61,7 @@ const Onboarding = () => {
           title: "",
         },
       ],
-      techStack: [],
+      techStack: "",
       availability: false,
       startDate: new Date(),
       endDate: new Date(),
