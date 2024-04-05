@@ -62,10 +62,7 @@ export const onBoardingSchema = z.object({
     .array(z.object({ title: z.string().min(1).max(100) }))
     .min(1)
     .max(10),
-  techStack:
-    pathname === "/onboarding"
-      ? z.string().min(1).max(100)
-      : z.array(z.string().min(1).max(100)),
+  techStack: z.string().min(1).max(100),
   availability: z.boolean(),
   startDate: z.date(),
   endDate: z.date(),
@@ -73,5 +70,25 @@ export const onBoardingSchema = z.object({
 });
 
 export type IOnBoarding = z.infer<typeof onBoardingSchema>;
+
+export const editProfileSchema = onBoardingSchema
+  .pick({
+    email: true,
+    name: true,
+    portfolio: true,
+    image: true,
+    learningGoals: true,
+    knowledge: true,
+    availability: true,
+    startDate: true,
+    endDate: true,
+  })
+  .extend({
+    techStack: z
+      .array(z.object({ label: z.string().min(1), value: z.string().min(1) }))
+      .min(1),
+  });
+
+export type IEditProfile = z.infer<typeof editProfileSchema>;
 
 export type ICreatePost = z.infer<typeof createPostSchema>;

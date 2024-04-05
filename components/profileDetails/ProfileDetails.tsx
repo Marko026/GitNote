@@ -25,7 +25,12 @@ import {
 } from "@/components/ui/select";
 import CreatableSelect from "react-select/creatable";
 import makeAnimated from "react-select/animated";
-import { IOnBoarding, onBoardingSchema } from "@/lib/validation";
+import {
+  IEditProfile,
+  IOnBoarding,
+  editProfileSchema,
+  onBoardingSchema,
+} from "@/lib/validation";
 import ReusableFormField from "@/components/shared/ReusableFormFileld";
 import { Checkbox } from "@/components/ui/checkbox";
 import { selectStyles } from "@/styles";
@@ -41,30 +46,27 @@ import { UserProps } from "@/database/user.model";
 import { useRouter } from "next/navigation";
 const animatedComponents = makeAnimated();
 
-type TechProps = {
-  value: string;
-  label: string;
-};
-
-const ProfileDetails = ({ user }: { user: IOnBoarding }) => {
+const ProfileDetails = ({ user }: { user: UserProps }) => {
   const [date, setDate] = React.useState<Date>();
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(user.image ?? "");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof onBoardingSchema>>({
-    resolver: zodResolver(onBoardingSchema),
+  const form = useForm<IEditProfile>({
+    resolver: zodResolver(editProfileSchema),
 
     defaultValues: {
-      email: user.email ?? undefined,
+      email: user.email ?? "",
       name: user.name ?? "",
       portfolio: user.portfolio ?? "",
       image: user.image ?? "",
       learningGoals: user.learningGoals ?? [],
       knowledge: user.knowledge ?? [],
-      techStack: user.techStack ?? "",
+      techStack:
+        user.techStack?.map((stack) => ({ label: stack, value: stack })) ?? [],
       startDate: new Date(user.startDate ?? ""),
       endDate: new Date(user.endDate ?? ""),
+      availability: user.availability ?? false,
     },
   });
 
@@ -89,11 +91,12 @@ const ProfileDetails = ({ user }: { user: IOnBoarding }) => {
   const startDate = form.watch("startDate");
   const endDate = form.watch("endDate");
 
-  const onSubmit = async (data: z.infer<typeof onBoardingSchema>) => {
+  const onSubmit = async (data: IEditProfile) => {
     await updateProfile(data);
     router.push("/profile");
   };
 
+  console.log(form.formState.errors);
   return (
     <div className="w-full text-white-100 px-8">
       <h2 className="h2-bold mt-10 mb-5">Edit Profile</h2>
@@ -123,8 +126,10 @@ const ProfileDetails = ({ user }: { user: IOnBoarding }) => {
               <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
                 onSuccess={(result) => {
-                  setImage(result.info.secure_url);
-                  form.setValue("image", result.info.secure_url);
+                  if (typeof result.info !== "string") {
+                    setImage(result.info?.secure_url ?? "");
+                    form.setValue("image", result.info?.secure_url ?? "");
+                  }
                 }}
                 uploadPreset="gitnote">
                 {({ open }) => {
@@ -274,10 +279,11 @@ const ProfileDetails = ({ user }: { user: IOnBoarding }) => {
                 <CreatableSelect
                   {...field}
                   styles={selectStyles}
-                  defaultInputValue={
-                    Array.isArray(field.value) ? field.value[0] : field.value
-                  }
                   className="!bg-transparent capitalize"
+                  options={user.techStack?.map((stack) => ({
+                    label: stack,
+                    value: stack,
+                  }))}
                   components={animatedComponents}
                   isMulti
                 />

@@ -2,9 +2,10 @@
 
 import { connectToDatabase } from "../mongoose";
 import { User, UserProps } from "@/database/user.model";
-import { IOnBoarding } from "../validation";
+import { IEditProfile, IOnBoarding } from "../validation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { revalidatePath } from "next/cache";
 
 const bcrypt = require("bcrypt");
 
@@ -55,7 +56,7 @@ export async function compleatUserOnboarding(params: IOnBoarding) {
     user.learningGoals = learningGoals;
     user.image = image;
     user.knowledge = knowledge;
-    user.techStack = techStack;
+    user.techStack = techStack.split(" ");
     user.portfolio = portfolio;
     user.startDate = startDate;
     user.endDate = endDate;
@@ -89,7 +90,7 @@ export async function findUserById(params: { id: string }) {
   }
 }
 
-export async function updateProfile(params: IOnBoarding) {
+export async function updateProfile(params: IEditProfile) {
   const {
     name,
     email,
@@ -111,7 +112,7 @@ export async function updateProfile(params: IOnBoarding) {
       throw new Error("User not found");
     }
     const userId = session.user.id;
-    const user = await User.findOne(
+    const user = await User.updateOne(
       { _id: userId },
       {
         name: name,
@@ -120,13 +121,13 @@ export async function updateProfile(params: IOnBoarding) {
         learningGoals: learningGoals,
         knowledge: knowledge,
         availability: availability,
-        techStack: techStack,
+        techStack: techStack.map((stack) => stack.value),
         startDate: startDate,
         endDate: endDate,
         image: image,
       }
     );
-    await user.save();
+    revalidatePath("/profile");
     return JSON.parse(JSON.stringify(user));
   } catch (error: any) {
     console.error("updateProfile error: ", error);

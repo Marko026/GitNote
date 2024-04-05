@@ -6,29 +6,35 @@ import { getServerSession } from "next-auth";
 import { findUser } from "@/lib/actions/user.action";
 import Link from "next/link";
 import { formatDateProfile } from "@/lib/utils";
+import { UserProps } from "@/database/user.model";
 
-type GoalProps = {
-  _id: string;
+interface KnowledgePros {
+  _id?: string;
   title: string;
-  isChecked: boolean;
-};
+}
+interface UserFromDB {
+  _id: string;
+}
+interface UserFromDB extends Omit<UserProps, "learningGoals"> {
+  learningGoals: { _id: string; title: string; isChecked: string }[];
+}
 
 const Profile = async () => {
   const session = await getServerSession(authOptions);
   const userEmail = session?.user?.email;
 
-  const user = await findUser({ email: userEmail });
+  const user: UserFromDB = await findUser({ email: userEmail });
 
   return (
     <div className="w-full pt-10 px-8">
       <div className="flex flex-col md:flex-row space-y-4 items-center">
-        <div className="flex gap-5 items-center w-full">
+        <div className="flex gap-5 items-center !h-full w-full">
           <Image
             src={user.image || "/assets/images/profile.png"}
             width={90}
             height={90}
             alt="profile-picture"
-            className="max-w-[60px] "
+            className="max-w-[90px] "
           />
           <div>
             <h2 className="h2-bold capitalize">{user.name}</h2>
@@ -63,11 +69,11 @@ const Profile = async () => {
             </div>
           </div>
         </div>
-        <div className="w-full md:w-1/3 bg-black-700 py-2 rounded-md">
+        <div className="w-full md:w-1/3 bg-black-700 hover:bg-black-600 duration-200 py-2 rounded-md">
           <Link href={`/profile/${user._id}`} className="w-full">
             <div className="flex text-primary-500 items-center justify-center gap-2">
               <Image
-                src="/assets/icons/edit.svg"
+                src="/assets/icons/edit-blue.svg"
                 width={11}
                 height={11}
                 alt="edit"
@@ -84,7 +90,7 @@ const Profile = async () => {
       <div className="w-full h-[1px] bg-black-600/20 my-5"></div>
       <h2 className="paragraph-1-bold !text-white-100 my-7">Learning Goals</h2>
       <div>
-        {user.learningGoals.map((goal: GoalProps) => (
+        {user.learningGoals?.map((goal) => (
           <div key={goal._id} className="flex gap-2 mb-3">
             <Image
               src={
@@ -103,11 +109,18 @@ const Profile = async () => {
       <h2 className="paragraph-1-bold !text-white-100 my-7">
         Technology Stack
       </h2>
+      <div className="flex w-full">
+        {user.techStack?.map((stack) => (
+          <div key={stack}>
+            <div className="px-2 text-white-100">{stack}</div>
+          </div>
+        ))}
+      </div>
 
       <h2 className="paragraph-1-bold !text-white-100 my-7">Knowledge level</h2>
 
       <div>
-        {user.knowledge.map((knowledge: GoalProps) => (
+        {user.knowledge?.map((knowledge: KnowledgePros) => (
           <div key={knowledge._id} className="flex gap-2 mb-3">
             <Image
               src="/assets/icons/check-mark.svg"
@@ -133,8 +146,8 @@ const Profile = async () => {
         <div className="flex gap-2 mb-3">
           <Image src="/assets/icons/clock.svg" width={20} height={20} alt="" />
           <p>
-            Available from {formatDateProfile(user.startDate)} -
-            {formatDateProfile(user.endDate)}
+            Available from {formatDateProfile(String(user?.startDate))} -
+            {formatDateProfile(String(user?.endDate))}
           </p>
         </div>
       )}

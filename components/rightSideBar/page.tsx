@@ -12,6 +12,7 @@ interface Props {
   user: {
     name: string;
     email: string;
+    image: string;
   };
   tags: any[];
 }
@@ -34,12 +35,13 @@ const RightSideBar = ({ user, tags }: Props) => {
 
   return (
     <div className="bg-black-800 min-w-72 min-h-screen px-7 hidden xxl:block pt-10">
-      <Link href="/profile" className="flex gap-[6px] mb-12">
+      <Link href="/profile" className="flex gap-2 mb-12">
         <Image
-          src="/assets/images/avatar01.png"
+          src={user.image || "/assets/icons/img-basis.svg"}
           width={36}
           height={36}
           alt="avatar"
+          className="object-cover cursor-pointer"
         />
         <div>
           <p className="paragraph-3-medium !text-white-100">{user.name}</p>

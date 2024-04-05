@@ -214,8 +214,13 @@ const Onboarding = () => {
                         <CldUploadWidget
                           signatureEndpoint="/api/sign-cloudinary-params"
                           onSuccess={(result) => {
-                            setImage(result.info.secure_url);
-                            form.setValue("image", result.info.secure_url);
+                            if (typeof result.info !== "string") {
+                              setImage(result.info?.secure_url ?? "");
+                              form.setValue(
+                                "image",
+                                result.info?.secure_url ?? ""
+                              );
+                            }
                           }}
                           uploadPreset="gitnote">
                           {({ open }) => {
