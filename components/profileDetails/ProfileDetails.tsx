@@ -139,7 +139,7 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
                   return (
                     <button
                       type="button"
-                      className="paragraph-3-medium "
+                      className=" !text-[10px] text-white-300 md:!paragraph-3-medium md:!text-[14px] whitespace-nowrap "
                       onClick={() => open()}>
                       Update Profile Picture
                     </button>
@@ -344,8 +344,8 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
               />
             </div>
 
-            <div className="flex justify-between">
-              <div className="!w-[45%]">
+            <div className="flex justify-between flex-col sm:flex-row gap-5">
+              <div className="w-full md:!w-[45%] ">
                 <p className="mb-2">Start Date & Time</p>
                 <Popover>
                   <PopoverTrigger
@@ -387,7 +387,7 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
                   </PopoverContent>
                 </Popover>
               </div>
-              <div className="!w-[45%]">
+              <div className="w-full md:!w-[45%]">
                 <p className="mb-2">End Date & Time</p>
                 <Popover>
                   <PopoverTrigger

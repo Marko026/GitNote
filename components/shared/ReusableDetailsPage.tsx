@@ -54,9 +54,9 @@ const ReusableDetailsPage = ({
 }: PostParams) => {
   return (
     <section className="flex flex-col p-8 space-y-5">
-      <div className="flex justify-between items-center ">
+      <div className="flex justify-between flex-col md:flex-row gap-2 md:gap-0 md:items-center ">
         <h1 className="h1-bold capitalize">{extractKeywords(title)}</h1>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 justify-between">
           <div
             className={`
             flex  gap-2 

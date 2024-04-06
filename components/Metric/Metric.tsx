@@ -12,24 +12,9 @@ const Metric = ({ post }: MetricProps) => {
     <div className="flex items-center gap-5">
       <div className="flex items-center gap-2">
         <Image src="/assets/icons/date.svg" width={14} height={14} alt="date" />
-        <span className="paragraph-3-regular">
+        <span className="paragraph-3-regular whitespace-nowrap">
           {formatDate(post.createdAt)}
         </span>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <Image src="/assets/icons/star.svg" width={18} height={18} alt="star" />
-        <span className="paragraph-3-regular">10.2k stars</span>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <Image
-          src="/assets/icons/preview.svg"
-          width={18}
-          height={18}
-          alt="preview"
-        />
-        <span className="paragraph-3-regular">129k views</span>
       </div>
     </div>
   );

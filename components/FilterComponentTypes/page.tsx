@@ -29,14 +29,14 @@ const FilterComponentTypes = () => {
   }, []);
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-2 md:gap-4">
       {PostType.map((type) => (
         <Button
           onClick={() => {
             router.push(`${pathname}?${createQueryString(type.value)}`);
           }}
           key={type.value}
-          className="flex gap-3  hover:bg-black-600">
+          className="flex gap-1 md:gap-3 hover:bg-black-600">
           <Image
             src={`${type.image}`}
             alt={type.label}
