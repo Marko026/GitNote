@@ -7,6 +7,13 @@ import { findUser } from "@/lib/actions/user.action";
 import Link from "next/link";
 import { formatDateProfile } from "@/lib/utils";
 import { UserProps } from "@/database/user.model";
+import { TechImage } from "@/constants";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@radix-ui/react-tooltip";
 
 interface KnowledgePros {
   _id?: string;
@@ -26,7 +33,7 @@ const Profile = async () => {
   const user: UserFromDB = await findUser({ email: userEmail });
 
   return (
-    <div className="w-full pt-10 px-8">
+    <div className="w-full py-10 px-8">
       <div className="flex flex-col md:flex-row space-y-4 items-center">
         <div className="flex gap-5 items-center !h-full w-full">
           <Image
@@ -39,25 +46,19 @@ const Profile = async () => {
           <div>
             <h2 className="h2-bold capitalize">{user.name}</h2>
             <div className="flex flex-wrap gap-2 ">
-              <div className="flex gap-2 text-white-100">
+              <div className="flex items-center gap-2 text-white-100">
                 <Image
                   src="/assets/icons/link.svg"
                   width={11}
                   height={11}
                   alt="link"
                 />
-                jsmastery.pro
+                <p className="paragraph-3-regular !text-primary-500">
+                  {user.portfolio || "No portfolio"}
+                </p>
               </div>
-              <div className="flex gap-2 text-white-100">
-                <Image
-                  src="/assets/icons/location.svg"
-                  width={11}
-                  height={11}
-                  alt="link"
-                />
-                Zagreb, Croatia
-              </div>
-              <div className="flex gap-2 text-white-100">
+
+              <div className="flex gap-2 paragraph-3-regular ">
                 <Image
                   src="/assets/icons/calendar.svg"
                   width={11}
@@ -109,10 +110,33 @@ const Profile = async () => {
       <h2 className="paragraph-1-bold !text-white-100 my-7">
         Technology Stack
       </h2>
-      <div className="flex w-full">
+
+      <div className="flex w-full gap-4">
         {user.techStack?.map((stack) => (
-          <div key={stack}>
-            <div className="px-2 text-white-100">{stack}</div>
+          <div key={stack} className="group">
+            {TechImage.find((tech) => tech.name === stack)?.image ? (
+              <div className="relative">
+                <Image
+                  src={
+                    TechImage.find((tech) => tech.name === stack)?.image ||
+                    "/assets/icons/workflow.svg"
+                  }
+                  width={40}
+                  height={40}
+                  alt={stack}
+                />
+                <p className="absolute hidden  group-hover:block text-[12px] top-[-25px] bg-black-700 px-2 rounded capitalize">
+                  {stack}
+                </p>
+              </div>
+            ) : (
+              <Image
+                src="/assets/icons/workflow.svg"
+                width={40}
+                height={40}
+                alt={stack}
+              />
+            )}
           </div>
         ))}
       </div>

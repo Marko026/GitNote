@@ -85,7 +85,12 @@ export const editProfileSchema = onBoardingSchema
   })
   .extend({
     techStack: z
-      .array(z.object({ label: z.string().min(1), value: z.string().min(1) }))
+      .array(
+        z.object({
+          label: z.string().min(1),
+          value: z.string().min(1),
+        })
+      )
       .min(1),
   });
 

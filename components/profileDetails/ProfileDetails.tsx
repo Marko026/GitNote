@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import CreatableSelect from "react-select/creatable";
 import makeAnimated from "react-select/animated";
+import { components, ControlProps, Props, StylesConfig } from "react-select";
 import {
   IEditProfile,
   IOnBoarding,
@@ -44,6 +45,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { updateProfile } from "@/lib/actions/user.action";
 import { UserProps } from "@/database/user.model";
 import { useRouter } from "next/navigation";
+import { TechImage } from "@/constants";
 const animatedComponents = makeAnimated();
 
 const ProfileDetails = ({ user }: { user: UserProps }) => {
@@ -92,11 +94,12 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
   const endDate = form.watch("endDate");
 
   const onSubmit = async (data: IEditProfile) => {
+    setLoading(true);
     await updateProfile(data);
+    setLoading(false);
     router.push("/profile");
   };
 
-  console.log(form.formState.errors);
   return (
     <div className="w-full text-white-100 px-8">
       <h2 className="h2-bold mt-10 mb-5">Edit Profile</h2>
@@ -285,9 +288,26 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
                     value: stack,
                   }))}
                   components={animatedComponents}
+                  formatOptionLabel={({ label, value }) => (
+                    <div className="flex gap-2 items-center">
+                      <Image
+                        src={
+                          TechImage.some((tech) => tech.name.includes(label))
+                            ? TechImage.find((tech) =>
+                                tech.name.includes(label)
+                              )?.image
+                            : "/assets/icons/workflow.svg"
+                        }
+                        width={16}
+                        height={16}
+                        alt="tech-stack"
+                      />
+
+                      {label}
+                    </div>
+                  )}
                   isMulti
                 />
-
                 <p className="text-red-500 text-[14px]">
                   {form.formState.errors.techStack?.message ?? ""}
                 </p>
