@@ -94,6 +94,22 @@ export const editProfileSchema = onBoardingSchema
       .min(1),
   });
 
+export const SocialLink = z.object({
+  username: z.string().max(40).optional(),
+  socialLink: z.string().max(100).optional(),
+});
+
+export const SocialLinksSchema = z.object({
+  github: SocialLink,
+  linkedIn: SocialLink,
+  twitter: SocialLink,
+  instagram: SocialLink,
+  facebook: SocialLink,
+  discord: SocialLink,
+});
+
+export type ISocialLinks = z.infer<typeof SocialLinksSchema>;
+
 export type IEditProfile = z.infer<typeof editProfileSchema>;
 
 export type ICreatePost = z.infer<typeof createPostSchema>;

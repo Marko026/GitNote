@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { extractIdFromPath } from "@/lib/utils";
 import { getRelatedPosts } from "@/lib/actions/post.action";
 import { useRouter } from "next/navigation";
+import SocialMedia from "../SocialMedia/SocialMedia";
 
 interface Props {
   user: {
@@ -23,6 +24,8 @@ const RightSideBar = ({ user, tags }: Props) => {
   const postId = extractIdFromPath(pathname);
   const [showRelatedPost, setShowRelatedPost] = useState([]);
   const isPostDetails = pathname.includes("postDetails");
+  const isProfile = pathname.includes("profile");
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (!postId) return;
@@ -48,7 +51,27 @@ const RightSideBar = ({ user, tags }: Props) => {
           <p className="paragraph-4-regular">{user.email}</p>
         </div>
       </Link>
-      {!isPostDetails ? (
+
+      {isProfile && (
+        <div
+          onClick={() => setIsOpen(!isOpen)}
+          className={`flex w-full justify-center gap-2 mt-5 cursor-pointer duration-200 ${
+            isProfile && "mb-7"
+          } bg-black-600 hover:bg-black-700 py-1.5 rounded`}>
+          <Image
+            src="/assets/icons/blue-plus.svg"
+            width={16}
+            height={16}
+            alt="relatedPost"
+            className="cursor-pointer"
+          />
+          <p className="paragraph-3-medium">Update social link</p>
+        </div>
+      )}
+
+      {isOpen && <SocialMedia open={isOpen} setIsOpen={setIsOpen} />}
+
+      {!isPostDetails && !isProfile ? (
         <div>
           <h3 className="paragraph-3-bold !text-white-100 mb-4">Tags</h3>
           <div className="flex flex-col items-start space-y-4">
@@ -60,8 +83,15 @@ const RightSideBar = ({ user, tags }: Props) => {
       ) : (
         <div>
           <h3 className="paragraph-3-bold !text-white-100 mb-4">
-            Related Posts
+            {isProfile ? "Social Media Links" : "Related Posts"}
           </h3>
+
+          {isProfile && (
+            <div className="border border-black-600/50 border-dashed"></div>
+          )}
+
+          {isProfile && <SocialMedia />}
+
           <div className="flex flex-col items-start space-y-4">
             {showRelatedPost?.map((item: any) => (
               <p key={item._id} className="paragraph-3-medium capitalize ">
@@ -69,18 +99,20 @@ const RightSideBar = ({ user, tags }: Props) => {
               </p>
             ))}
           </div>
-          <div
-            onClick={() => router.push(`/createPost/${postId}`)}
-            className="flex w-full justify-center gap-2 mt-5 cursor-pointer duration-200 bg-black-600 hover:bg-black-700 py-1.5 rounded">
-            <Image
-              src="/assets/icons/blue-plus.svg"
-              width={16}
-              height={16}
-              alt="relatedPost"
-              className="cursor-pointer"
-            />
-            <p className="paragraph-3-medium">New related post</p>
-          </div>
+          {!isProfile && (
+            <div
+              onClick={() => router.push(`/createPost/${postId}`)}
+              className="flex w-full justify-center gap-2 mt-5 cursor-pointer duration-200 bg-black-600 hover:bg-black-700 py-1.5 rounded">
+              <Image
+                src="/assets/icons/blue-plus.svg"
+                width={16}
+                height={16}
+                alt="relatedPost"
+                className="cursor-pointer"
+              />
+              <p className="paragraph-3-medium">New related post</p>
+            </div>
+          )}
         </div>
       )}
     </div>
