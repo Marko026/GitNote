@@ -50,7 +50,7 @@ const MobileView = ({ open, setOpen, recentPosts, session }: Props) => {
         setOpen(isOpen);
       }}>
       <DrawerTrigger asChild></DrawerTrigger>
-      <DrawerContent className="w-[320px] pt-4 bg-black-800 ml-auto h-full rounded-none border-none md:hidden">
+      <DrawerContent className="w-[320px] pt-4 bg-black-800 ml-auto h-full rounded-none !border-none lg:hidden">
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader className="flex justify-between items-start">
             <Link href="/profile" className="flex gap-2 mb-8">

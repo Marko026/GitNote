@@ -22,7 +22,7 @@ const Navbar = ({ recentPosts, session }: Props) => {
       {pathname !== "/onboarding" &&
         pathname !== "/login" &&
         pathname !== "/register" && (
-          <div className="bg-black-800 py-5 px-5 md:hidden">
+          <div className="bg-black-800 py-5 px-5 lg:hidden">
             <div className="flex justify-between">
               <Link href="/home">
                 <Image
