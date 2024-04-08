@@ -111,12 +111,13 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col space-y-6">
           <div className="flex items-center gap-4 mb-6">
-            <div className={`${image && "!p-0"} p-8 bg-black-700 rounded`}>
+            <div className={`${image && "!p-0"}  rounded`}>
               <Image
                 src={!image ? "/assets/icons/img-basis.svg" : image}
                 width={!image ? 24 : 100}
                 height={!image ? 24 : 100}
                 alt="img"
+                className="!h-24 !w-20  object-contain"
               />
             </div>
             <div className="bg-black-700 flex gap-2 py-3 px-2 rounded-md">
@@ -291,6 +292,7 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
                   formatOptionLabel={({ label, value }) => (
                     <div className="flex gap-2 items-center">
                       <Image
+                        // @ts-ignore
                         src={
                           TechImage.some((tech) => tech.name.includes(label))
                             ? TechImage.find((tech) =>

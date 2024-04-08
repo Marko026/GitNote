@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import ReusableFormField from "../shared/ReusableFormFileld";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,6 +25,8 @@ type Props = {
 };
 
 const SocialEdit = ({ userSocial, onOpenChange }: Props) => {
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<z.infer<typeof SocialLinksSchema>>({
     resolver: zodResolver(SocialLinksSchema),
     defaultValues: {
@@ -33,30 +35,32 @@ const SocialEdit = ({ userSocial, onOpenChange }: Props) => {
         socialLink: userSocial.social?.github?.socialLink ?? "",
       },
       linkedIn: {
-        username: userSocial.social.linkedIn.username ?? "",
-        socialLink: userSocial.social.linkedIn.socialLink ?? "",
+        username: userSocial.social?.linkedIn?.username ?? "",
+        socialLink: userSocial.social?.linkedIn?.socialLink ?? "",
       },
       twitter: {
-        username: userSocial.social.twitter.username ?? "",
-        socialLink: userSocial.social.twitter.socialLink ?? "",
+        username: userSocial.social?.twitter?.username ?? "",
+        socialLink: userSocial.social?.twitter?.socialLink ?? "",
       },
       instagram: {
-        username: userSocial.social.instagram.username ?? "",
-        socialLink: userSocial.social.instagram.socialLink ?? "",
+        username: userSocial.social?.instagram?.username ?? "",
+        socialLink: userSocial.social?.instagram?.socialLink ?? "",
       },
       facebook: {
-        username: userSocial.social.facebook.username ?? "",
-        socialLink: userSocial.social.facebook.socialLink ?? "",
+        username: userSocial.social?.facebook?.username ?? "",
+        socialLink: userSocial.social?.facebook?.socialLink ?? "",
       },
       discord: {
-        username: userSocial.social.discord.username ?? "",
-        socialLink: userSocial.social.discord.socialLink ?? "",
+        username: userSocial.social?.discord?.username ?? "",
+        socialLink: userSocial.social?.discord?.socialLink ?? "",
       },
     },
   });
 
   async function onSubmit(values: z.infer<typeof SocialLinksSchema>) {
+    setLoading(true);
     await addSocialLinks(values);
+    setLoading(false);
     onOpenChange(false);
   }
 
@@ -177,7 +181,7 @@ const SocialEdit = ({ userSocial, onOpenChange }: Props) => {
           <Button
             className="w-full bg-primary-500 hover:bg-black-600 hover:text-white-100 text-black-800 font-bold"
             type="submit">
-            Update social
+            {loading ? "Updating social..." : "Update Social"}
           </Button>
         </form>
       </Form>

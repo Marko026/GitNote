@@ -1,6 +1,6 @@
 import LeftSideBar from "@/components/leftSideBar/page";
 import RightSideBar from "@/components/rightSideBar/page";
-import { getPostById, getRecantPosts } from "@/lib/actions/post.action";
+import { getRecantPosts } from "@/lib/actions/post.action";
 import { getServerSession } from "next-auth";
 import React from "react";
 import { authOptions } from "../api/auth/[...nextauth]/route";
@@ -11,9 +11,11 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   const recentPosts = await getRecantPosts();
   const session = await getServerSession(authOptions);
 
-  const tags = await getAllTags();
   if (!session?.user) return null;
   const findOneUser = session?.user.email;
+  const findOwnerId = session?.user.id;
+
+  const tags = await getAllTags(findOwnerId);
 
   const userSocialLinks = await findUser({ email: findOneUser });
 

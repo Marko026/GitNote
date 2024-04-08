@@ -90,6 +90,7 @@ const userSchema = new Schema({
       username: String,
       socialLink: String,
     },
+
     instagram: {
       username: String,
       socialLink: String,

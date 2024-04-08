@@ -30,7 +30,9 @@ const RightSideBar = ({ user, tags, userSocial }: Props) => {
   const isProfile = pathname.includes("profile");
   const [isOpen, setIsOpen] = useState(false);
 
-  const socialPlatforms = Object.keys(userSocial.social);
+  const socialPlatforms = userSocial?.social
+    ? Object.keys(userSocial.social)
+    : [];
   const socialList = socialPlatforms.map((item) => userSocial.social[item]);
 
   useEffect(() => {
@@ -111,11 +113,11 @@ const RightSideBar = ({ user, tags, userSocial }: Props) => {
                   target="_blank">
                   <Image
                     src={SocialImg[idx].image}
-                    width={16}
+                    width={21}
                     height={16}
                     alt="shortcut"
                   />
-                  <p className="!text-[13px]">{item.username}</p>
+                  <p>{item.username}</p>
                 </Link>
               ))}
             </div>

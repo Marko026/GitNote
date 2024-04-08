@@ -33,15 +33,15 @@ const Profile = async () => {
   const user: UserFromDB = await findUser({ email: userEmail });
 
   return (
-    <div className="w-full py-10 px-4 md:px-8">
+    <div className="w-full py-5 px-4 md:px-8">
       <div className="flex flex-col md:flex-row space-y-4 items-center">
         <div className="flex gap-2 md:gap-5 items-center !h-full w-full">
           <Image
-            src={user.image || "/assets/images/profile.png"}
+            src={user.image || "/assets/icons/img-basis.svg"}
             width={90}
             height={90}
             alt="profile-picture"
-            className="h-24 w-20  object-cover"
+            className="!h-24 !w-20 object-contain"
           />
           <div>
             <h2 className="h2-bold capitalize ">{user.name}</h2>
