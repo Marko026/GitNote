@@ -125,9 +125,12 @@ const RightSideBar = ({ user, tags, userSocial }: Props) => {
 
           <div className="flex flex-col items-start space-y-4">
             {showRelatedPost?.map((item: any) => (
-              <p key={item._id} className="paragraph-3-medium capitalize ">
+              <Link
+                href={`/postDetails/${item._id}`}
+                key={item._id}
+                className="paragraph-3-medium capitalize ">
                 {item.title}
-              </p>
+              </Link>
             ))}
           </div>
           {!isProfile && (

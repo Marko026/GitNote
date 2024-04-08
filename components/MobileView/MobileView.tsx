@@ -117,7 +117,7 @@ const MobileView = ({ open, setOpen, recentPosts, session }: Props) => {
                 ))}
               </div>
             </div>
-            {/* <Separator className="w-full bg-white-500 bg-opacity-30 my-6 h-[0.68px]" />
+            <Separator className="w-full bg-white-500 bg-opacity-30 my-6 h-[0.68px]" />
 
             <Button
               onClick={() => signOut({ callbackUrl: "/login" })}
@@ -129,7 +129,7 @@ const MobileView = ({ open, setOpen, recentPosts, session }: Props) => {
                 height={20}
               />
               Logout
-            </Button> */}
+            </Button>
           </div>
         </div>
       </DrawerContent>
