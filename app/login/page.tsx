@@ -48,7 +48,7 @@ const LogInForm = () => {
     form.reset({ email: "", password: "" });
   }
   return (
-    <div className="w-full">
+    <div className="w-full px-5">
       <Image
         src="/assets/icons/logo.svg"
         alt="logo"

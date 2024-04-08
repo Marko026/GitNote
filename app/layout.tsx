@@ -5,6 +5,8 @@ import SessionProvider from "@/components/SessionProvider";
 import "./globals.css";
 import "../styles/prism.css";
 import Navbar from "@/components/navbar/Navbar";
+import { getRecantPosts } from "@/lib/actions/post.action";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,14 +20,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
+  const recentPosts = await getRecantPosts();
 
   return (
     <html lang="en">
       <body className={`${inter.className} bg-[#10121E] min-h-screen`}>
         <SessionProvider session={session}>
           <main className=" mx-auto max-w-[1440px]">
-            <Navbar />
+            <Navbar session={session} recentPosts={recentPosts} />
             {children}
           </main>
         </SessionProvider>

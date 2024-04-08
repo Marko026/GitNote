@@ -198,8 +198,6 @@ export async function getRecantPosts() {
     const session = await getServerSession(authOptions);
     const ownerId = session?.user?.id;
 
-    if (!ownerId) throw new Error("You are not logged in.");
-
     let query: FilterQuery<IPost> = {
       ownerId,
     };
