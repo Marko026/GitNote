@@ -75,23 +75,7 @@ const LeftSideBar = ({ recentPosts }: { recentPosts: ICreatePost[] }) => {
           </div>
         </div>
         <Separator className="w-full bg-white-500 bg-opacity-30 my-6 h-[0.68px]" />
-        <div className="mb-48">
-          <h5 className=" text-[12px] text-white-500 mb-5">Quick Links</h5>
-          <div className="flex flex-col space-y-5">
-            {Array.from({ length: 2 }).map((item, idx) => (
-              <Link href="" key={idx} className="flex gap-2">
-                <Image
-                  src="/assets/icons/component.svg"
-                  width={13}
-                  height={13}
-                  alt="pc"
-                  className="grayscale"
-                />
-                <p className="paragraph-3-medium">Mobile Navigation</p>
-              </Link>
-            ))}
-          </div>
-        </div>
+
         <Button
           onClick={() => signOut({ callbackUrl: "/login" })}
           className="w-full !pl-0 bg-transparent hover:bg-black-700 flex justify-start gap-3 paragraph-3-medium">

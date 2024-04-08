@@ -82,3 +82,12 @@ export const TechImage = [
     image: "/assets/icons/vscode.svg",
   },
 ];
+
+export const SocialImg = [
+  { name: "github", image: "/assets/icons/icn-github.svg" },
+  { name: "linkedin", image: "/assets/icons/icn-linkedin.svg" },
+  { name: "twitter", image: "/assets/icons/icn-twitter.svg" },
+  { name: "instagram", image: "/assets/icons/icn-instagram.svg" },
+  { name: "facebook", image: "/assets/icons/icn-facebook.svg" },
+  { name: "dribble", image: "/assets/icons/icn-dribbble.svg" },
+];

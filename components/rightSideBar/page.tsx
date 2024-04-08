@@ -8,6 +8,8 @@ import { extractIdFromPath } from "@/lib/utils";
 import { getRelatedPosts } from "@/lib/actions/post.action";
 import { useRouter } from "next/navigation";
 import SocialMedia from "../SocialMedia/SocialMedia";
+import { SocialImg } from "@/constants";
+import { ISocialLinks } from "@/lib/validation";
 
 interface Props {
   user: {
@@ -16,9 +18,10 @@ interface Props {
     image: string;
   };
   tags: any[];
+  userSocial: any;
 }
 
-const RightSideBar = ({ user, tags }: Props) => {
+const RightSideBar = ({ user, tags, userSocial }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
   const postId = extractIdFromPath(pathname);
@@ -26,6 +29,9 @@ const RightSideBar = ({ user, tags }: Props) => {
   const isPostDetails = pathname.includes("postDetails");
   const isProfile = pathname.includes("profile");
   const [isOpen, setIsOpen] = useState(false);
+
+  const socialPlatforms = Object.keys(userSocial.social);
+  const socialList = socialPlatforms.map((item) => userSocial.social[item]);
 
   useEffect(() => {
     if (!postId) return;
@@ -69,7 +75,13 @@ const RightSideBar = ({ user, tags }: Props) => {
         </div>
       )}
 
-      {isOpen && <SocialMedia open={isOpen} setIsOpen={setIsOpen} />}
+      {isOpen && (
+        <SocialMedia
+          open={isOpen}
+          setIsOpen={setIsOpen}
+          userSocial={userSocial}
+        />
+      )}
 
       {!isPostDetails && !isProfile ? (
         <div>
@@ -90,7 +102,24 @@ const RightSideBar = ({ user, tags }: Props) => {
             <div className="border border-black-600/50 border-dashed"></div>
           )}
 
-          {isProfile && <SocialMedia />}
+          {isProfile && (
+            <div className="relative mt-4">
+              {socialList.map((item, idx) => (
+                <Link
+                  href={item.socialLink}
+                  className="flex mb-2 gap-2"
+                  target="_blank">
+                  <Image
+                    src={SocialImg[idx].image}
+                    width={16}
+                    height={16}
+                    alt="shortcut"
+                  />
+                  <p className="!text-[13px]">{item.username}</p>
+                </Link>
+              ))}
+            </div>
+          )}
 
           <div className="flex flex-col items-start space-y-4">
             {showRelatedPost?.map((item: any) => (

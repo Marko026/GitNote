@@ -16,6 +16,14 @@ export interface UserProps {
   availability?: boolean;
   onboardingCompleted?: boolean;
   image?: string;
+  social?: {
+    github: { username: string; socialLink: string };
+    linkedIn: { username: string; socialLink: string };
+    twitter: { username: string; socialLink: string };
+    instagram: { username: string; socialLink: string };
+    discord: { username: string; socialLink: string };
+    facebook: { username: string; socialLink: string };
+  };
 }
 
 const userSchema = new Schema({
@@ -68,6 +76,32 @@ const userSchema = new Schema({
   },
   image: {
     type: String,
+  },
+  social: {
+    github: {
+      username: String,
+      socialLink: String,
+    },
+    linkedIn: {
+      username: String,
+      socialLink: String,
+    },
+    twitter: {
+      username: String,
+      socialLink: String,
+    },
+    instagram: {
+      username: String,
+      socialLink: String,
+    },
+    discord: {
+      username: String,
+      socialLink: String,
+    },
+    facebook: {
+      username: String,
+      socialLink: String,
+    },
   },
 });
 

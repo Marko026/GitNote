@@ -6,6 +6,7 @@ import { IEditProfile, IOnBoarding } from "../validation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { revalidatePath } from "next/cache";
+import { ISocialLinks } from "../validation";
 
 const bcrypt = require("bcrypt");
 
@@ -131,6 +132,58 @@ export async function updateProfile(params: IEditProfile) {
     return JSON.parse(JSON.stringify(user));
   } catch (error: any) {
     console.error("updateProfile error: ", error);
+    throw new Error(error);
+  }
+}
+
+export async function addSocialLinks(params: ISocialLinks) {
+  const { github, linkedIn, twitter, instagram, discord, facebook } = params;
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    throw new Error("User not found");
+  }
+  try {
+    await connectToDatabase();
+    const findUser = await User.findOne({ email: session.user.email });
+    if (!findUser) {
+      throw new Error("User not found");
+    }
+    const user = await User.updateOne(
+      { email: session.user.email },
+      {
+        social: {
+          github: {
+            username: github.username,
+            socialLink: github.socialLink,
+          },
+          linkedIn: {
+            username: linkedIn.username,
+            socialLink: linkedIn.socialLink,
+          },
+          twitter: {
+            username: twitter.username,
+            socialLink: twitter.socialLink,
+          },
+          instagram: {
+            username: instagram.username,
+            socialLink: instagram.socialLink,
+          },
+          discord: {
+            username: discord.username,
+            socialLink: discord.socialLink,
+          },
+          facebook: {
+            username: facebook.username,
+            socialLink: facebook.socialLink,
+          },
+        },
+      }
+    );
+    revalidatePath("/profile");
+    return JSON.parse(JSON.stringify(user));
+  } catch (error: any) {
+    console.log("addSocialLinks error: ", error);
     throw new Error(error);
   }
 }

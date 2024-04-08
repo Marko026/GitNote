@@ -12,9 +12,13 @@ import SocialEdit from "../SociaEdit/SocialEdit";
 
 type DialogProps = {
   open?: boolean;
-  setIsOpen?: (value: boolean) => void;
+  setIsOpen: (value: boolean) => void;
 };
-export function SocialMedia({ open, setIsOpen }: DialogProps) {
+export function SocialMedia({
+  open,
+  setIsOpen,
+  userSocial,
+}: DialogProps & { userSocial: any }) {
   return (
     <div className="relative mt-4">
       {[1, 2, 3, 4, 5].map((item) => (
@@ -36,9 +40,9 @@ export function SocialMedia({ open, setIsOpen }: DialogProps) {
         </AlertDialogTrigger>
         <AlertDialogContent className="p-0">
           {/* SocialEdit */}
-          <SocialEdit />
+          <SocialEdit userSocial={userSocial} onOpenChange={setIsOpen} />
           <AlertDialogFooter>
-            <AlertDialogCancel className="absolute !border-none  top-10 !bg-black-800 hover:!bg-black-700 hover:text-white-100 right-4 px-4 py-2 paragraph-4-regular uppercase">
+            <AlertDialogCancel className="absolute !border-none top-0 md:top-10 lg:top-5 !bg-black-800 hover:!bg-black-700 hover:text-white-100 right-4 px-4 py-2 paragraph-4-regular uppercase">
               x
             </AlertDialogCancel>
           </AlertDialogFooter>
