@@ -19,7 +19,7 @@ const PostCards = ({
   const pathname = usePathname();
 
   return (
-    <section className="w-full flex flex-col mt-10 space-y-5 px-7">
+    <section className="w-full flex flex-col mt-10 space-y-5 px-4 md:px-7">
       {pathname !== "/explore" && (
         <>
           <div className="flex flex-col w-full">

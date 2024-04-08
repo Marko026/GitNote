@@ -29,7 +29,7 @@ const FilterComponentTypes = () => {
   }, []);
 
   return (
-    <div className="flex items-center gap-2 md:gap-4">
+    <div className="flex items-center gap-2 md:gap-4 flex-wrap">
       {PostType.map((type) => (
         <Button
           onClick={() => {

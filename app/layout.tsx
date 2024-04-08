@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import SessionProvider from "@/components/SessionProvider";
 import "./globals.css";
 import "../styles/prism.css";
+import Navbar from "@/components/navbar/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,10 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${inter.className} bg-[#10121E] min-h-screen`}>
         <SessionProvider session={session}>
-          <main className=" mx-auto max-w-[1440px]">{children}</main>
+          <main className=" mx-auto max-w-[1440px]">
+            <Navbar />
+            {children}
+          </main>
         </SessionProvider>
       </body>
     </html>
