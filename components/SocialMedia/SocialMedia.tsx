@@ -21,17 +21,6 @@ export function SocialMedia({
 }: DialogProps & { userSocial: any }) {
   return (
     <div className="relative mt-4">
-      {[1, 2, 3, 4, 5].map((item) => (
-        <div className="flex gap-2">
-          <Image
-            src="/assets/icons/shortcut.svg"
-            width={21}
-            height={16}
-            alt="shortcut"
-          />
-          <p>Some social media</p>
-        </div>
-      ))}
       <AlertDialog open={open} onOpenChange={setIsOpen}>
         <AlertDialogTrigger asChild>
           <Button className="absolute bg-transparent !border-none  !focus:outline-none  top-[-8px] right-0 focus:ring-0">

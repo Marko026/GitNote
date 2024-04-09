@@ -111,12 +111,14 @@ const RightSideBar = ({ user, tags, userSocial }: Props) => {
                   href={item.socialLink}
                   className="flex mb-2 gap-2"
                   target="_blank">
-                  <Image
-                    src={SocialImg[idx].image}
-                    width={21}
-                    height={16}
-                    alt="shortcut"
-                  />
+                  {item.socialLink && (
+                    <Image
+                      src={SocialImg[idx].image}
+                      width={21}
+                      height={16}
+                      alt="shortcut"
+                    />
+                  )}
                   <p>{item.username}</p>
                 </Link>
               ))}
