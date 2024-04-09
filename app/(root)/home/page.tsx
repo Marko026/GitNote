@@ -20,12 +20,14 @@ const Home = async ({ searchParams }: ISearchParams) => {
     filterTags: searchParams?.filterTags,
     page: currentPage,
   });
+  const allPosts = await getAllPosts({ allPosts: true });
 
   const session = await getServerSession(authOptions);
   if (!session?.user) return null;
 
   return (
     <PostCards
+      allPosts={allPosts.posts}
       posts={filterPosts.posts}
       totalPage={filterPosts.totalPages}
       user={session.user}

@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React from "react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -8,12 +7,8 @@ import Link from "next/link";
 import { formatDateProfile } from "@/lib/utils";
 import { UserProps } from "@/database/user.model";
 import { TechImage } from "@/constants";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
+import { getAllPosts } from "@/lib/actions/post.action";
+import ContributionGrid from "@/components/contributionGrid/ContributionGrid";
 
 interface KnowledgePros {
   _id?: string;
@@ -29,6 +24,7 @@ interface UserFromDB extends Omit<UserProps, "learningGoals"> {
 const Profile = async () => {
   const session = await getServerSession(authOptions);
   const userEmail = session?.user?.email;
+  const allPosts = await getAllPosts({ allPosts: true });
 
   const user: UserFromDB = await findUser({ email: userEmail });
 
@@ -87,7 +83,7 @@ const Profile = async () => {
       <h2 className="paragraph-1-bold !text-white-100 my-7">
         Contribution Grid
       </h2>
-      <div className="w-full h-44 bg-black-700" />
+      <ContributionGrid posts={allPosts.posts} />
       <div className="w-full h-[1px] bg-black-600/20 my-5"></div>
       <h2 className="paragraph-1-bold !text-white-100 my-7">Learning Goals</h2>
       <div>

@@ -6,15 +6,19 @@ import { ICreatePost } from "@/lib/validation";
 import Pagination from "../shared/Pagination";
 import { DefaultSession } from "next-auth";
 import { usePathname } from "next/navigation";
+import ContributionGrid from "../contributionGrid/ContributionGrid";
+import { IPost } from "@/database/post.model";
 
 const PostCards = ({
   posts,
   totalPage,
   user,
+  allPosts,
 }: {
   posts: ICreatePost[];
   totalPage: number;
   user?: DefaultSession["user"];
+  allPosts: IPost[];
 }) => {
   const pathname = usePathname();
 
@@ -28,7 +32,7 @@ const PostCards = ({
               Time to jot down your latest learnings today!
             </p>
           </div>
-          <div className="w-full h-44 bg-black-700"></div>
+          <ContributionGrid posts={allPosts} />
         </>
       )}
       <div className="flex flex-col space-y-5 md:space-y-0 md:flex-row justify-between w-full">

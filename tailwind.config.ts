@@ -16,6 +16,9 @@ const config = {
       padding: "2rem",
     },
     extend: {
+      fontSize: {
+        xxs: "0.6rem",
+      },
       screens: {
         xxl: "1440px",
       },

@@ -9,33 +9,26 @@ export function cn(...inputs: ClassValue[]) {
 export function extractKeywords(inputString: string) {
   // Modern technologies list
 
-  // Remove punctuation and convert to lowercase
   const cleanedString = inputString
     .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
     .toLowerCase();
 
-  // Split the string into an array of words
   const wordsArray = cleanedString.split(" ");
 
-  // Create an object to store the frequency of each word
   const wordFrequency: { [key: string]: number } = {};
 
-  // Count the frequency of each word
   wordsArray.forEach((word) => {
     wordFrequency[word] = (wordFrequency[word] || 0) + 1;
   });
 
-  // Sort the words by frequency
   const sortedWords = Object.keys(wordFrequency).sort(
     (a, b) => wordFrequency[b] - wordFrequency[a]
   );
 
-  // Check if any word matches modern technologies list
   const relatedWords = sortedWords.filter((word) =>
     modernTechnologies.includes(word)
   );
 
-  // Return the top one or two keywords along with related words
   return [...relatedWords.slice(0, 3), ...sortedWords.slice(0, 3)].join(" ");
 }
 
@@ -82,4 +75,26 @@ export function formatDateProfile(dateString: string) {
   }:${minutes.toString().padStart(2, "0")} ${ampm} ${timezone}`;
 
   return formattedDate;
+}
+export function subtractSixMonthsFromDate(currentDate: Date) {
+  if (!(currentDate instanceof Date)) {
+    throw new Error("Invalid date format. Please provide a valid Date object.");
+  }
+
+  let currentMonth = currentDate.getMonth();
+  let currentYear = currentDate.getFullYear();
+
+  let newMonth = currentMonth - 6;
+  let newYear = currentYear;
+
+  if (newMonth < 0) {
+    newMonth += 12;
+    newYear--;
+  }
+
+  let newDate = new Date(currentDate);
+  newDate.setMonth(newMonth);
+  newDate.setFullYear(newYear);
+
+  return newDate;
 }
