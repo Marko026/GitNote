@@ -36,7 +36,7 @@ const FilterComponentTypes = () => {
             router.push(`${pathname}?${createQueryString(type.value)}`);
           }}
           key={type.value}
-          className="flex gap-1 md:gap-3 hover:bg-black-600">
+          className="flex gap-1 px-3 md:gap-3 hover:bg-black-600">
           <Image
             src={`${type.image}`}
             alt={type.label}
@@ -45,9 +45,18 @@ const FilterComponentTypes = () => {
           />
           <p
             className={`
-            ${type.value === "WorkFlow" && "text-primary-500"}
-            ${type.value === "Component" && "text-purple-500"}
-            ${type.value === "Knowledge" && "text-green-500"}
+            ${
+              type.value === "WorkFlow" &&
+              "text-primary-500 text-[10px] md:text-[14px]"
+            }
+            ${
+              type.value === "Component" &&
+              "text-purple-500 text-[10px] md:text-[14px]"
+            }
+            ${
+              type.value === "Knowledge" &&
+              "text-green-500 text-[10px] md:text-[14px]"
+            }
           `}>
             {type.label}
           </p>

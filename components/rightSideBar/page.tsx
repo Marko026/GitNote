@@ -9,7 +9,6 @@ import { getRelatedPosts } from "@/lib/actions/post.action";
 import { useRouter } from "next/navigation";
 import SocialMedia from "../SocialMedia/SocialMedia";
 import { SocialImg } from "@/constants";
-import { ISocialLinks } from "@/lib/validation";
 
 interface Props {
   user: {
@@ -108,6 +107,7 @@ const RightSideBar = ({ user, tags, userSocial }: Props) => {
             <div className="relative mt-4">
               {socialList.map((item, idx) => (
                 <Link
+                  key={idx + 1}
                   href={item.socialLink}
                   className="flex mb-2 gap-2"
                   target="_blank">

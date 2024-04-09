@@ -21,7 +21,7 @@ const ContributionGrid = ({ posts }: { posts: IPost[] }) => {
   }, [posts]);
 
   return (
-    <div className="flex items-end gap-2">
+    <div>
       <CalendarHeatmap
         startDate={subtractSixMonthsFromDate(new Date())}
         endDate={new Date()}
