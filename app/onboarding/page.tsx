@@ -141,7 +141,6 @@ const Onboarding = () => {
     if (index === 4) return currentImage;
     if (index < step) return "/assets/icons/tick.svg";
     if (index !== step) return "/assets/icons/step-base-icon.svg";
-    return "/assets/icons/content.svg";
   };
 
   const startDate = form.watch("startDate");
@@ -168,7 +167,10 @@ const Onboarding = () => {
                         step >= index + 1 ? "w-12 bg-primary-500 p-2 " : ""
                       } `}>
                       <Image
-                        src={getImageSrc(index, step, currentImage)}
+                        src={
+                          getImageSrc(index, step, currentImage) ||
+                          "/assets/icons/content.svg"
+                        }
                         width={44}
                         height={44}
                         alt="content"
