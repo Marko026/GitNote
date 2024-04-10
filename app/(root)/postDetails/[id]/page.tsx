@@ -1,6 +1,13 @@
 import ReusableDetailsPage from "@/components/shared/ReusableDetailsPage";
 import { getPostById } from "@/lib/actions/post.action";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "GitNote",
+  description:
+    "GitNote is a note-taking app for developers where you can write and share your knowledge with the world.",
+};
 
 export interface ParamsProps {
   id: string;

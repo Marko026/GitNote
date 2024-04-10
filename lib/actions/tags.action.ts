@@ -1,7 +1,7 @@
 import { Tags } from "@/database/tags.model";
 import { connectToDatabase } from "../mongoose";
 
-export async function getAllTags(ownerId: string) {
+export async function getAllTags(ownerId?: string) {
   try {
     await connectToDatabase();
 

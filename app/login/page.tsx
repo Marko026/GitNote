@@ -20,6 +20,7 @@ import { Separator } from "@/components/ui/separator";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { findUser } from "@/lib/actions/user.action";
+import { Metadata } from "next";
 
 const LogInForm = () => {
   const router = useRouter();

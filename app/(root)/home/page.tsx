@@ -3,6 +3,13 @@ import { getAllPosts } from "@/lib/actions/post.action";
 import { getServerSession } from "next-auth";
 import React from "react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "GitNote",
+  description:
+    "GitNote is a note-taking app for developers where you can write and share your knowledge with the world.",
+};
 
 export interface ISearchParams {
   searchParams: {

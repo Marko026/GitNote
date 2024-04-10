@@ -31,6 +31,7 @@ import { CldUploadWidget } from "next-cloudinary";
 import { useSession } from "next-auth/react";
 import { compleatUserOnboarding } from "@/lib/actions/user.action";
 import { useRouter } from "next/navigation";
+import { Metadata } from "next";
 
 const Onboarding = () => {
   const [date, setDate] = React.useState<Date>();

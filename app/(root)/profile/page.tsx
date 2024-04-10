@@ -9,6 +9,13 @@ import { UserProps } from "@/database/user.model";
 import { TechImage } from "@/constants";
 import { getAllPosts } from "@/lib/actions/post.action";
 import ContributionGrid from "@/components/contributionGrid/ContributionGrid";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "GitNote",
+  description:
+    "GitNote is a note-taking app for developers where you can write and share your knowledge with the world.",
+};
 
 interface KnowledgePros {
   _id?: string;
@@ -83,7 +90,7 @@ const Profile = async () => {
       <h2 className="paragraph-1-bold !text-white-100 my-7">
         Contribution Grid
       </h2>
-      <ContributionGrid posts={allPosts.posts} />
+      <ContributionGrid allPosts={allPosts.posts} />
       <div className="w-full h-[1px] bg-black-600/20 my-5"></div>
       <h2 className="paragraph-1-bold !text-white-100 my-7">Learning Goals</h2>
       <div>

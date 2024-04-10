@@ -1,6 +1,13 @@
 import PostCards from "@/components/postCards/page";
 import { getAllPosts } from "@/lib/actions/post.action";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "GitNote",
+  description:
+    "GitNote is a note-taking app for developers where you can write and share your knowledge with the world.",
+};
 
 export interface ISearchParams {
   searchParams: {
@@ -18,9 +25,10 @@ const Explore = async ({ searchParams }: ISearchParams) => {
     filterTags: searchParams?.filterTags,
     page: currentPage,
   });
-  return (
-    <PostCards posts={filterPosts.posts} totalPage={filterPosts.totalPages} />
-  );
+
+  const { posts, totalPages } = filterPosts;
+
+  return <PostCards posts={posts} totalPage={totalPages} />;
 };
 
 export default Explore;

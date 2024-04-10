@@ -13,12 +13,11 @@ const PostCards = ({
   posts,
   totalPage,
   user,
-  allPosts,
 }: {
   posts: ICreatePost[];
   totalPage: number;
   user?: DefaultSession["user"];
-  allPosts: IPost[];
+  allPosts?: IPost[];
 }) => {
   const pathname = usePathname();
 
@@ -32,7 +31,7 @@ const PostCards = ({
               Time to jot down your latest learnings today!
             </p>
           </div>
-          <ContributionGrid posts={allPosts} />
+          <ContributionGrid allPosts={posts as unknown as IPost[]} />
         </>
       )}
       <div className="flex flex-col space-y-5 md:space-y-0 md:flex-row justify-between w-full">
