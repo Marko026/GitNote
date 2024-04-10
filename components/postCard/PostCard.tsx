@@ -9,7 +9,7 @@ const PostCard = ({ post }: { post: IPost }) => {
   const postType = PostType.find((type) => type.value === post.postType);
   return (
     <Link href={`/postDetails/${post?._id}`}>
-      <article className="flex flex-col min-h-[184px] justify-between space-y-5 bg-black-700 rounded-[8px] px-9 py-6">
+      <article className="flex flex-col min-h-[184px] justify-between space-y-5 bg-black-700 rounded-[8px] px-4 md:px-9 py-6">
         <div className="flex flex-col space-y-4">
           <div className="flex items-center gap-1">
             <Image

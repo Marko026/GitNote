@@ -8,6 +8,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { useForm, useFormContext } from "react-hook-form";
+import { Checkbox } from "../ui/checkbox";
 
 type ReusableFormFieldProps = {
   name: string;

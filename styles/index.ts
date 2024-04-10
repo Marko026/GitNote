@@ -55,6 +55,7 @@ export const selectStyles = {
   indicatorsContainer: (baseStyles: any) => ({
     ...baseStyles,
     paddingRight: "0.3rem",
+    alignItems: "start",
   }),
   indicatorSeparator: (baseStyles: any) => ({
     ...baseStyles,

@@ -35,7 +35,7 @@ const DropDown = ({ postId }: { postId: string }) => {
       <DropdownMenuContent className="w-48 bg-black-700 space-y-2 mt-1  border-none relative right-24">
         <DropdownMenuItem
           onClick={() => router.push(`/updatePost/${postId}`)}
-          className="hover:bg-black-600 flex gap-2 px-2 py-3 justify-center ring-offset-transparent 
+          className="hover:bg-black-600 flex gap-2 px-2 py-3 cursor-pointer justify-center ring-offset-transparent 
           focus-visible:ring-transparent paragraph-3-medium hover:text-white-100">
           <Image
             src="/assets/icons/edit.svg"
@@ -47,7 +47,7 @@ const DropDown = ({ postId }: { postId: string }) => {
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={handleDeletePost}
-          className="hover:bg-black-600 flex gap-2 px-2 py-3 justify-center  ring-offset-transparent  focus-visible:ring-transparent paragraph-3-medium hover:text-white-100">
+          className="hover:bg-black-600 flex gap-2 cursor-pointer px-2 py-3 justify-center  ring-offset-transparent  focus-visible:ring-transparent paragraph-3-medium hover:text-white-100">
           <Image
             src="/assets/icons/delate.svg"
             width={12}

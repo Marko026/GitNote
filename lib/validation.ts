@@ -1,5 +1,8 @@
 import * as z from "zod";
 
+// i need pathname form params to make the schema dynamic
+const pathname = "/onboarding";
+
 export const signInSchema = z.object({
   name: z.string().min(3).max(20),
   email: z.string().email(),
@@ -40,5 +43,73 @@ export const createPostSchema = z.object({
     .min(1)
     .max(10),
 });
+
+export const onBoardingSchema = z.object({
+  email: z.string().email().optional(),
+  name: z.string().min(3).max(20),
+  portfolio: z.string().min(3).max(100),
+  image: z.string(),
+  learningGoals: z
+    .array(
+      z.object({
+        title: z.string().min(1).max(100),
+        isChecked: z.boolean().optional(),
+      })
+    )
+    .min(1)
+    .max(10),
+  knowledge: z
+    .array(z.object({ title: z.string().min(1).max(100) }))
+    .min(1)
+    .max(10),
+  techStack: z.string().min(1).max(100),
+  availability: z.boolean(),
+  startDate: z.date(),
+  endDate: z.date(),
+  onBoardingCompleted: z.boolean(),
+});
+
+export type IOnBoarding = z.infer<typeof onBoardingSchema>;
+
+export const editProfileSchema = onBoardingSchema
+  .pick({
+    email: true,
+    name: true,
+    portfolio: true,
+    image: true,
+    learningGoals: true,
+    knowledge: true,
+    availability: true,
+    startDate: true,
+    endDate: true,
+  })
+  .extend({
+    techStack: z
+      .array(
+        z.object({
+          label: z.string().min(1),
+          value: z.string().min(1),
+        })
+      )
+      .min(1),
+  });
+
+export const SocialLink = z.object({
+  username: z.string().max(40).optional(),
+  socialLink: z.string().max(100).optional(),
+});
+
+export const SocialLinksSchema = z.object({
+  github: SocialLink,
+  linkedIn: SocialLink,
+  twitter: SocialLink,
+  instagram: SocialLink,
+  facebook: SocialLink,
+  discord: SocialLink,
+});
+
+export type ISocialLinks = z.infer<typeof SocialLinksSchema>;
+
+export type IEditProfile = z.infer<typeof editProfileSchema>;
 
 export type ICreatePost = z.infer<typeof createPostSchema>;

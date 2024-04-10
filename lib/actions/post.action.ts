@@ -41,7 +41,10 @@ export async function createPost(params: ICreatePost) {
         }
       }
 
-      const createdTag = await Tags.create({ name: tag.label });
+      const createdTag = await Tags.create({
+        name: tag.label,
+        ownerId: ownerId,
+      });
 
       databaseTags.push(createdTag._id);
     }
@@ -166,8 +169,11 @@ export async function findAndUpdatePost(params: ICreatePost) {
           continue;
         }
       }
-      const createdTag = await Tags.create({ name: tag.label });
-      databaseTags.push(createdTag._id);
+      const createdTag = await Tags.create({
+        name: tag.label,
+        ownerId: ownerId,
+      });
+      databaseTags.push(createdTag._id, ownerId);
     }
     await Post.findByIdAndUpdate(_id, {
       title,
@@ -189,10 +195,16 @@ export async function findAndUpdatePost(params: ICreatePost) {
 export async function getRecantPosts() {
   try {
     await connectToDatabase();
+    const session = await getServerSession(authOptions);
+    const ownerId = session?.user?.id;
 
-    const recentPosts = await Post.find().limit(5).sort({ createdAt: -1 });
+    let query: FilterQuery<IPost> = {
+      ownerId,
+    };
 
-    return JSON.parse(JSON.stringify(recentPosts));
+    const ownerPosts = await Post.find(query).limit(8).sort({ createdAt: -1 });
+
+    if (ownerPosts.length > 0) return JSON.parse(JSON.stringify(ownerPosts));
   } catch (error: any) {
     throw new Error(error);
   }

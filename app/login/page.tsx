@@ -20,6 +20,7 @@ import { Separator } from "@/components/ui/separator";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { findUser } from "@/lib/actions/user.action";
+import { Metadata } from "next";
 
 const LogInForm = () => {
   const router = useRouter();
@@ -48,7 +49,7 @@ const LogInForm = () => {
     form.reset({ email: "", password: "" });
   }
   return (
-    <div className="w-full">
+    <div className="w-full px-5">
       <Image
         src="/assets/icons/logo.svg"
         alt="logo"

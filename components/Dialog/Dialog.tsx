@@ -10,8 +10,8 @@ import Image from "next/image";
 import { SearchBox } from "../SearchBox/SearchBox";
 
 type DialogProps = {
-  open: boolean;
-  setIsOpen: (value: boolean) => void;
+  open?: boolean;
+  setIsOpen?: (value: boolean) => void;
 };
 export function Dialog({ open, setIsOpen }: DialogProps) {
   return (

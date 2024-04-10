@@ -1,8 +1,9 @@
 import { Schema, model, models } from "mongoose";
 
-export interface ITags {
+export interface ITags extends Document {
   _id: string;
   name: string;
+  ownerId: { type: Schema.Types.ObjectId; ref: "User" };
 }
 
 const tagsSchema = new Schema({
@@ -10,6 +11,10 @@ const tagsSchema = new Schema({
     type: String,
     required: true,
     unique: true,
+  },
+  ownerId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 

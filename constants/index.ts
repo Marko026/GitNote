@@ -47,3 +47,47 @@ export const modernTechnologies = [
   "bcrypt",
   "Passport.js",
 ];
+
+export const TechImage = [
+  {
+    name: "next",
+    image: "/assets/icons/next.svg",
+  },
+  {
+    name: "dropbox",
+    image: "/assets/icons/dropbox.svg",
+  },
+  {
+    name: "git",
+    image: "/assets/icons/git.svg",
+  },
+  {
+    name: "github",
+    image: "/assets/icons/github.svg",
+  },
+  {
+    name: "prisma",
+    image: "/assets/icons/prisma.svg",
+  },
+  {
+    name: "react",
+    image: "/assets/icons/react.svg",
+  },
+  {
+    name: "tailwind",
+    image: "/assets/icons/tailwind.svg",
+  },
+  {
+    name: "vscode",
+    image: "/assets/icons/vscode.svg",
+  },
+];
+
+export const SocialImg = [
+  { name: "github", image: "/assets/icons/icn-github.svg" },
+  { name: "linkedin", image: "/assets/icons/icn-linkedin.svg" },
+  { name: "twitter", image: "/assets/icons/icn-twitter.svg" },
+  { name: "instagram", image: "/assets/icons/icn-instagram.svg" },
+  { name: "facebook", image: "/assets/icons/icn-facebook.svg" },
+  { name: "dribble", image: "/assets/icons/icn-dribbble.svg" },
+];

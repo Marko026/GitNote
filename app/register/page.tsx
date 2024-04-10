@@ -45,6 +45,7 @@ const RegisterForm = () => {
       email: values.email,
       password: values.password,
       ownerId: "",
+      onboardingCompleted: false,
     });
 
     await signIn("credentials", {
@@ -53,7 +54,7 @@ const RegisterForm = () => {
       password: values.password,
     });
 
-    router.push("/home");
+    router.push("/onboarding");
 
     form.reset({ name: "", email: "", password: "" });
   }
@@ -66,7 +67,7 @@ const RegisterForm = () => {
         height={50}
         className="mt-14 mb-16 mx-auto max-md:w-[156px]"
       />
-      <div className="max-w-lg mx-auto">
+      <div className="max-w-lg mx-auto px-5">
         <h1 className="h2-bold mb-5">Create Account</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 ">
