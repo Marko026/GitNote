@@ -38,7 +38,7 @@ const Onboarding = () => {
   const [image, setImage] = useState("");
   const [step, setStep] = useState<number>(0);
   const [progress, setProgress] = useState([0, 0, 0]);
-  const [currentImage, setCurrentImage] = useState("/assets/icons/tick.svg");
+  const [currentImage, setCurrentImage] = useState("/assets/icons/tick-1.svg");
 
   const router = useRouter();
 
@@ -139,7 +139,7 @@ const Onboarding = () => {
 
   const getImageSrc = (index: number, step: number, currentImage: string) => {
     if (index === 4) return currentImage;
-    if (index < step) return "/assets/icons/tick.svg";
+    if (index < step) return "/assets/icons/tick-1.svg";
     if (index !== step) return "/assets/icons/step-base-icon.svg";
     return "/assets/icons/content.svg";
   };
