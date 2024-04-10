@@ -2,8 +2,8 @@ import PostCards from "@/components/postCards/page";
 import { getAllPosts } from "@/lib/actions/post.action";
 import { getServerSession } from "next-auth";
 import React from "react";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Metadata } from "next";
+import { authOptions } from "@/lib/authOptions";
 
 export const metadata: Metadata = {
   title: "GitNote",

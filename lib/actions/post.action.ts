@@ -6,9 +6,9 @@ import { Tags } from "@/database/tags.model";
 import { ICreatePost } from "../validation";
 import mongoose, { FilterQuery } from "mongoose";
 import { FilterInterface } from "@/types";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
+import { authOptions } from "../authOptions";
 const ObjectId = mongoose.Types.ObjectId;
 
 export async function createPost(params: ICreatePost) {

@@ -4,9 +4,9 @@ import { connectToDatabase } from "../mongoose";
 import { User, UserProps } from "@/database/user.model";
 import { IEditProfile, IOnBoarding } from "../validation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { revalidatePath } from "next/cache";
 import { ISocialLinks } from "../validation";
+import { authOptions } from "../authOptions";
 
 const bcrypt = require("bcrypt");
 

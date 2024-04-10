@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { findUser } from "@/lib/actions/user.action";
 import Link from "next/link";
@@ -10,6 +9,7 @@ import { TechImage } from "@/constants";
 import { getAllPosts } from "@/lib/actions/post.action";
 import ContributionGrid from "@/components/contributionGrid/ContributionGrid";
 import { Metadata } from "next";
+import { authOptions } from "@/lib/authOptions";
 
 export const metadata: Metadata = {
   title: "GitNote",

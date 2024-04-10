@@ -6,7 +6,7 @@ import "./globals.css";
 import "../styles/prism.css";
 import Navbar from "@/components/navbar/Navbar";
 import { getRecantPosts } from "@/lib/actions/post.action";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -3,9 +3,9 @@ import RightSideBar from "@/components/rightSideBar/page";
 import { getRecantPosts } from "@/lib/actions/post.action";
 import { getServerSession } from "next-auth";
 import React from "react";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getAllTags } from "@/lib/actions/tags.action";
 import { findUser } from "@/lib/actions/user.action";
+import { authOptions } from "@/lib/authOptions";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const recentPosts = await getRecantPosts();
