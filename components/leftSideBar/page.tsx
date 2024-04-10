@@ -22,7 +22,7 @@ const LeftSideBar = ({ recentPosts }: { recentPosts: ICreatePost[] }) => {
   }, [pathname]);
 
   return (
-    <div className="lg:flex min-w-72  hidden bg-black-800  px-7 min-h-screen">
+    <div className="hidden min-h-screen  min-w-72 bg-black-800  px-7 lg:flex">
       <div className="w-full">
         <Link href="/home">
           <Image
@@ -30,13 +30,13 @@ const LeftSideBar = ({ recentPosts }: { recentPosts: ICreatePost[] }) => {
             alt="logo"
             width={100}
             height={24}
-            className="mt-10 mb-12"
+            className="mb-12 mt-10"
           />
         </Link>
         {pathname !== "/createPost" && (
           <Link
             href="/createPost"
-            className=" mb-4 min-h-11 rounded flex justify-center text items-center gradient w-full gap-1">
+            className=" text gradient mb-4 flex min-h-11 w-full items-center justify-center gap-1 rounded">
             <Image
               src="/assets/icons/plus.svg"
               alt="plus"
@@ -49,9 +49,9 @@ const LeftSideBar = ({ recentPosts }: { recentPosts: ICreatePost[] }) => {
         <div onClick={() => setIsOpen(true)}>
           <Dialog open={isOpen} setIsOpen={setIsOpen} />;
         </div>
-        <Separator className="w-full bg-white-500 bg-opacity-30 my-6 h-[0.68px]" />
+        <Separator className="my-6 h-[0.68px] w-full bg-white-500 bg-opacity-30" />
         <div>
-          <h4 className="text-white-500 mb-5">Posts</h4>
+          <h4 className="mb-5 text-white-500">Posts</h4>
           <div className="flex flex-col space-y-5">
             {recentPosts?.map((item: any) => (
               <Link
@@ -74,11 +74,11 @@ const LeftSideBar = ({ recentPosts }: { recentPosts: ICreatePost[] }) => {
             ))}
           </div>
         </div>
-        <Separator className="w-full bg-white-500 bg-opacity-30 my-6 h-[0.68px]" />
+        <Separator className="my-6 h-[0.68px] w-full bg-white-500 bg-opacity-30" />
 
         <Button
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="w-full !pl-0 bg-transparent hover:bg-black-700 flex justify-start gap-3 paragraph-3-medium">
+          className="paragraph-3-medium flex w-full justify-start gap-3 bg-transparent !pl-0 hover:bg-black-700">
           <Image
             src={"/assets/icons/logout.svg"}
             alt="logout"

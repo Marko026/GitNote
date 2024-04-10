@@ -29,14 +29,14 @@ const FilterComponentTypes = () => {
   }, []);
 
   return (
-    <div className="flex items-center gap-2 md:gap-4 flex-wrap">
+    <div className="flex flex-wrap items-center gap-2 md:gap-4">
       {PostType.map((type) => (
         <Button
           onClick={() => {
             router.push(`${pathname}?${createQueryString(type.value)}`);
           }}
           key={type.value}
-          className="flex gap-1 px-3 sm:px-5 md:gap-3 hover:bg-black-600">
+          className="flex gap-1 px-3 hover:bg-black-600 sm:px-5 md:gap-3">
           <Image
             src={`${type.image}`}
             alt={type.label}
@@ -47,15 +47,15 @@ const FilterComponentTypes = () => {
             className={`
             ${
               type.value === "WorkFlow" &&
-              "text-primary-500 text-[10px] sm:text-[16px]"
+              "text-[10px] text-primary-500 sm:text-[16px]"
             }
             ${
               type.value === "Component" &&
-              "text-purple-500 text-[10px] sm:text-[16px]"
+              "text-[10px] text-purple-500 sm:text-[16px]"
             }
             ${
               type.value === "Knowledge" &&
-              "text-green-500 text-[10px] sm:text-[16px]"
+              "text-[10px] text-green-500 sm:text-[16px]"
             }
           `}>
             {type.label}

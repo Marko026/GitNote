@@ -23,7 +23,7 @@ export function SocialMedia({
     <div className="relative mt-4">
       <AlertDialog open={open} onOpenChange={setIsOpen}>
         <AlertDialogTrigger asChild>
-          <Button className="absolute bg-transparent !border-none  !focus:outline-none  top-[-8px] right-0 focus:ring-0">
+          <Button className="!focus:outline-none absolute right-0  top-[-8px]  !border-none bg-transparent focus:ring-0">
             <EditIcon size={12} />
           </Button>
         </AlertDialogTrigger>
@@ -31,7 +31,7 @@ export function SocialMedia({
           {/* SocialEdit */}
           <SocialEdit userSocial={userSocial} onOpenChange={setIsOpen} />
           <AlertDialogFooter>
-            <AlertDialogCancel className="absolute !border-none top-0 md:top-10 lg:top-5 !bg-black-800 hover:!bg-black-700 hover:text-white-100 right-4 px-4 py-2 paragraph-4-regular uppercase">
+            <AlertDialogCancel className="paragraph-4-regular absolute right-4 top-0 !border-none !bg-black-800 px-4 py-2 uppercase hover:!bg-black-700 hover:text-white-100 md:top-10 lg:top-5">
               x
             </AlertDialogCancel>
           </AlertDialogFooter>

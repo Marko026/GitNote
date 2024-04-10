@@ -70,14 +70,14 @@ const SocialEdit = ({ userSocial, onOpenChange }: Props) => {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="flex items-baseline  sm:items-center gap-4 mt-5">
+          <div className="mt-5 flex  items-baseline gap-4 sm:items-center">
             <Image
               src="/assets/icons/icn-github.svg"
               width={21}
               height={16}
               alt="shortcut"
             />
-            <div className="flex gap-2 w-full flex-col sm:flex-row ">
+            <div className="flex w-full flex-col gap-2 sm:flex-row ">
               <ReusableFormField
                 name="github.username"
                 placeholder="username"
@@ -88,14 +88,14 @@ const SocialEdit = ({ userSocial, onOpenChange }: Props) => {
               />
             </div>
           </div>
-          <div className="flex gap-4 mt-5 items-baseline sm:items-center">
+          <div className="mt-5 flex items-baseline gap-4 sm:items-center">
             <Image
               src="/assets/icons/icn-linkedin.svg"
               width={21}
               height={16}
               alt="shortcut"
             />
-            <div className="flex gap-2  w-full  flex-col sm:flex-row ">
+            <div className="flex w-full  flex-col  gap-2 sm:flex-row ">
               <ReusableFormField
                 name="linkedIn.username"
                 placeholder="username"
@@ -106,14 +106,14 @@ const SocialEdit = ({ userSocial, onOpenChange }: Props) => {
               />
             </div>
           </div>
-          <div className="flex gap-4 mt-5 items-baseline sm:items-center">
+          <div className="mt-5 flex items-baseline gap-4 sm:items-center">
             <Image
               src="/assets/icons/icn-twitter.svg"
               width={21}
               height={16}
               alt="shortcut"
             />
-            <div className="flex gap-2  w-full  flex-col sm:flex-row ">
+            <div className="flex w-full  flex-col  gap-2 sm:flex-row ">
               <ReusableFormField
                 name="twitter.username"
                 placeholder="username"
@@ -124,14 +124,14 @@ const SocialEdit = ({ userSocial, onOpenChange }: Props) => {
               />
             </div>
           </div>
-          <div className="flex gap-4 mt-5 items-baseline sm:items-center">
+          <div className="mt-5 flex items-baseline gap-4 sm:items-center">
             <Image
               src="/assets/icons/icn-instagram.svg"
               width={21}
               height={16}
               alt="shortcut"
             />
-            <div className="flex gap-2  w-full  flex-col sm:flex-row ">
+            <div className="flex w-full  flex-col  gap-2 sm:flex-row ">
               <ReusableFormField
                 name="instagram.username"
                 placeholder="username"
@@ -142,14 +142,14 @@ const SocialEdit = ({ userSocial, onOpenChange }: Props) => {
               />
             </div>
           </div>
-          <div className="flex gap-4 mt-5 items-baseline sm:items-center">
+          <div className="mt-5 flex items-baseline gap-4 sm:items-center">
             <Image
               src="/assets/icons/icn-facebook.svg"
               width={21}
               height={16}
               alt="shortcut"
             />
-            <div className="flex gap-2  w-full  flex-col sm:flex-row ">
+            <div className="flex w-full  flex-col  gap-2 sm:flex-row ">
               <ReusableFormField
                 name="facebook.username"
                 placeholder="username"
@@ -160,14 +160,14 @@ const SocialEdit = ({ userSocial, onOpenChange }: Props) => {
               />
             </div>
           </div>
-          <div className="flex gap-4 mt-5 items-baseline sm:items-center">
+          <div className="mt-5 flex items-baseline gap-4 sm:items-center">
             <Image
               src="/assets/icons/icn-dribbble.svg"
               width={21}
               height={16}
               alt="shortcut"
             />
-            <div className="flex gap-2  w-full  flex-col sm:flex-row ">
+            <div className="flex w-full  flex-col  gap-2 sm:flex-row ">
               <ReusableFormField
                 name="discord.username"
                 placeholder="username"
@@ -179,7 +179,7 @@ const SocialEdit = ({ userSocial, onOpenChange }: Props) => {
             </div>
           </div>
           <Button
-            className="w-full bg-primary-500 hover:bg-black-600 hover:text-white-100 text-black-800 font-bold"
+            className="w-full bg-primary-500 font-bold text-black-800 hover:bg-black-600 hover:text-white-100"
             type="submit">
             {loading ? "Updating social..." : "Update Social"}
           </Button>

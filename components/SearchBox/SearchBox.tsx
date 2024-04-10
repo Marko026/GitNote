@@ -50,14 +50,14 @@ export function SearchBox() {
       />
       <CommandList className="py-2">
         {!isPending && (
-          <CommandEmpty className="h-54 flex items-center justify-center paragraph-3-medium">
+          <CommandEmpty className="h-54 paragraph-3-medium flex items-center justify-center">
             No posts found please try again
           </CommandEmpty>
         )}
-        <CommandGroup className="py-3 h-54 ">
+        <CommandGroup className="h-54 py-3 ">
           <>
             <Link
-              className="paragraph-3-medium flex gap-2 pl-5 mb-2 !text-white-300/50"
+              className="paragraph-3-medium mb-2 flex gap-2 pl-5 !text-white-300/50"
               href="/explore">
               <Image
                 src="/assets/icons/explore.svg"
@@ -68,7 +68,7 @@ export function SearchBox() {
               Explore all posts
             </Link>
             {isPending && (
-              <p className="text-center paragraph-3-medium ">Loading...</p>
+              <p className="paragraph-3-medium text-center ">Loading...</p>
             )}
             {!isPending &&
               allPosts.posts &&
@@ -80,10 +80,10 @@ export function SearchBox() {
                   <Link
                     key={post._id}
                     href={`/postDetails/${post._id}`}
-                    className="cursor-pointer group">
+                    className="group cursor-pointer">
                     <CommandItem
                       value={post.title}
-                      className="flex items-center w-full mb-1 px-5 cursor-pointer">
+                      className="mb-1 flex w-full cursor-pointer items-center px-5">
                       <Image
                         src={
                           postType?.label === post.postType
@@ -94,7 +94,7 @@ export function SearchBox() {
                         height={16}
                         alt="listImages"
                       />
-                      <div className="flex flex-col ml-2">
+                      <div className="ml-2 flex flex-col">
                         <p className="paragraph-3-regular capitalize !text-white-300 group-hover:!text-white-100">
                           {extractKeywords(post.title)}
                         </p>

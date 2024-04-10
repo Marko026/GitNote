@@ -27,7 +27,7 @@ const Tags = ({ tag, className, type }: any) => {
       {type === "filterTags" ? (
         <Button
           onClick={() => handleFilterTag(tag._id)}
-          className={`rounded paragraph-3-medium capitalize max-h-6 bg-black-700 hover:bg-black-900 !px-2`}>
+          className={`paragraph-3-medium max-h-6 rounded bg-black-700 !px-2 capitalize hover:bg-black-900`}>
           {tag.name}
         </Button>
       ) : (

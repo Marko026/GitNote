@@ -28,15 +28,15 @@ const DropDown = ({ postId }: { postId: string }) => {
       <DropdownMenuTrigger asChild className="h-7">
         <Button
           variant="ghost"
-          className="hover:bg-black-700 border-none  ring-offset-transparent  focus-visible:ring-transparent">
+          className="border-none ring-offset-transparent  hover:bg-black-700  focus-visible:ring-transparent">
           <BsThreeDotsVertical color="#ADB3CC" size={15} />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-48 bg-black-700 space-y-2 mt-1  border-none relative right-24">
+      <DropdownMenuContent className="relative right-24 mt-1 w-48  space-y-2 border-none bg-black-700">
         <DropdownMenuItem
           onClick={() => router.push(`/updatePost/${postId}`)}
-          className="hover:bg-black-600 flex gap-2 px-2 py-3 cursor-pointer justify-center ring-offset-transparent 
-          focus-visible:ring-transparent paragraph-3-medium hover:text-white-100">
+          className="paragraph-3-medium flex cursor-pointer justify-center gap-2 px-2 py-3 ring-offset-transparent 
+          hover:bg-black-600 hover:text-white-100 focus-visible:ring-transparent">
           <Image
             src="/assets/icons/edit.svg"
             width={12}
@@ -47,7 +47,7 @@ const DropDown = ({ postId }: { postId: string }) => {
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={handleDeletePost}
-          className="hover:bg-black-600 flex gap-2 cursor-pointer px-2 py-3 justify-center  ring-offset-transparent  focus-visible:ring-transparent paragraph-3-medium hover:text-white-100">
+          className="paragraph-3-medium flex cursor-pointer justify-center gap-2 px-2 py-3  ring-offset-transparent  hover:bg-black-600 hover:text-white-100 focus-visible:ring-transparent">
           <Image
             src="/assets/icons/delate.svg"
             width={12}

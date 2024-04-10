@@ -53,17 +53,17 @@ const ReusableDetailsPage = ({
   resources,
 }: PostParams) => {
   return (
-    <section className="flex flex-col p-8 space-y-5">
-      <div className="flex justify-between flex-col md:flex-row gap-2 md:gap-0 md:items-center ">
+    <section className="flex flex-col space-y-5 p-8">
+      <div className="flex flex-col justify-between gap-2 md:flex-row md:items-center md:gap-0 ">
         <h1 className="h1-bold capitalize">{extractKeywords(title)}</h1>
-        <div className="flex items-center gap-2 justify-between">
+        <div className="flex items-center justify-between gap-2">
           <div
             className={`
             flex  gap-2 
             ${post.postType === "Component" && "bg-purple-500/10"}
             ${post.postType === "WorkFlow" && "bg-primary-500/10"}
             ${post.postType === "Knowledge" && "bg-green-500/10"}
-            px-4 py-1 rounded
+            rounded px-4 py-1
           
           `}>
             <Image
@@ -92,7 +92,7 @@ const ReusableDetailsPage = ({
         <div className="flex gap-3">
           {tagsList?.map((tag: TagProps) => (
             <Tags
-              className="bg-black-700 px-2 mt-2 py-1 rounded capitalize"
+              className="mt-2 rounded bg-black-700 px-2 py-1 capitalize"
               key={tag._id}
               tag={tag}
             />
@@ -106,7 +106,7 @@ const ReusableDetailsPage = ({
         <div className="flex gap-3">
           {tagsList?.map((tag: TagProps) => (
             <Tags
-              className="bg-black-700 px-2 mt-2 py-1 rounded capitalize"
+              className="mt-2 rounded bg-black-700 px-2 py-1 capitalize"
               key={tag._id}
               tag={tag}
             />
@@ -115,11 +115,11 @@ const ReusableDetailsPage = ({
       )}
       {post.postType === "Knowledge" && (
         <div>
-          <h2 className="paragraph-1-bold !text-white-100 mb-3">
+          <h2 className="paragraph-1-bold mb-3 !text-white-100">
             Key Takeaways
           </h2>
           {lessonsList?.map((lesson: LessonProps) => (
-            <div key={lesson._id} className="flex gap-2 mb-3">
+            <div key={lesson._id} className="mb-3 flex gap-2">
               <Image
                 src="/assets/icons/check-mark.svg"
                 width={20}
@@ -133,7 +133,7 @@ const ReusableDetailsPage = ({
       )}
 
       <ParseHtml data={post.codeSnippet} />
-      <span className="h-[1px] bg-black-600/20"></span>
+      <span className="h-px bg-black-600/20"></span>
       <ParseHtml data={post.content} />
       <div className="flex flex-col space-y-5">
         <h4 className="paragraph-2-bold !text-white-100">Resources & Links</h4>
@@ -142,7 +142,7 @@ const ReusableDetailsPage = ({
             <Link
               href={`${resource.resource}`}
               key={resource._id}
-              className="flex gap-3 items-center space-y-2">
+              className="flex items-center gap-3 space-y-2">
               <Image
                 src="/assets/icons/check-mark.svg"
                 width={20}

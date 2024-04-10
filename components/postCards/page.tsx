@@ -22,10 +22,10 @@ const PostCards = ({
   const pathname = usePathname();
 
   return (
-    <section className="w-full flex flex-col mt-10 space-y-5 px-4 md:px-7">
+    <section className="mt-10 flex w-full flex-col space-y-5 px-4 md:px-7">
       {pathname !== "/explore" && (
         <>
-          <div className="flex flex-col w-full">
+          <div className="flex w-full flex-col">
             <h1 className="h1-bold">Hello {user?.name ?? "User"},</h1>
             <p className="paragraph-1-regular">
               Time to jot down your latest learnings today!
@@ -34,7 +34,7 @@ const PostCards = ({
           <ContributionGrid allPosts={posts as unknown as IPost[]} />
         </>
       )}
-      <div className="flex flex-col space-y-5 md:space-y-0 md:flex-row justify-between w-full">
+      <div className="flex w-full flex-col justify-between space-y-5 md:flex-row md:space-y-0">
         <h2 className="h2-bold">PostCard</h2>
 
         <FilterComponentTypes />
@@ -42,7 +42,7 @@ const PostCards = ({
       <div
         className={` ${
           pathname === "/explore"
-            ? "flex gap-4 flex-wrap"
+            ? "flex flex-wrap gap-4"
             : "flex flex-col gap-5"
         }`}>
         {posts &&
@@ -50,7 +50,7 @@ const PostCards = ({
             <div
               key={post._id}
               className={`${
-                pathname === "/explore" && "w-full md:w-[45%] flex-auto "
+                pathname === "/explore" && "w-full flex-auto md:w-[45%] "
               }`}>
               <PostCard key={post._id} post={post} />
             </div>

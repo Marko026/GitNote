@@ -9,7 +9,7 @@ const PostCard = ({ post }: { post: IPost }) => {
   const postType = PostType.find((type) => type.value === post.postType);
   return (
     <Link href={`/postDetails/${post?._id}`}>
-      <article className="flex flex-col min-h-[184px] justify-between space-y-5 bg-black-700 rounded-[8px] px-4 md:px-9 py-6">
+      <article className="flex min-h-[184px] flex-col justify-between space-y-5 rounded-[8px] bg-black-700 px-4 py-6 md:px-9">
         <div className="flex flex-col space-y-4">
           <div className="flex items-center gap-1">
             <Image
@@ -23,11 +23,11 @@ const PostCard = ({ post }: { post: IPost }) => {
             ${postType?.value === "WorkFlow" && "text-primary-500"}
             ${postType?.value === "Component" && "text-purple-500"}
            ${postType?.value === "Knowledge" && "text-green-500"}  
-             text-[14px] mt-[0.5px]`}>
+             mt-[0.5px] text-[14px]`}>
               {post.postType}
             </h3>
           </div>
-          <p className="h1-medium capitalize line-clamp-2">{post.title}</p>
+          <p className="h1-medium line-clamp-2 capitalize">{post.title}</p>
         </div>
         <div className="flex w-full gap-3">
           {post.tags &&

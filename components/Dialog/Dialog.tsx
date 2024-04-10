@@ -17,15 +17,15 @@ export function Dialog({ open, setIsOpen }: DialogProps) {
   return (
     <AlertDialog open={open} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
-        <Button className="w-full bg-black-700 pl-1 pr-0 flex justify-between">
-          <div className="flex w-full items-center border border-transparent hover:border-white-500 hover:cursor-pointer bg-black-700 rounded justify-between px-2">
+        <Button className="flex w-full justify-between bg-black-700 pl-1 pr-0">
+          <div className="flex w-full items-center justify-between rounded border border-transparent bg-black-700 px-2 hover:cursor-pointer hover:border-white-500">
             <Image
               src="/assets/icons/search.svg"
               alt="search"
               width={15}
               height={15}
             />
-            <div className="bg-transparent py-3 w-full text-start ml-2  paragraph-4-medium !text-white-500 ">
+            <div className="paragraph-4-medium ml-2 w-full bg-transparent py-3  text-start !text-white-500 ">
               Search...
             </div>
             <Image
@@ -41,7 +41,7 @@ export function Dialog({ open, setIsOpen }: DialogProps) {
         {/* comboBox */}
         <SearchBox />
         <AlertDialogFooter>
-          <AlertDialogCancel className="absolute !border-none top-2 h-8 !bg-black-800 hover:!bg-black-700 hover:text-white-100 right-4 p-2 paragraph-4-regular uppercase">
+          <AlertDialogCancel className="paragraph-4-regular absolute right-4 top-2 h-8 !border-none !bg-black-800 p-2 uppercase hover:!bg-black-700 hover:text-white-100">
             esc
           </AlertDialogCancel>
         </AlertDialogFooter>

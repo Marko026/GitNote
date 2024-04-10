@@ -22,7 +22,7 @@ const ContributionGrid = ({ allPosts }: { allPosts: IPost[] }) => {
 
   return (
     <div className="flex gap-2">
-      <div className="flex-col justify-end md:space-y-1 hidden xxl:flex">
+      <div className="hidden flex-col justify-end md:space-y-1 xxl:flex">
         <p className="text-white-500">Sun</p>
         <p className="text-white-500">Mon</p>
         <p className="text-white-500">Tue</p>

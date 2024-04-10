@@ -32,14 +32,14 @@ const TaskCheckList = ({ post }: { post: PostProps }) => {
 
   return (
     <div className="flex flex-col justify-start ">
-      <h2 className="paragraph-1-bold mt-10 mb-3 !text-white-100">
+      <h2 className="paragraph-1-bold mb-3 mt-10 !text-white-100">
         Task Checklist
       </h2>
       {lessonsList?.map((lesson) => (
-        <div key={lesson._id} className="flex items-center gap-2  mb-3">
+        <div key={lesson._id} className="mb-3 flex items-center  gap-2">
           <Checkbox
             id={lesson._id}
-            className="border-2 border-white-500 !text-green-500 text-[14px] h-5 w-5"
+            className="size-5 border-2 border-white-500 text-[14px] !text-green-500"
             onClick={() => handleCheckboxClick(lesson._id)}
           />
           <label

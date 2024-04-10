@@ -36,9 +36,9 @@ const Profile = async () => {
   const user: UserFromDB = await findUser({ email: userEmail });
 
   return (
-    <div className="w-full py-5 px-4 md:px-8">
-      <div className="flex flex-col md:flex-row space-y-4 items-center">
-        <div className="flex gap-2 md:gap-5 items-center !h-full w-full">
+    <div className="w-full px-4 py-5 md:px-8">
+      <div className="flex flex-col items-center space-y-4 md:flex-row">
+        <div className="flex !h-full w-full items-center gap-2 md:gap-5">
           <Image
             src={user.image || "/assets/icons/img-basis.svg"}
             width={90}
@@ -61,7 +61,7 @@ const Profile = async () => {
                 </p>
               </div>
 
-              <div className="flex gap-2 paragraph-3-regular ">
+              <div className="paragraph-3-regular flex gap-2 ">
                 <Image
                   src="/assets/icons/calendar.svg"
                   width={11}
@@ -73,9 +73,9 @@ const Profile = async () => {
             </div>
           </div>
         </div>
-        <div className="w-full md:w-1/3 bg-black-700 hover:bg-black-600 duration-200 py-2 rounded-md">
+        <div className="w-full rounded-md bg-black-700 py-2 duration-200 hover:bg-black-600 md:w-1/3">
           <Link href={`/profile/${user._id}`} className="w-full">
-            <div className="flex text-primary-500 items-center justify-center gap-2">
+            <div className="flex items-center justify-center gap-2 text-primary-500">
               <Image
                 src="/assets/icons/edit-blue.svg"
                 width={11}
@@ -87,15 +87,15 @@ const Profile = async () => {
           </Link>
         </div>
       </div>
-      <h2 className="paragraph-1-bold !text-white-100 my-7">
+      <h2 className="paragraph-1-bold my-7 !text-white-100">
         Contribution Grid
       </h2>
       <ContributionGrid allPosts={allPosts.posts} />
-      <div className="w-full h-[1px] bg-black-600/20 my-5"></div>
-      <h2 className="paragraph-1-bold !text-white-100 my-7">Learning Goals</h2>
+      <div className="my-5 h-px w-full bg-black-600/20"></div>
+      <h2 className="paragraph-1-bold my-7 !text-white-100">Learning Goals</h2>
       <div>
         {user.learningGoals?.map((goal) => (
-          <div key={goal._id} className="flex gap-2 mb-3">
+          <div key={goal._id} className="mb-3 flex gap-2">
             <Image
               src={
                 goal.isChecked
@@ -110,7 +110,7 @@ const Profile = async () => {
           </div>
         ))}
       </div>
-      <h2 className="paragraph-1-bold !text-white-100 my-7">
+      <h2 className="paragraph-1-bold my-7 !text-white-100">
         Technology Stack
       </h2>
 
@@ -128,7 +128,7 @@ const Profile = async () => {
                   height={40}
                   alt={stack}
                 />
-                <p className="absolute hidden  group-hover:block text-[12px] top-[-25px] bg-black-700 px-2 rounded capitalize">
+                <p className="absolute top-[-25px]  hidden rounded bg-black-700 px-2 text-[12px] capitalize group-hover:block">
                   {stack}
                 </p>
               </div>
@@ -144,11 +144,11 @@ const Profile = async () => {
         ))}
       </div>
 
-      <h2 className="paragraph-1-bold !text-white-100 my-7">Knowledge level</h2>
+      <h2 className="paragraph-1-bold my-7 !text-white-100">Knowledge level</h2>
 
       <div>
         {user.knowledge?.map((knowledge: KnowledgePros) => (
-          <div key={knowledge._id} className="flex items-center gap-2 mb-3">
+          <div key={knowledge._id} className="mb-3 flex items-center gap-2">
             <Image
               src="/assets/icons/check-mark.svg"
               width={20}
@@ -160,17 +160,17 @@ const Profile = async () => {
         ))}
       </div>
 
-      <h2 className="paragraph-1-bold !text-white-100 my-7">
+      <h2 className="paragraph-1-bold my-7 !text-white-100">
         Schedule & availability
       </h2>
       {user.availability && (
-        <div className="flex gap-2 mb-3">
+        <div className="mb-3 flex gap-2">
           <Image src="/assets/icons/user.svg" width={20} height={20} alt="" />
           <p>Available for new projects</p>
         </div>
       )}
       {user.startDate && (
-        <div className="flex gap-2 mb-3">
+        <div className="mb-3 flex gap-2">
           <Image src="/assets/icons/clock.svg" width={20} height={20} alt="" />
           <p>
             Available from {formatDateProfile(String(user?.startDate))} -

@@ -50,7 +50,7 @@ const ReusableFormField = ({
                   placeholder={placeholder}
                   className={
                     inputClassName ??
-                    "bg-black-700 !placeholder-slate-500 min-h-12 text-white-100 border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
+                    "min-h-12 border-transparent bg-black-700 text-white-100 !placeholder-slate-500  focus-within:border-white-500 hover:border-white-500 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 "
                   }
                   {...field}
                 />

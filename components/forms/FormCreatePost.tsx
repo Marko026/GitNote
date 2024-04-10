@@ -120,9 +120,9 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
   }
 
   return (
-    <div className="w-full px-3 md:px-7 mb-10">
+    <div className="mb-10 w-full px-3 md:px-7">
       <div className="mb-6">
-        <h1 className="h1-bold w-full my-5 md:my-8 ">
+        <h1 className="h1-bold my-5 w-full md:my-8 ">
           {type === "Update" ? " Update Post" : "Create Post"}
         </h1>
         <p className="uppercase text-white-500">Basic Information</p>
@@ -153,13 +153,13 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
                     </FormLabel>
                     <SelectTrigger
                       className={`
-                      text-white-500
-                      w-full min-h-12 !mt-2 bg-black-700
-                      placeholder-slate-300 
-                      border-transparent  hover:border-white-500 focus-visible:ring-0 focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 `}>
+                      !mt-2
+                      min-h-12 w-full border-transparent bg-black-700
+                      text-white-500 
+                      placeholder:text-slate-300  focus-within:border-white-500 hover:border-white-500 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 `}>
                       <SelectValue placeholder="Component" />
                     </SelectTrigger>
-                    <SelectContent className="bg-black-700 group border border-transparent focus-within:border-white-500 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0">
+                    <SelectContent className="group border border-transparent bg-black-700 focus-within:border-white-500 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0">
                       {PostType.map((type, idx) => (
                         <SelectItem
                           key={idx}
@@ -220,7 +220,7 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
                   isMulti
                 />
 
-                <p className="text-red-500 text-[14px]">
+                <p className="text-[14px] text-red-500">
                   {form.formState.errors.tags?.message ||
                     form.formState.errors.tags?.[0]?.value?.message}
                 </p>
@@ -240,10 +240,10 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
                   <FormControl>
                     <Textarea
                       placeholder="Enter your description"
-                      className="bg-black-700 
-                    text-white-100 !h-48 custom-scrollbar
-                    border-transparent  hover:border-white-500 focus-visible:ring-0
-                     focus-within:border-white-500 focus-visible:ring-offset-0 focus:ring-offset-0 "
+                      className="custom-scrollbar 
+                    !h-48 border-transparent bg-black-700
+                    text-white-100  focus-within:border-white-500 hover:border-white-500
+                     focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 "
                       {...field}
                     />
                   </FormControl>
@@ -306,8 +306,8 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
             </Button>
           )}
 
-          <Separator className="w-full bg-white-500 bg-opacity-10 my-6 h-[0.68px]" />
-          <div className="flex flex-col space-y-8 !mt-0">
+          <Separator className="my-6 h-[0.68px] w-full bg-white-500 bg-opacity-10" />
+          <div className="!mt-0 flex flex-col space-y-8">
             {postType !== "Knowledge" && postType !== "WorkFlow" && (
               <FormField
                 control={form.control}
@@ -343,7 +343,7 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
               />
             )}
             <div>
-              <h3 className="uppercase text-white-500 mb-3">Content</h3>
+              <h3 className="mb-3 uppercase text-white-500">Content</h3>
               <FormField
                 control={form.control}
                 name="content"
@@ -383,8 +383,8 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
               />
             </div>
           </div>
-          <Separator className="w-full bg-white-500 bg-opacity-10 my-6 h-[0.68px]" />
-          <h4 className="text-white-500 uppercase mb-7">RESOURCES & LINKS</h4>
+          <Separator className="my-6 h-[0.68px] w-full bg-white-500 bg-opacity-10" />
+          <h4 className="mb-7 uppercase text-white-500">RESOURCES & LINKS</h4>
           <div className="flex flex-col gap-2">
             {resourceFields.map((item, idx) => (
               <div key={item.id} className="flex gap-2">
@@ -411,7 +411,7 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
                 <Button
                   type="button"
                   onClick={() => removeResource(idx)}
-                  className=" flex items-center h-12 gap-2 bg-black-600 ">
+                  className=" flex h-12 items-center gap-2 bg-black-600 ">
                   <Image
                     src="/assets/icons/close.svg"
                     alt="close"
@@ -426,7 +426,7 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
           <Button
             type="button"
             onClick={() => appendResource({ label: "", resource: "" })}
-            className="flex items-center gap-2 bg-black-600 mt-2">
+            className="mt-2 flex items-center gap-2 bg-black-600">
             <Image
               src="/assets/icons/blue-plus.svg"
               alt="plus"
@@ -438,7 +438,7 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
           <Button
             type="submit"
             disabled={loading}
-            className="bg-primary-500 text-black-900 font-bold disabled:opacity-50">
+            className="bg-primary-500 font-bold text-black-900 disabled:opacity-50">
             {type === "Create" || type === "relatedPost"
               ? loading
                 ? "Creating Post ..."

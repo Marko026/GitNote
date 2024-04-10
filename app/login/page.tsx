@@ -55,9 +55,9 @@ const LogInForm = () => {
         alt="logo"
         width={212}
         height={50}
-        className="mt-14 mb-16 mx-auto max-md:w-[156px]"
+        className="mx-auto mb-16 mt-14 max-md:w-[156px]"
       />
-      <div className="max-w-lg mx-auto ">
+      <div className="mx-auto max-w-lg ">
         <h1 className="h2-bold mb-5">Login</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -70,7 +70,7 @@ const LogInForm = () => {
                   <FormControl>
                     <Input
                       placeholder="Enter your email"
-                      className="bg-black-700 rounded border-none h-11 text-white-300"
+                      className="h-11 rounded border-none bg-black-700 text-white-300"
                       {...field}
                     />
                   </FormControl>
@@ -89,7 +89,7 @@ const LogInForm = () => {
                     <Input
                       placeholder="Enter your password"
                       type="password"
-                      className="bg-black-700 rounded border-none h-11 text-white-300"
+                      className="h-11 rounded border-none bg-black-700 text-white-300"
                       {...field}
                     />
                   </FormControl>
@@ -104,7 +104,7 @@ const LogInForm = () => {
             </Button>
             <Link
               href="/register"
-              className="text-center block paragraph-3-medium hover:underline cursor-pointer">
+              className="paragraph-3-medium block cursor-pointer text-center hover:underline">
               I don’t have an account
             </Link>
             <div className="flex items-center justify-between">
@@ -116,7 +116,7 @@ const LogInForm = () => {
             <Button
               type="button"
               onClick={() => signIn("google", { callbackUrl: "/home" })}
-              className="w-full bg-black-700 paragraph-3-medium flex items-center  gap-2">
+              className="paragraph-3-medium flex w-full items-center gap-2  bg-black-700">
               <Image
                 src={"/assets/icons/google.svg"}
                 alt="google"
@@ -129,7 +129,7 @@ const LogInForm = () => {
             <Button
               onClick={() => signIn("github", { callbackUrl: "/home" })}
               type="button"
-              className="w-full bg-black-700 paragraph-3-medium flex item gap-2">
+              className="paragraph-3-medium item flex w-full gap-2 bg-black-700">
               <Image
                 src={"/assets/icons/github.svg"}
                 alt="github"

@@ -26,9 +26,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-[#10121E] min-h-screen`}>
+      <body className={`${inter.className} min-h-screen bg-[#10121E]`}>
         <SessionProvider session={session}>
-          <main className=" mx-auto max-w-[1440px]">
+          <main className=" mx-auto max-w-screen-xxl">
             <Navbar session={session} recentPosts={recentPosts} />
             {children}
           </main>

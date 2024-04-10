@@ -155,17 +155,17 @@ const Onboarding = () => {
           width={220}
           height={50}
           alt="logo"
-          className="mx-auto mb-16 md:mb-32 w-44 md:w-52"
+          className="mx-auto mb-16 w-44 md:mb-32 md:w-52"
         />
-        <div className="flex justify-center items-center">
-          <div className="bg-black-800 max-w-[600px]  p-8 rounded-md ">
-            <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-center">
+          <div className="max-w-[600px] rounded-md  bg-black-800 p-8 ">
+            <div className="mb-6 flex items-center justify-between">
               {Array.from({ length: 4 }).map((_, index) => (
                 <div key={index + 1}>
                   <div className="flex items-center ">
                     <div
-                      className={`p-1 bg-black-600 rounded-xl ${
-                        step >= index + 1 ? "p-2 w-12 bg-primary-500 " : ""
+                      className={`rounded-xl bg-black-600 p-1 ${
+                        step >= index + 1 ? "w-12 bg-primary-500 p-2 " : ""
                       } `}>
                       <Image
                         src={getImageSrc(index, step, currentImage)}
@@ -175,7 +175,7 @@ const Onboarding = () => {
                       />
                     </div>
                     {index <= 2 && (
-                      <div className="h-[2px] rounded-sm bg-black-600 w-10 md:w-28 relative ">
+                      <div className="relative h-[2px] w-10 rounded-sm bg-black-600 md:w-28 ">
                         <div
                           style={{ width: `${progress[index]}%` }}
                           className="h-full bg-primary-500 transition-all duration-500"></div>
@@ -193,11 +193,11 @@ const Onboarding = () => {
                 {step === 0 && (
                   <>
                     <h2 className="h2-bold my-6">Basic Information</h2>
-                    <div className="flex items-center gap-4 mb-6">
+                    <div className="mb-6 flex items-center gap-4">
                       <div
                         className={`${
                           image && "!p-0"
-                        } p-8 bg-black-700 rounded`}>
+                        } rounded bg-black-700 p-8`}>
                         <Image
                           src={!image ? "/assets/icons/img-basis.svg" : image}
                           width={!image ? 24 : 100}
@@ -205,7 +205,7 @@ const Onboarding = () => {
                           alt="img"
                         />
                       </div>
-                      <div className="bg-black-700 flex gap-2 py-3 px-2 rounded-md">
+                      <div className="flex gap-2 rounded-md bg-black-700 px-2 py-3">
                         <Image
                           src="/assets/icons/img-cloud.svg"
                           width={20}
@@ -242,7 +242,7 @@ const Onboarding = () => {
                     <Button
                       onClick={goToNext}
                       type="button"
-                      className="w-full bg-primary-500 duration-200 text-black-900 font-extrabold capitalize hover:text-white-100 hover:bg-black-600 rounded py-2">
+                      className="w-full rounded bg-primary-500 py-2 font-extrabold capitalize text-black-900 duration-200 hover:bg-black-600 hover:text-white-100">
                       Next
                     </Button>
                   </>
@@ -255,7 +255,7 @@ const Onboarding = () => {
                       {learningGoalsFields.map((item, index) => (
                         <div
                           key={index + 1}
-                          className="flex items-center border border-transparent hover:border-white-500 w-full focus:outline-none bg-black-700 rounded-lg px-3">
+                          className="flex w-full items-center rounded-lg border border-transparent bg-black-700 px-3 hover:border-white-500 focus:outline-none">
                           <FormField
                             control={form.control}
                             name={`learningGoals.${index}.isChecked`}
@@ -311,7 +311,7 @@ const Onboarding = () => {
                     <Button
                       onClick={goToNext}
                       type="button"
-                      className="w-full bg-primary-500 duration-200 text-black-900 font-extrabold capitalize hover:text-white-100 hover:bg-black-600 rounded py-2">
+                      className="w-full rounded bg-primary-500 py-2 font-extrabold capitalize text-black-900 duration-200 hover:bg-black-600 hover:text-white-100">
                       Next
                     </Button>
                   </>
@@ -371,7 +371,7 @@ const Onboarding = () => {
                     <Button
                       onClick={goToNext}
                       type="button"
-                      className="w-full bg-primary-500 duration-200 text-black-900 font-extrabold capitalize hover:text-white-100 hover:bg-black-600 rounded py-2">
+                      className="w-full rounded bg-primary-500 py-2 font-extrabold capitalize text-black-900 duration-200 hover:bg-black-600 hover:text-white-100">
                       Next
                     </Button>
                   </>
@@ -380,7 +380,7 @@ const Onboarding = () => {
                 {step === 3 && (
                   <>
                     <h2 className="h2-bold ">Schedule & availability</h2>
-                    <div className="mb-10 flex gap-2 flex-col space-y-3">
+                    <div className="mb-10 flex flex-col gap-2 space-y-3">
                       <div className="flex items-center gap-3">
                         <FormField
                           name="availability"
@@ -397,7 +397,7 @@ const Onboarding = () => {
                                   />
                                   <label
                                     htmlFor="terms"
-                                    className="text-sm  text-white-100 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                    className="text-sm  font-medium leading-none text-white-100 peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                                     Are you available for a new project?
                                   </label>
                                 </div>
@@ -414,14 +414,14 @@ const Onboarding = () => {
                             <PopoverTrigger
                               name="startDate"
                               asChild
-                              className="bg-black-700 hover:bg-black-600 border-transparent !text-white-300 hover:border-white-500  hover:text-white-100">
+                              className="border-transparent bg-black-700 !text-white-300 hover:border-white-500 hover:bg-black-600  hover:text-white-100">
                               <Button
                                 variant={"outline"}
                                 className={cn(
                                   "w-full justify-start text-left font-normal",
                                   !date && "text-muted-foreground"
                                 )}>
-                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                <CalendarIcon className="mr-2 size-4" />
                                 {date ? (
                                   format(date, "PPP")
                                 ) : (
@@ -429,7 +429,7 @@ const Onboarding = () => {
                                 )}
                               </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0 border-none ">
+                            <PopoverContent className="w-auto border-none p-0 ">
                               <FormField
                                 control={form.control}
                                 name="startDate"
@@ -456,14 +456,14 @@ const Onboarding = () => {
                             <PopoverTrigger
                               name="endDate"
                               asChild
-                              className="bg-black-700 hover:bg-black-600 border-transparent !text-white-300 hover:border-white-500  hover:text-white-100 ">
+                              className="border-transparent bg-black-700 !text-white-300 hover:border-white-500 hover:bg-black-600  hover:text-white-100 ">
                               <Button
                                 variant={"outline"}
                                 className={cn(
                                   "w-full justify-start text-left font-normal",
                                   !date && "text-muted-foreground"
                                 )}>
-                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                <CalendarIcon className="mr-2 size-4" />
                                 {date ? (
                                   format(date, "PPP")
                                 ) : (
@@ -471,7 +471,7 @@ const Onboarding = () => {
                                 )}
                               </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0 border-none">
+                            <PopoverContent className="w-auto border-none p-0">
                               <FormField
                                 control={form.control}
                                 name="endDate"
@@ -497,7 +497,7 @@ const Onboarding = () => {
                     {step === 3 && (
                       <Button
                         type="submit"
-                        className="w-full bg-primary-500 duration-200 text-black-900 font-extrabold uppercase hover:text-white-100 hover:bg-black-600">
+                        className="w-full bg-primary-500 font-extrabold uppercase text-black-900 duration-200 hover:bg-black-600 hover:text-white-100">
                         {step === 3 ? "Submit" : "Next"}
                       </Button>
                     )}

@@ -44,14 +44,14 @@ const RightSideBar = ({ user, tags, userSocial }: Props) => {
   }, [postId]);
 
   return (
-    <div className="bg-black-800 min-w-72 min-h-screen px-7 hidden xxl:block pt-10">
-      <Link href="/profile" className="flex gap-2 mb-12">
+    <div className="hidden min-h-screen min-w-72 bg-black-800 px-7 pt-10 xxl:block">
+      <Link href="/profile" className="mb-12 flex gap-2">
         <Image
           src={user.image || "/assets/icons/img-basis.svg"}
           width={36}
           height={36}
           alt="avatar"
-          className="object-cover cursor-pointer"
+          className="cursor-pointer object-cover"
         />
         <div>
           <p className="paragraph-3-medium !text-white-100">{user.name}</p>
@@ -62,9 +62,9 @@ const RightSideBar = ({ user, tags, userSocial }: Props) => {
       {isProfile && (
         <div
           onClick={() => setIsOpen(!isOpen)}
-          className={`flex w-full justify-center gap-2 mt-5 cursor-pointer duration-200 ${
+          className={`mt-5 flex w-full cursor-pointer justify-center gap-2 duration-200 ${
             isProfile && "mb-7"
-          } bg-black-600 hover:bg-black-700 py-1.5 rounded`}>
+          } rounded bg-black-600 py-1.5 hover:bg-black-700`}>
           <Image
             src="/assets/icons/blue-plus.svg"
             width={16}
@@ -86,7 +86,7 @@ const RightSideBar = ({ user, tags, userSocial }: Props) => {
 
       {!isPostDetails && !isProfile ? (
         <div>
-          <h3 className="paragraph-3-bold !text-white-100 mb-4">Tags</h3>
+          <h3 className="paragraph-3-bold mb-4 !text-white-100">Tags</h3>
           <div className="flex flex-col items-start space-y-4">
             {tags.map((item: any, idx: any) => (
               <Tags type="filterTags" key={idx} tag={item} />
@@ -95,12 +95,12 @@ const RightSideBar = ({ user, tags, userSocial }: Props) => {
         </div>
       ) : (
         <div>
-          <h3 className="paragraph-3-bold !text-white-100 mb-4">
+          <h3 className="paragraph-3-bold mb-4 !text-white-100">
             {isProfile ? "Social Media Links" : "Related Posts"}
           </h3>
 
           {isProfile && (
-            <div className="border border-black-600/50 border-dashed"></div>
+            <div className="border border-dashed border-black-600/50"></div>
           )}
 
           {isProfile && (
@@ -109,7 +109,7 @@ const RightSideBar = ({ user, tags, userSocial }: Props) => {
                 <Link
                   key={idx + 1}
                   href={item.socialLink}
-                  className="flex mb-2 gap-2"
+                  className="mb-2 flex gap-2"
                   target="_blank">
                   {item.socialLink && (
                     <Image
@@ -138,7 +138,7 @@ const RightSideBar = ({ user, tags, userSocial }: Props) => {
           {!isProfile && (
             <div
               onClick={() => router.push(`/createPost/${postId}`)}
-              className="flex w-full justify-center gap-2 mt-5 cursor-pointer duration-200 bg-black-600 hover:bg-black-700 py-1.5 rounded">
+              className="mt-5 flex w-full cursor-pointer justify-center gap-2 rounded bg-black-600 py-1.5 duration-200 hover:bg-black-700">
               <Image
                 src="/assets/icons/blue-plus.svg"
                 width={16}

@@ -101,16 +101,16 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
   };
 
   return (
-    <div className="w-full text-white-100 px-8">
-      <h2 className="h2-bold mt-10 mb-5">Edit Profile</h2>
-      <p className="text-white-500 uppercase text-[14px] mb-4">
+    <div className="w-full px-8 text-white-100">
+      <h2 className="h2-bold mb-5 mt-10">Edit Profile</h2>
+      <p className="mb-4 text-[14px] uppercase text-white-500">
         Basic Information
       </p>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col space-y-6">
-          <div className="flex items-center gap-4 mb-6">
+          <div className="mb-6 flex items-center gap-4">
             <div className={`${image && "!p-0"}  rounded`}>
               <Image
                 src={!image ? "/assets/icons/img-basis.svg" : image}
@@ -120,7 +120,7 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
                 className="!h-24 !w-20  object-contain"
               />
             </div>
-            <div className="bg-black-700 flex gap-2 py-3 px-2 rounded-md">
+            <div className="flex gap-2 rounded-md bg-black-700 px-2 py-3">
               <Image
                 src="/assets/icons/img-cloud.svg"
                 width={20}
@@ -140,7 +140,7 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
                   return (
                     <button
                       type="button"
-                      className=" !text-[10px] text-white-300 md:!paragraph-3-medium md:!text-[14px] whitespace-nowrap "
+                      className=" md:!paragraph-3-medium whitespace-nowrap !text-[10px] text-white-300 md:!text-[14px] "
                       onClick={() => open()}>
                       Update Profile Picture
                     </button>
@@ -165,13 +165,13 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
             placeholder="Enter your name"
             name="portfolio"
           />
-          <div className="h-[0.5px] bg-black-600/20 !my-10"></div>
-          <h3 className="uppercase text-white-500 mb-3">Learning Goals</h3>
+          <div className="!my-10 h-[0.5px] bg-black-600/20"></div>
+          <h3 className="mb-3 uppercase text-white-500">Learning Goals</h3>
           <div className="flex flex-col space-y-2">
             {learningGoalsFields.map((item, index) => (
               <div
                 key={index + 1}
-                className="flex items-center border border-transparent hover:border-white-500 w-full focus:outline-none bg-black-700 rounded-lg px-3">
+                className="flex w-full items-center rounded-lg border border-transparent bg-black-700 px-3 hover:border-white-500 focus:outline-none">
                 <FormField
                   control={form.control}
                   name={`learningGoals.${index}.isChecked`}
@@ -225,7 +225,7 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
             <p className="paragraph-4-medium">Add checkmark</p>
           </Button>
 
-          <h3 className="uppercase text-white-500 mb-3">Knowledge</h3>
+          <h3 className="mb-3 uppercase text-white-500">Knowledge</h3>
 
           <div className="flex flex-col space-y-2">
             <h4 className="paragraph-3-medium mb-2"></h4>
@@ -290,7 +290,7 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
                   }))}
                   components={animatedComponents}
                   formatOptionLabel={({ label, value }) => (
-                    <div className="flex gap-2 items-center">
+                    <div className="flex items-center gap-2">
                       <Image
                         // @ts-ignore
                         src={
@@ -310,16 +310,16 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
                   )}
                   isMulti
                 />
-                <p className="text-red-500 text-[14px]">
+                <p className="text-[14px] text-red-500">
                   {form.formState.errors.techStack?.message ?? ""}
                 </p>
               </>
             )}
           />
-          <h3 className="uppercase text-white-500 mb-3">
+          <h3 className="mb-3 uppercase text-white-500">
             Schedule & availability
           </h3>
-          <div className="mb-10 flex gap-2 flex-col space-y-3">
+          <div className="mb-10 flex flex-col gap-2 space-y-3">
             <div className="flex items-center gap-3">
               <FormField
                 name="availability"
@@ -336,7 +336,7 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
                         />
                         <label
                           htmlFor="terms"
-                          className="text-sm  text-white-300 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          className="text-sm  font-medium leading-none text-white-300 peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                           Are you available for a new project?
                         </label>
                       </div>
@@ -346,21 +346,21 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
               />
             </div>
 
-            <div className="flex justify-between flex-col sm:flex-row gap-5">
+            <div className="flex flex-col justify-between gap-5 sm:flex-row">
               <div className="w-full md:!w-[45%] ">
                 <p className="mb-2">Start Date & Time</p>
                 <Popover>
                   <PopoverTrigger
                     name="startDate"
                     asChild
-                    className="bg-black-700 hover:bg-black-600 border-transparent !text-white-300 hover:border-white-500  hover:text-white-100">
+                    className="border-transparent bg-black-700 !text-white-300 hover:border-white-500 hover:bg-black-600  hover:text-white-100">
                     <Button
                       variant={"outline"}
                       className={cn(
                         "w-full justify-start text-left font-normal",
                         !date && "text-muted-foreground"
                       )}>
-                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      <CalendarIcon className="mr-2 size-4" />
                       {date ? (
                         format(date, "PPP")
                       ) : (
@@ -368,7 +368,7 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
                       )}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 border-none ">
+                  <PopoverContent className="w-auto border-none p-0 ">
                     <FormField
                       control={form.control}
                       name="startDate"
@@ -395,14 +395,14 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
                   <PopoverTrigger
                     name="endDate"
                     asChild
-                    className="bg-black-700 hover:bg-black-600 border-transparent !text-white-300 hover:border-white-500  hover:text-white-100 ">
+                    className="border-transparent bg-black-700 !text-white-300 hover:border-white-500 hover:bg-black-600  hover:text-white-100 ">
                     <Button
                       variant={"outline"}
                       className={cn(
                         "w-full justify-start text-left font-normal",
                         !date && "text-muted-foreground"
                       )}>
-                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      <CalendarIcon className="mr-2 size-4" />
                       {date ? (
                         format(date, "PPP")
                       ) : (
@@ -410,7 +410,7 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
                       )}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 border-none">
+                  <PopoverContent className="w-auto border-none p-0">
                     <FormField
                       control={form.control}
                       name="endDate"
@@ -437,7 +437,7 @@ const ProfileDetails = ({ user }: { user: UserProps }) => {
           <Button
             type="submit"
             disabled={loading}
-            className="bg-primary-500 text-black-900 font-bold disabled:opacity-50">
+            className="bg-primary-500 font-bold text-black-900 disabled:opacity-50">
             {loading ? "Updating Profile..." : "Update Profile"}
           </Button>
         </form>
