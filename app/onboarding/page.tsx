@@ -501,7 +501,7 @@ const Onboarding = () => {
                       <Button
                         type="submit"
                         className="w-full bg-primary-500 font-extrabold uppercase text-black-900 duration-200 hover:bg-black-600 hover:text-white-100">
-                        {step === 3 ? "Submit" : "Next"}
+                        {step === 3 ? `${loading ? "" : "Submit"}` : "Next"}
                         {loading && "Submitting..."}
                       </Button>
                     )}
