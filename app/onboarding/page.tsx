@@ -31,7 +31,6 @@ import { CldUploadWidget } from "next-cloudinary";
 import { useSession } from "next-auth/react";
 import { compleatUserOnboarding } from "@/lib/actions/user.action";
 import { useRouter } from "next/navigation";
-import { Metadata } from "next";
 
 const Onboarding = () => {
   const [date, setDate] = React.useState<Date>();
@@ -141,7 +140,7 @@ const Onboarding = () => {
     if (index === 4) return currentImage;
     if (index < step) return "/assets/icons/tick-1.svg";
     if (index !== step) return "/assets/icons/step-base-icon.svg";
-    return "/assets/icons/content.svg";
+    if (index === step) return "/assets/icons/content.svg";
   };
 
   const startDate = form.watch("startDate");
@@ -168,7 +167,7 @@ const Onboarding = () => {
                         step >= index + 1 ? "w-12 bg-primary-500 p-2 " : ""
                       } `}>
                       <Image
-                        src={getImageSrc(index, step, currentImage)}
+                        src={getImageSrc(index, step, currentImage) || ""}
                         width={44}
                         height={44}
                         alt="content"
