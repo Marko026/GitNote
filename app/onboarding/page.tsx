@@ -424,7 +424,7 @@ const Onboarding = () => {
                                 {date ? (
                                   format(date, "PPP")
                                 ) : (
-                                  <span>{startDate.toDateString()}</span>
+                                  <span>{startDate?.toDateString()}</span>
                                 )}
                               </Button>
                             </PopoverTrigger>
@@ -466,7 +466,7 @@ const Onboarding = () => {
                                 {date ? (
                                   format(date, "PPP")
                                 ) : (
-                                  <span>{endDate.toDateString()}</span>
+                                  <span>{endDate?.toDateString()}</span>
                                 )}
                               </Button>
                             </PopoverTrigger>
