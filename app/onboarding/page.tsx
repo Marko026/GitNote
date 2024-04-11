@@ -140,7 +140,7 @@ const Onboarding = () => {
     if (index === 4) return currentImage;
     if (index < step) return "/assets/icons/tick-1.svg";
     if (index !== step) return "/assets/icons/step-base-icon.svg";
-    if (index === step) return "/assets/icons/content.svg";
+    if (index === step) return "/assets/icons/content-1.svg";
   };
 
   const startDate = form.watch("startDate");
