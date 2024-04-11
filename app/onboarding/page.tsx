@@ -37,6 +37,7 @@ const Onboarding = () => {
   const [image, setImage] = useState("");
   const [step, setStep] = useState<number>(0);
   const [progress, setProgress] = useState([0, 0, 0]);
+  const [loading, setLoading] = useState(false);
   const [currentImage, setCurrentImage] = useState("/assets/icons/tick-1.svg");
 
   const router = useRouter();
@@ -91,10 +92,13 @@ const Onboarding = () => {
     if (!session?.user?.email) return;
 
     try {
+      setLoading(true);
       await compleatUserOnboarding(values);
       router.push("/home");
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -498,6 +502,7 @@ const Onboarding = () => {
                         type="submit"
                         className="w-full bg-primary-500 font-extrabold uppercase text-black-900 duration-200 hover:bg-black-600 hover:text-white-100">
                         {step === 3 ? "Submit" : "Next"}
+                        {loading && "Submitting..."}
                       </Button>
                     )}
                   </>
