@@ -1,16 +1,16 @@
-import NextAuth from "next-auth/next";
+import NextAuth from "next-auth/next"
 
-import { authOptions } from "@/lib/authOptions";
+import { authOptions } from "@/lib/authOptions"
 
-type HandlerType = typeof NextAuth;
+type HandlerType = typeof NextAuth
 
 declare module "next-auth" {
-  interface Session {
-    id: string;
-    name: string;
-  }
+    interface Session {
+        id: string
+        name: string
+    }
 }
 
-const handler: HandlerType = NextAuth(authOptions);
+const handler: HandlerType = NextAuth(authOptions)
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }
