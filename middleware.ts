@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function middleware(request: NextRequest) {
   // http://localhost:3000/
   // https://gitnote-red.vercel.app
-  const result = await fetch('https://gitnote-red.vercel.app/api/user', {
+  const result = await fetch('http://localhost:3000/api/user', {
     headers: {
       Cookie: request.cookies.toString(),
     },

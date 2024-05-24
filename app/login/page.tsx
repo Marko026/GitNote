@@ -1,12 +1,8 @@
-"use client";
-import Link from "next/link";
-import Image from "next/image";
+'use client';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { loginSchema } from "@/lib/validation";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -14,12 +10,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { findUser } from "@/lib/actions/user.action";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { findUser } from '@/lib/actions/user.action';
+import { loginSchema } from '@/lib/validation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 const LogInForm = () => {
   const router = useRouter();
@@ -27,25 +27,29 @@ const LogInForm = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     const user = await findUser({ email: values.email });
     if (!user) {
-      form.setError("email", { message: "Email does not exist" });
+      form.setError('email', { message: 'Email does not exist' });
       return;
     } else {
-      await signIn("credentials", {
+      const result = await signIn('credentials', {
         redirect: false,
         email: values.email,
         password: values.password,
       });
-      router.push("/home");
+      if (result?.error) {
+        form.setError('password', { message: 'Incorrect password' });
+        return;
+      }
+      router.push('/home');
     }
-    form.reset({ email: "", password: "" });
+    form.reset({ email: '', password: '' });
   }
   return (
     <div className="w-full px-5">
@@ -69,7 +73,7 @@ const LogInForm = () => {
                   <FormControl>
                     <Input
                       placeholder="Enter your email"
-                      className="h-11 rounded border-none bg-black-700 text-white-300"
+                      className="bg-black-700 text-white-300 h-11 rounded border-none"
                       {...field}
                     />
                   </FormControl>
@@ -88,7 +92,7 @@ const LogInForm = () => {
                     <Input
                       placeholder="Enter your password"
                       type="password"
-                      className="h-11 rounded border-none bg-black-700 text-white-300"
+                      className="bg-black-700 text-white-300 h-11 rounded border-none"
                       {...field}
                     />
                   </FormControl>
@@ -98,7 +102,7 @@ const LogInForm = () => {
             />
             <Button
               type="submit"
-              className="w-full bg-primary-500 text-[14px] font-bold text-black-900 hover:text-white-100 ">
+              className="bg-primary-500 text-black-900 hover:text-white-100 w-full text-[14px] font-bold ">
               Login
             </Button>
             <Link
@@ -107,17 +111,17 @@ const LogInForm = () => {
               I don’t have an account
             </Link>
             <div className="flex items-center justify-between">
-              <Separator className="w-2/5 bg-primary-900" />
+              <Separator className="bg-primary-900 w-2/5" />
               <p className="paragraph-4-regular">or</p>
-              <Separator className="w-2/5 bg-primary-900" />
+              <Separator className="bg-primary-900 w-2/5" />
             </div>
 
             <Button
               type="button"
-              onClick={() => signIn("google", { callbackUrl: "/home" })}
-              className="paragraph-3-medium flex w-full items-center gap-2  bg-black-700">
+              onClick={() => signIn('google', { callbackUrl: '/home' })}
+              className="paragraph-3-medium bg-black-700 flex w-full items-center  gap-2">
               <Image
-                src={"/assets/icons/google.svg"}
+                src={'/assets/icons/google.svg'}
                 alt="google"
                 width={16}
                 height={16}
@@ -126,11 +130,11 @@ const LogInForm = () => {
             </Button>
 
             <Button
-              onClick={() => signIn("github", { callbackUrl: "/home" })}
+              onClick={() => signIn('github', { callbackUrl: '/home' })}
               type="button"
-              className="paragraph-3-medium item flex w-full gap-2 bg-black-700">
+              className="paragraph-3-medium item bg-black-700 flex w-full gap-2">
               <Image
-                src={"/assets/icons/github.svg"}
+                src={'/assets/icons/github.svg'}
                 alt="github"
                 width={16}
                 height={16}
