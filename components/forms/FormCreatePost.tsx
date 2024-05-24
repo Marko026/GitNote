@@ -1,10 +1,8 @@
-"use client";
-import React, { useEffect, useRef, useState } from "react";
-import { z } from "zod";
+'use client';
+import { useEffect, useRef, useState } from 'react';
+import { z } from 'zod';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useFieldArray, useFormContext } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -12,27 +10,29 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import Image from "next/image";
-import { Textarea } from "../ui/textarea";
-import { Separator } from "@radix-ui/react-separator";
-import { Editor } from "@tinymce/tinymce-react";
-import { ICreatePost, createPostSchema } from "@/lib/validation";
-import { createPost, findAndUpdatePost } from "@/lib/actions/post.action";
-import { redirect, useRouter } from "next/navigation";
-import { PostType } from "@/constants";
+} from '@/components/ui/select';
+import { PostType } from '@/constants';
+import { createPost, findAndUpdatePost } from '@/lib/actions/post.action';
+import { ICreatePost, createPostSchema } from '@/lib/validation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Separator } from '@radix-ui/react-separator';
+import { Editor } from '@tinymce/tinymce-react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { Textarea } from '../ui/textarea';
 
-import CreatableSelect from "react-select/creatable";
-import makeAnimated from "react-select/animated";
-import { selectStyles } from "@/styles";
-import ReusableFormField from "../shared/ReusableFormFileld";
+import { selectStyles } from '@/styles';
+import makeAnimated from 'react-select/animated';
+import CreatableSelect from 'react-select/creatable';
+import ReusableFormField from '../shared/ReusableFormFileld';
 
 const animatedComponents = makeAnimated();
 
@@ -69,13 +69,13 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
     resolver: zodResolver(createPostSchema),
 
     defaultValues: {
-      title: post?.title ?? "",
-      postType: post?.postType ?? "Component",
-      tags: type === "relatedPost" ? relatedTagsForCreatingPost : options,
-      description: post?.description ?? "",
+      title: post?.title ?? '',
+      postType: post?.postType ?? 'Component',
+      tags: type === 'relatedPost' ? relatedTagsForCreatingPost : options,
+      description: post?.description ?? '',
       lessons: post?.lessons ?? [],
-      codeSnippet: post?.codeSnippet ?? "",
-      content: post?.content ?? "",
+      codeSnippet: post?.codeSnippet ?? '',
+      content: post?.content ?? '',
       resources: post?.resources ?? [],
     },
   });
@@ -85,7 +85,7 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
     append: appendLesson,
     remove: removeLessons,
   } = useFieldArray({
-    name: "lessons",
+    name: 'lessons',
     control: form.control,
   });
 
@@ -94,21 +94,21 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
     append: appendResource,
     remove: removeResource,
   } = useFieldArray({
-    name: "resources",
+    name: 'resources',
     control: form.control,
   });
 
-  let postType = form.watch("postType");
+  let postType = form.watch('postType');
 
   async function onSubmit(values: ICreatePost) {
     setLoading(true);
     try {
-      if (type === "Update") {
+      if (type === 'Update') {
         await findAndUpdatePost({ _id: post?._id, ...values });
         router.push(`/postDetails/${post?._id}`);
       }
 
-      if (type === "Create") {
+      if (type === 'Create') {
         await createPost(values);
         router.push(`/home`);
       }
@@ -123,9 +123,9 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
     <div className="mb-10 w-full px-3 md:px-7">
       <div className="mb-6">
         <h1 className="h1-bold my-5 w-full md:my-8 ">
-          {type === "Update" ? " Update Post" : "Create Post"}
+          {type === 'Update' ? ' Update Post' : 'Create Post'}
         </h1>
-        <p className="uppercase text-white-500">Basic Information</p>
+        <p className="text-white-500 uppercase">Basic Information</p>
       </div>
       <Form {...form}>
         <form
@@ -146,28 +146,28 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
                   <Select
                     {...field}
                     onValueChange={(
-                      value: "WorkFlow" | "Component" | "Knowledge"
-                    ) => form.setValue("postType", value)}>
+                      value: 'WorkFlow' | 'Component' | 'Knowledge'
+                    ) => form.setValue('postType', value)}>
                     <FormLabel className="paragraph-3-medium">
                       Create Type
                     </FormLabel>
                     <SelectTrigger
                       className={`
-                      !mt-2
-                      min-h-12 w-full border-transparent bg-black-700
-                      text-white-500 
-                      placeholder:text-slate-300  focus-within:border-white-500 hover:border-white-500 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 `}>
+                      bg-black-700
+                      text-white-500 focus-within:border-white-500 hover:border-white-500 !mt-2
+                      min-h-12 
+                      w-full  border-transparent placeholder:text-slate-300 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 `}>
                       <SelectValue placeholder="Component" />
                     </SelectTrigger>
-                    <SelectContent className="group border border-transparent bg-black-700 focus-within:border-white-500 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0">
+                    <SelectContent className="bg-black-700 focus-within:border-white-500 group border border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0">
                       {PostType.map((type, idx) => (
                         <SelectItem
                           key={idx}
                           value={type.value}
-                          className={` flex hover:!bg-black-600 
-                          ${type.value === "Component" && "!text-purple-500"}
-                          ${type.value === "WorkFlow" && "!text-primary-500"}
-                          ${type.value === "Knowledge" && "!text-green-500"}`}>
+                          className={` hover:!bg-black-600 flex 
+                          ${type.value === 'Component' && '!text-purple-500'}
+                          ${type.value === 'WorkFlow' && '!text-primary-500'}
+                          ${type.value === 'Knowledge' && '!text-green-500'}`}>
                           <div className="flex items-center gap-3">
                             <Image
                               src={type.image}
@@ -178,12 +178,12 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
                             <p
                               className={`
                               ${
-                                type.value === "Component" && "!text-purple-500"
+                                type.value === 'Component' && '!text-purple-500'
                               }
                               ${
-                                type.value === "WorkFlow" && "!text-primary-500"
+                                type.value === 'WorkFlow' && '!text-primary-500'
                               }
-                              ${type.value === "Knowledge" && "!text-green-500"}
+                              ${type.value === 'Knowledge' && '!text-green-500'}
                       `}>
                               {type.label}
                             </p>
@@ -241,8 +241,8 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
                     <Textarea
                       placeholder="Enter your description"
                       className="custom-scrollbar 
-                    !h-48 border-transparent bg-black-700
-                    text-white-100  focus-within:border-white-500 hover:border-white-500
+                    bg-black-700 text-white-100 focus-within:border-white-500
+                    hover:border-white-500  !h-48 border-transparent
                      focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 "
                       {...field}
                     />
@@ -255,8 +255,8 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
 
           <div className="flex flex-col space-y-2">
             <h4 className="paragraph-3-medium mb-2">
-              {postType === "WorkFlow" && "Steps to fallow"}
-              {postType === "Knowledge" && "What you learnd"}
+              {postType === 'WorkFlow' && 'Steps to fallow'}
+              {postType === 'Knowledge' && 'What you learnd'}
             </h4>
             {lessonFields.map((item, index) => (
               <div key={item.id}>
@@ -276,7 +276,7 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
                   rightIcon={
                     <Button
                       type="button"
-                      className="bg-transparent hover:bg-black-900"
+                      className="hover:bg-black-900 bg-transparent"
                       onClick={() => removeLessons(index)}>
                       <Image
                         src="/assets/icons/close.svg"
@@ -291,11 +291,11 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
               </div>
             ))}
           </div>
-          {postType !== "Component" && (
+          {postType !== 'Component' && (
             <Button
               type="button"
-              onClick={() => appendLesson({ title: "" })}
-              className="flex w-full items-center gap-2 bg-black-600">
+              onClick={() => appendLesson({ title: '' })}
+              className="bg-black-600 flex w-full items-center gap-2">
               <Image
                 src="/assets/icons/blue-plus.svg"
                 alt="pluse"
@@ -306,36 +306,36 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
             </Button>
           )}
 
-          <Separator className="my-6 h-[0.68px] w-full bg-white-500 bg-opacity-10" />
+          <Separator className="bg-white-500 my-6 h-[0.68px] w-full bg-opacity-10" />
           <div className="!mt-0 flex flex-col space-y-8">
-            {postType !== "Knowledge" && postType !== "WorkFlow" && (
+            {postType !== 'Knowledge' && postType !== 'WorkFlow' && (
               <FormField
                 control={form.control}
                 name="codeSnippet"
                 render={({ field }) => (
                   <FormItem>
                     <Editor
-                      apiKey="k1u3ltmn8ydlw7do8q51quscj02xqm6pbvu08pcm5jnlklnf"
+                      apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
                       tagName="codeSnippet"
                       onInit={(evt, editor) => (editorRef.current = editor)}
                       onBlur={field.onBlur}
                       onEditorChange={(codeSnippet) =>
-                        form.setValue("codeSnippet", codeSnippet)
+                        form.setValue('codeSnippet', codeSnippet)
                       }
                       initialValue={post?.codeSnippet}
                       init={{
                         height: 250,
-                        skin: "oxide-dark",
-                        placeholder: "Paste your code here...",
-                        content_css: "dark",
+                        skin: 'oxide-dark',
+                        placeholder: 'Paste your code here...',
+                        content_css: 'dark',
                         content_style: ` body { font-family: Roboto, sans-serif; font-size: 14px; color: #ffff;  background-color: #1d2032;} body::-webkit-scrollbar {display: none; }pre, code { font-family: "Roboto Mono", monospace; background-color: transparent !important;  padding: 5px; } body::before { color: #55597D !important; } `,
                         menu: {
-                          code: { title: "Code", items: "codesample" },
-                          preview: { title: "Preview", items: "preview" },
+                          code: { title: 'Code', items: 'codesample' },
+                          preview: { title: 'Preview', items: 'preview' },
                         },
-                        plugins: ["code", "codesample", "preview"],
-                        menubar: "code preview",
-                        toolbar: "",
+                        plugins: ['code', 'codesample', 'preview'],
+                        menubar: 'code preview',
+                        toolbar: '',
                       }}
                     />
                   </FormItem>
@@ -343,7 +343,7 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
               />
             )}
             <div>
-              <h3 className="mb-3 uppercase text-white-500">Content</h3>
+              <h3 className="text-white-500 mb-3 uppercase">Content</h3>
               <FormField
                 control={form.control}
                 name="content"
@@ -355,26 +355,26 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
                       onInit={(evt, editor) => (editorRef.current = editor)}
                       onBlur={field.onBlur}
                       onEditorChange={(content) =>
-                        form.setValue("content", content)
+                        form.setValue('content', content)
                       }
                       init={{
                         height: 250,
-                        skin: "oxide-dark",
-                        placeholder: "Write your content here...",
-                        content_css: "dark",
+                        skin: 'oxide-dark',
+                        placeholder: 'Write your content here...',
+                        content_css: 'dark',
                         content_style: ` body { font-family: Roboto, sans-serif; font-size: 14px; color: #ffff;  background-color: #1d2032;} body::-webkit-scrollbar {display: none; }pre, code { font-family: "Roboto Mono", monospace; background-color: transparent !important;  padding: 5px; } body::before { color: #55597D !important; } `,
-                        menubar: "",
+                        menubar: '',
                         plugins: [
-                          "code",
-                          "codesample",
-                          "preview",
-                          "media",
-                          "emoticons",
-                          "image",
-                          "link",
+                          'code',
+                          'codesample',
+                          'preview',
+                          'media',
+                          'emoticons',
+                          'image',
+                          'link',
                         ],
                         toolbar:
-                          " bold italic code codesample alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons",
+                          ' bold italic code codesample alignleft aligncenter alignright alignjustify bullist numlist link image media emoticons',
                       }}
                       initialValue={post?.content}
                     />
@@ -383,8 +383,8 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
               />
             </div>
           </div>
-          <Separator className="my-6 h-[0.68px] w-full bg-white-500 bg-opacity-10" />
-          <h4 className="mb-7 uppercase text-white-500">RESOURCES & LINKS</h4>
+          <Separator className="bg-white-500 my-6 h-[0.68px] w-full bg-opacity-10" />
+          <h4 className="text-white-500 mb-7 uppercase">RESOURCES & LINKS</h4>
           <div className="flex flex-col gap-2">
             {resourceFields.map((item, idx) => (
               <div key={item.id} className="flex gap-2">
@@ -411,7 +411,7 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
                 <Button
                   type="button"
                   onClick={() => removeResource(idx)}
-                  className=" flex h-12 items-center gap-2 bg-black-600 ">
+                  className=" bg-black-600 flex h-12 items-center gap-2 ">
                   <Image
                     src="/assets/icons/close.svg"
                     alt="close"
@@ -425,8 +425,8 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
           </div>
           <Button
             type="button"
-            onClick={() => appendResource({ label: "", resource: "" })}
-            className="mt-2 flex items-center gap-2 bg-black-600">
+            onClick={() => appendResource({ label: '', resource: '' })}
+            className="bg-black-600 mt-2 flex items-center gap-2">
             <Image
               src="/assets/icons/blue-plus.svg"
               alt="plus"
@@ -438,16 +438,16 @@ const FormCreatePost = ({ post, tags, type }: IFormCreatePost) => {
           <Button
             type="submit"
             disabled={loading}
-            className="bg-primary-500 font-bold text-black-900 disabled:opacity-50">
-            {type === "Create" || type === "relatedPost"
+            className="bg-primary-500 text-black-900 font-bold disabled:opacity-50">
+            {type === 'Create' || type === 'relatedPost'
               ? loading
-                ? "Creating Post ..."
-                : "Create Post"
+                ? 'Creating Post ...'
+                : 'Create Post'
               : null}
-            {type === "Update"
+            {type === 'Update'
               ? loading
-                ? "Updating Post ..."
-                : "Update Post"
+                ? 'Updating Post ...'
+                : 'Update Post'
               : null}
           </Button>
         </form>
